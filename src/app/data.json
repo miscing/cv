@@ -2,6 +2,8 @@
 	"profile": {
 		"firstname" : "Alexander",
 		"surname" : "Saastamoinen",
+		"github" : "miscing",
+		"gitlab" : "miscing",
 		"pic" : "./assets/profile.jpg"
 	}
 }
