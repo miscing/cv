@@ -1,0 +1,14 @@
+:host {
+	display: flex;
+}
+
+$gmargin: 2vh 2vh;
+
+img {
+	margin: $gmargin;
+	height: 20vh;
+}
+
+.name {
+	margin: $gmargin;
+}
