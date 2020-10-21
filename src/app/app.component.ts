@@ -10,6 +10,7 @@ import { Cv } from './cv';
 })
 export class AppComponent {
 	data :Cv = rawData;
+
 	constructor() {
 	}
 }
