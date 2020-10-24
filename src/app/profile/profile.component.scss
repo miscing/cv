@@ -8,10 +8,6 @@
 
 $gmargin: 2vh 2vh;
 
-img {
-	// margin: $gmargin;
-	height: 15vh;
-}
 
 a {
 	text-decoration: none;
@@ -24,7 +20,9 @@ a {
 }
 
 .profile {
-	// margin: $gmargin;
+	img {
+		height: 15vh;
+	}
 	display: flex;
 	align-items: center;
 }
@@ -36,5 +34,11 @@ a {
 
 .external {
 	@include column;
-	// margin: $gmargin;
+	.links {
+		@include column;
+		// justify-items: center;
+		img {
+			max-height: 5vh;
+		}
+	}
 }
