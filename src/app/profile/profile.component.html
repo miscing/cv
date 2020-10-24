@@ -1,5 +1,14 @@
-<img src="{{ profile.pic }}">
-<div class="name">
-	<h1>{{ profile.firstname }}</h1>
-	<h1>{{ profile.surname }}</h1>
+<div class="profile">
+	<img src="{{ profile.pic }}">
+	<div class="name">
+		<h1>{{ profile.firstname }}</h1>
+		<h1>{{ profile.surname }}</h1>
+	</div>
+</div>
+<div class="external">
+	<div>
+		<mat-icon>gitlab</mat-icon>
+		<button mat-button><a href="">{{ lab }}</a></button>
+	</div>
+	<button mat-button><a href="">{{ hub }}</a></button>
 </div>

@@ -1,14 +1,40 @@
 :host {
 	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	margin: 2vh 2vh;
 }
 
 $gmargin: 2vh 2vh;
 
 img {
-	margin: $gmargin;
-	height: 20vh;
+	// margin: $gmargin;
+	height: 15vh;
+}
+
+a {
+	text-decoration: none;
+	color: black;
+}
+
+@mixin column {
+	display: flex;
+	flex-direction: column;
+}
+
+.profile {
+	// margin: $gmargin;
+	display: flex;
+	align-items: center;
 }
 
 .name {
-	margin: $gmargin;
+	margin: 0vh 2vh;
+	@include column;
+}
+
+.external {
+	@include column;
+	// margin: $gmargin;
 }
