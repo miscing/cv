@@ -1,0 +1,51 @@
+image: docker.io/library/node
+
+cache:
+  paths:
+    - node_modules/
+
+variables:
+  GIT_STRATEGY: clone
+
+pages:
+  stage: deploy
+  tags:
+    - docker
+  script:
+    - |
+      if [[ -n $(npm install --production | grep -P -e "found \d* high severity vulnerability") ]] ; then
+        if ! npm audit fix --production; then exit 2; fi
+      fi
+    - ./node_modules/@angular/cli/bin/ng build --prod --output-path public
+      # Simulates fallthrough. See:
+      # https://angular.io/guide/deployment#routed-apps-must-fallback-to-indexhtml
+      # https://angular.io/guide/deployment#deploy-to-github-pages
+    - cp public/index.html public/404.html
+  artifacts:
+    paths:
+      - public
+    expire_in: 1 days
+  only:
+    - master
+  except:
+    - schedules
+
+# update:
+#   cache: {}
+#   tags:
+#     - docker
+#     - owned
+#   script:
+#     - git config --global user.email "bot_miscing@protonmail.com"
+#     - git config --global user.name "bot_miscing"
+#     - git checkout -b update
+#     - git remote set-url origin https://bot_miscing:$TOKEN@gitlab.com/miscing/alakoski.git
+#     - npm update
+#     - |
+#       if [[ -n '$(git status -s)' ]]; then
+#         git commit -a -m 'updated dependencies'
+#         git push -u origin update
+#       fi
+#   only:
+#     - schedules
+
