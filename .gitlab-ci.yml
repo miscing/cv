@@ -16,7 +16,7 @@ pages:
     #   if [[ -n $(npm install --production | grep -P -e "found \d* high severity vulnerability") ]] ; then
     #     if ! npm audit fix --production; then exit 2; fi
     #   fi
-    - npm install --production
+    - npm install 
     - ./node_modules/@angular/cli/bin/ng build --prod --output-path public
       # Simulates fallthrough. See:
       # https://angular.io/guide/deployment#routed-apps-must-fallback-to-indexhtml
