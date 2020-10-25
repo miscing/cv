@@ -2,8 +2,18 @@
 	"profile": {
 		"firstname" : "Alexander",
 		"surname" : "Saastamoinen",
-		"github" : "miscing",
-		"gitlab" : "miscing",
-		"pic" : "./assets/profile.jpg"
+		"pic" : "./assets/profile.jpg",
+		"links": [
+			{
+				"name": "github",
+				"username": "miscing",
+				"url": "https://github.com/"
+			},
+			{
+				"name": "gitlab",
+				"username": "miscing",
+				"url": "https://gitlab.com/"
+			}
+		]
 	}
 }

@@ -35,7 +35,8 @@ a {
 .external {
 	@include column;
 	.links {
-		@include column;
+		display: flex;
+		flex-flow: row nowrap;
 		// justify-items: center;
 		img {
 			max-height: 5vh;

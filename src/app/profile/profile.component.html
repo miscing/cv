@@ -6,12 +6,11 @@
 	</div>
 </div>
 <div class="external">
-	<div class="links">
-		<img src="assets/gitlab_logo.png">
-		<button mat-button><a href="">{{ lab }}</a></button>
-	</div>
-	<div>
-		<img src="assets/github_logo.png">
-		<button mat-button><a href="">{{ hub }}</a></button>
-	</div>
+	<button *ngFor="let link of links" mat-button>
+		<a href="{{link.link.href}}" class="links">
+			<img *ngIf="link.img != ''; else text" src="{{link.img}}">
+			<ng-template #text><h2>{{ link.name }}</h2></ng-template>
+			<h3>{{ link.link.hostname + link.link.pathname }}</h3>
+		</a>
+	</button>
 </div>
