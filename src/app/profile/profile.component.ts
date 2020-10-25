@@ -1,10 +1,11 @@
 import {  Component, Input, OnInit } from '@angular/core';
 
-import { Profile } from '../cv';
+import { Profile, Link } from '../cv';
 
 const known :knownProvider[] = [
 	{ name : "gitlab", asset : "gitlab_logo.png"},
-	{ name : "github", asset : "github_logo.png"}
+	{ name : "github", asset : "github_logo.png"},
+	{ name : "matrix", asset : "matrix_logo.png"}
 ]
 
 
@@ -17,6 +18,33 @@ class external {
 	name :string;
 	img :string;
 	link :URL;
+	altLink :string;
+	constructor(item :Link) {
+		this.name = item.name;
+		this.img = getKnownAsset(item.name)
+		this.link = new URL(item.url+item.username);
+		fetch(this.link.href)
+			// .then( (resp) => {
+			// })
+			.catch( () => {
+					console.log("failed to connect to user resource, using original url")
+					this.link = new URL(item.url);
+					this.altLink = item.username;
+			});
+	}
+}
+
+function getKnownAsset(name :string) :string {
+	let asset :string;
+	known.forEach( (item) => {
+		if (name == item.name) {
+			asset = item.asset;
+		}
+	});
+	if (asset != ""){
+		return "assets/logos/"+asset;
+	}
+	return "";
 }
 
 @Component({
@@ -39,27 +67,9 @@ export class ProfileComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.profile.links.forEach( (item) => {
-			let newLink = new external;
-			if (this.knownUrls.has(item.name)) {
-				newLink.name = item.name;
-				newLink.img = "assets/logos/"+this.knownUrls.get(item.name);
-				newLink.link = new URL(item.url+item.username);
-				this.links.push(newLink);
-			} else {
-				newLink.name = item.name;
-				if (item.hasOwnProperty('username')){
-					if (item.hasOwnProperty('url')){
-						newLink.link = new URL(item.url+item.username);
-						this.links.push(newLink);
-					} else {
-						newLink.link = new URL(item.username);
-						this.links.push(newLink);
-					}
-				} else if (item.hasOwnProperty('url')){
-					newLink.link = new URL(item.url);
-					this.links.push(newLink);
-				}
-			}
+			let newLink = new external(item);
+			this.links.push(newLink);
 		});
 	}
+
 }

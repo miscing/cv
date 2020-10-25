@@ -13,6 +13,11 @@
 				"name": "gitlab",
 				"username": "miscing",
 				"url": "https://gitlab.com/"
+			},
+			{
+				"name": "matrix",
+				"username": "@miscing:matrix.org",
+				"url": "https://app.element.io/"
 			}
 		]
 	}

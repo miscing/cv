@@ -7,10 +7,11 @@
 </div>
 <div class="external">
 	<button *ngFor="let link of links" mat-button>
-		<a href="{{link.link.href}}" class="links">
+		<a target="_blank" rel="noopener noreferrer" href="{{link.link.href}}" class="links">
 			<img *ngIf="link.img != ''; else text" src="{{link.img}}">
 			<ng-template #text><h2>{{ link.name }}</h2></ng-template>
-			<h3>{{ link.link.hostname + link.link.pathname }}</h3>
+			<h3 *ngIf="link.altLink != null; else full">{{ link.altLink }}</h3>
+			<ng-template #full><h3>{{ link.link.hostname + link.link.pathname }}</h3></ng-template>
 		</a>
 	</button>
 </div>
