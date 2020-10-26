@@ -37,8 +37,8 @@ a {
 	.links {
 		display: flex;
 		flex-flow: row nowrap;
-		// justify-items: center;
 		img {
+			margin: 0 2vw;
 			max-height: 5vh;
 		}
 	}
