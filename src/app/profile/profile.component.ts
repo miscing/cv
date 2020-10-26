@@ -1,6 +1,7 @@
 import {  Component, Input, OnInit } from '@angular/core';
 
-import { Profile, Link } from '../cv';
+import { Profile, Link } from '../../../cv';
+
 
 const known :knownProvider[] = [
 	{ name : "gitlab", asset : "gitlab_logo.png"},
