@@ -30,8 +30,8 @@ pages:
     paths:
       - public
     expire_in: 1 days
-  # only:
-  #   - master
+  only:
+    - master
   except:
     refs:
       - schedules
