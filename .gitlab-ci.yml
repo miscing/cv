@@ -13,7 +13,7 @@ pages:
     - docker
   script:
     - |
-      if [[ -n $(npm install --production | grep -P -e "found \d* high severity vulnerability") ]] ; then
+      if [[ -n $(npm install --production | grep -e "found \d* high severity vulnerability") ]] ; then
         if ! npm audit fix --production; then exit 2; fi
       fi
     - npm install @angular/cli
