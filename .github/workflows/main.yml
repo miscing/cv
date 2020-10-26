@@ -3,8 +3,12 @@ name: Pages
 on:
   push:
     branches: [ master ]
+    paths-ignore:
+      - '.gitlab-ci.yml'
   pull_request:
     branches: [ master ]
+    paths-ignore:
+      - '.gitlab-ci.yml'
 jobs:
   build:
     runs-on: ubuntu-latest
