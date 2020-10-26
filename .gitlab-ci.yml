@@ -33,9 +33,10 @@ pages:
   # only:
   #   - master
   except:
-    changes_in:
+    refs:
+      - schedules
+    changes:
       - ./.github/
-    - schedules
 
 # update:
 #   cache: {}
