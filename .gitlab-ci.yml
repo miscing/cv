@@ -1,4 +1,4 @@
-image: docker.io/library/node
+image: docker.io/library/node:alpine
 
 cache:
   paths:
