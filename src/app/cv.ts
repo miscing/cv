@@ -15,4 +15,5 @@ export interface Link {
 	name :string;
 	url :string;
 	username? :string; //optional
+	text? :string; //if set overrides normal text shown
 }

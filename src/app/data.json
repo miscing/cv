@@ -7,16 +7,16 @@
 			{
 				"name": "github",
 				"username": "miscing",
-				"url": "https://github.com/"
+				"url": "https://github.com/miscing"
 			},
 			{
 				"name": "gitlab",
 				"username": "miscing",
-				"url": "https://gitlab.com/"
+				"url": "https://gitlab.com/miscing"
 			},
 			{
 				"name": "matrix",
-				"username": "@miscing:matrix.org",
+				"text": "@miscing:matrix.org", 
 				"url": "https://app.element.io/"
 			}
 		]

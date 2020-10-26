@@ -22,15 +22,7 @@ class external {
 	constructor(item :Link) {
 		this.name = item.name;
 		this.img = getKnownAsset(item.name)
-		this.link = new URL(item.url+item.username);
-		fetch(this.link.href)
-			// .then( (resp) => {
-			// })
-			.catch( () => {
-					console.log("failed to connect to user resource, using original url")
-					this.link = new URL(item.url);
-					this.altLink = item.username;
-			});
+		this.link = new URL(item.url);
 	}
 }
 
@@ -54,14 +46,9 @@ function getKnownAsset(name :string) :string {
 })
 export class ProfileComponent implements OnInit {
 	@Input() profile :Profile;
-	knownUrls :Map<string, string>;
 	links :external[];
 
 	constructor() {
-		this.knownUrls = new Map();
-		known.forEach( (item) => {
-			this.knownUrls.set(item.name, item.asset);
-		});
 		this.links = new Array();
 	}
 
