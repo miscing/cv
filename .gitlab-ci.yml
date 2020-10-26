@@ -33,6 +33,8 @@ pages:
   # only:
   #   - master
   except:
+    changes_in:
+      - ./.github/
     - schedules
 
 # update:
