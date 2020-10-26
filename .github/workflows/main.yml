@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Install app
         run: npm install
-      - name: build app
+      - name: Build app
         run: |
           ./node_modules/@angular/cli/bin/ng build --prod --base-href="cv" --output-path public
       - name: Deploy
