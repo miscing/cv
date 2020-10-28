@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 import rawData from '../../data.json';
-import { Cv } from '../../cv';
+import { Cv } from './cv';
 
 @Component({
   selector: 'app-root',

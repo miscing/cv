@@ -9,12 +9,14 @@ import { AppComponent } from './app.component';
 import { ProfileComponent } from './profile/profile.component';
 import { BannerComponent } from './banner/banner.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SkillsComponent } from './skills/skills.component';
 
 @NgModule({
 	declarations: [
 		AppComponent,
 		ProfileComponent,
-		BannerComponent
+		BannerComponent,
+		SkillsComponent
 	],
 	imports: [
 		BrowserModule,

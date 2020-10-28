@@ -1,5 +1,6 @@
 export class Cv {
 	profile :Profile;
+	skills? :Skill[];
 }
 
 export class Profile {
@@ -12,6 +13,9 @@ export class Profile {
 export class Link {
 	name :string;
 	url :string;
-	username? :string; //optional
-	text? :string; //if set overrides normal text shown
+	username? :string; //added to url to create shown text
+	text? :string; //if set overrides normal (url+username) text shown
+}
+
+export class Skill {
 }
