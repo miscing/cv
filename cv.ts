@@ -1,17 +1,15 @@
-export interface Cv {
+export class Cv {
 	profile :Profile;
 }
 
-export interface Profile {
+export class Profile {
 	firstname :string;
 	surname :string;
 	pic :string;
 	links? :Link[];
 }
 
-export interface Link {
-	// code will attempt to construct a link based on name and username if
-	// name is known (such as "github" or "gitlab"). Otherwise uses "url" or "url+username"
+export class Link {
 	name :string;
 	url :string;
 	username? :string; //optional

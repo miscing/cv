@@ -24,6 +24,9 @@ class external {
 		this.name = item.name;
 		this.img = getKnownAsset(item.name)
 		this.link = new URL(item.url);
+		if (item.text != "") {
+			this.altLink = item.text;
+		}
 	}
 }
 
