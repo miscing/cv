@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 
 import rawData from '../../data.json';
 import { Cv } from './cv';
+import { CvMaker } from './cv-maker';
 
 @Component({
   selector: 'app-root',
@@ -12,5 +13,8 @@ export class AppComponent {
 	data :Cv = rawData;
 
 	constructor() {
+		let cvMaker = new CvMaker();
+		Object.assign(cvMaker, this.data);
+		cvMaker.generateCv();
 	}
 }

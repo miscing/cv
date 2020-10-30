@@ -1,0 +1,16 @@
+user:
+  - name: Alexander Saastamoinen
+  - github: miscing
+  - gitlab: miscing
+  - matrix: "@miscing:matrix.org" 
+
+skills:
+  - 
+
+# name: Alexander Saastamoinen
+# github:
+#   username: miscing
+# gitlab:
+#   username: miscing
+# matrix:
+#   username: "@miscing:matrix.org" # needs to be escaped due to @
