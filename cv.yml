@@ -2,10 +2,19 @@ user:
   - name: Alexander Saastamoinen
   - github: miscing
   - gitlab: miscing
-  - matrix: "@miscing:matrix.org" 
+  - matrix: "@miscing:matrix.org"
 
 skills:
-  - 
+  - virtualization:
+    - text: ""
+  - backend
+  - frontend
+  - typescript
+  - golang
+  - cicd:
+    - file:
+      - "gitlab-ci.yml"
+    - rfile:
 
 # name: Alexander Saastamoinen
 # github:

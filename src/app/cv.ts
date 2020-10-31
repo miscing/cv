@@ -1,6 +1,8 @@
 export class Cv {
 	profile :Profile;
 	skills? :Skill[];
+	constructor() {
+	}
 }
 
 export class Profile {
@@ -18,4 +20,7 @@ export class Link {
 }
 
 export class Skill {
+	name: string;
+	text?: string; //optional text to show
+	links?: URL[];
 }

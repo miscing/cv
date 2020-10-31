@@ -11,10 +11,10 @@ import { CvMaker } from './cv-maker';
 })
 export class AppComponent {
 	data :Cv = rawData;
+	cvMaker :CvMaker
 
 	constructor() {
-		let cvMaker = new CvMaker();
-		Object.assign(cvMaker, this.data);
-		cvMaker.generateCv();
+		this.cvMaker = new CvMaker(this.data);
+		this.cvMaker.generate(); //initiliaze
 	}
 }
