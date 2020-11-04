@@ -10,6 +10,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { BannerComponent } from './banner/banner.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SkillsComponent } from './skills/skills.component';
+// import { DialogComponent } from './dialog/dialog.component';
 
 @NgModule({
 	declarations: [
@@ -17,6 +18,7 @@ import { SkillsComponent } from './skills/skills.component';
 		ProfileComponent,
 		BannerComponent,
 		SkillsComponent
+		// DialogComponent
 	],
 	imports: [
 		BrowserModule,

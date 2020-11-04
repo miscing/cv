@@ -2,24 +2,9 @@ import { Octokit } from "@octokit/rest"
 
 import { Cv } from './cv';
 
-// import mockData from './mock-data.json';
-// import mockcv from '../../../mock-data/cv.json';
-// import mockembed from '../../../mock-data/embed.json';
-// import mockfilecense from '../../../mock-data/filecense.json'; import cv from '../../../mock-data/miscing_cv.json';
-import cv from '../../../mock-data/miscing_cv.json';
-import dft from '../../../mock-data/miscing_dft.json';
-import embed from '../../../mock-data/miscing_embed.json';
-import filecense from '../../../mock-data/miscing_filecense.json';
-import go from '../../../mock-data/miscing_go-neuralnetwork.json';
-import govim from '../../../mock-data/miscing_govim-highlighting-issue.json';
-import kvm from '../../../mock-data/miscing_kvm-scripts.json';
-import reversetls from '../../../mock-data/miscing_reversetls.json';
+import mockdata from './cv_data_dump.json';
 
 import { saveAs } from 'file-saver';
-
-const mockdata =  [
-	cv, dft, embed, filecense, go, govim, kvm, reversetls,
-]
 
 class Repo { // holds github data dumps
 	info? :any;
@@ -31,73 +16,43 @@ export class CvMaker extends Cv {
 
 	cache: Map<string, Repo>; //maps repository url to list of file
 
-	constructor(data) {
+	constructor(data :Cv) {
 		super();
 		Object.assign(this, data);
-		this.cache = new Map();
-		// this.fromGithub().then( () => {
-		// 	this.storeCache() // save all downloaded information as files
-		// 	this.cache.forEach( (v, k) => {
-		// 		console.log(v.info.name);
-		// 		console.log(v.topics);
-		// 	});
-		// }); // get repo information
 		this.fromMock();
+		// get repos in github got parsing
+		// getUserRepos(this.getLinkUsernameByName("github")).then( (repos) => {
+		// 	this.cache = repos;
+
+		// 	this.storeCache() // save all downloaded information as file
+			this.cache.forEach( (v, k) => {
+				console.log(k);
+				console.log(v.info.name);
+				console.log(v.topics);
+			});
+		// }).catch(checkForApiLimit); // get repo information
+		// this.fromMock();
 	}
 
 	storeCache() {
-		this.cache.forEach( (v, k) => {
-			var file = new File([JSON.stringify(v)], k+".json", {type: "text/plain;charset=utf-8"});
-			saveAs(file);
+		let payload = [];
+		this.cache.forEach( (v) => {
+			payload.push(v);
 		});
+		var file = new File([JSON.stringify(payload)], "cv_data_dump.json", {type: "text/plain;charset=utf-8"});
+		saveAs(file);
 	}
 
 	generate() {
+		console.log("generation not implemented yet");
 	}
 
-	fromGithub() {
-		return new Promise( resolve => {
-			const github = new Octokit();
-			let username = this.getLinkUsernameByName("github");
-			github.repos.listForUser({
-				username: username,
-				type: "owner"
-			}).then( (uRepos :any) => {
-				uRepos.data.forEach( (project :any) => {
-					let counter = 0;
-					this.cache.set(project.full_name, new Repo);
-					this.cache.get(project.full_name).info = project;
-					github.repos.getContent({
-						owner: username,
-						path: "",
-						repo: project.name
-					}).then( ({data} :any) => {
-						this.cache.get(project.full_name).files = data;
-						if (counter++ == 2) {
-							resolve();
-						}
-					});
-					github.repos.getAllTopics({
-						owner: username,
-						repo: project.name
-					}).then( ({data} :any) => {
-						this.cache.get(project.full_name).topics = data;
-						if (counter++ >= 2) {
-							resolve();
-						}
-					});
-				});
-			});
-		});
-	}
 
 	fromMock() {
+		this.cache = new Map();
 		mockdata.forEach( repo => {
 			this.cache.set(repo.info.full_name, repo);
 		});
-	}
-
-	getTopics() {
 	}
 
 	getLinkUsernameByName(name :string) :string {
@@ -114,3 +69,51 @@ export class CvMaker extends Cv {
 		return username;
 	}
 }
+
+function getUserRepos(username :string) :Promise<Map<string, Repo>>{
+	return new Promise( (resolve, reject) => {
+		let github = new Octokit();
+		let payload :Map<string, Repo> = new Map(); //maps repository url to list of file
+		github.repos.listForUser({
+			username: username,
+			type: "owner"
+		}).then( (uRepos :any) => {
+			let promiseArr = [];
+			uRepos.data.forEach( (project :any) => {
+				payload.set(project.full_name, new Repo());
+				payload.get(project.full_name).info = project;
+				// collect all promises
+				promiseArr.push(
+					github.repos.getContent({
+						owner: username,
+						path: "",
+						repo: project.name
+					}).then( (input) => {
+						payload.get(project.full_name).files = input;
+					}).catch((e) => { reject(e) }),
+					github.repos.getAllTopics({
+						owner: username,
+						repo: project.name
+					}).then( (input) => {
+						payload.get(project.full_name).topics = input;
+					}).catch((e) => { reject(e) })
+				)
+			});
+			// resolve on all promises completing
+			Promise.all(promiseArr).then( () => {
+				console.log(payload);
+				resolve(payload);
+			}).catch((e) => { reject(e) });
+		}).catch((e) => { reject(e) });
+	});
+}
+
+function checkForApiLimit(error :any) {
+	// Checks if error is caused by too many api calls, to open a dialog to use a token
+	if (error.message.includes('API rate limit exceeded')) {
+		console.log("api rate limit reached, use token or wait 1 hour");
+		return
+	}
+	console.error(error.message);
+}
+
