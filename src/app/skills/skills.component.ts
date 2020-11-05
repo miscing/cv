@@ -1,6 +1,6 @@
 import { Input, Component, OnInit } from '@angular/core';
 
-import { Link } from '../cv';
+import { Skill } from '../cv';
 
 @Component({
 	selector: 'app-skills',
@@ -8,12 +8,12 @@ import { Link } from '../cv';
 	styleUrls: ['./skills.component.scss']
 })
 export class SkillsComponent implements OnInit {
-	@Input() skills :Link[];
+	@Input() skills :Skill[];
 
 	constructor() { }
 
 	ngOnInit(): void {
-		// console.log(this.skills);
+		console.log(this.skills);
 	}
 
 }

@@ -3,7 +3,6 @@ import { Octokit } from "@octokit/rest"
 import { Cv } from './cv';
 
 import mockdata from './cv_data_dump.json';
-
 import { saveAs } from 'file-saver';
 
 class Repo { // holds github data dumps
@@ -15,23 +14,23 @@ class Repo { // holds github data dumps
 export class CvMaker extends Cv {
 
 	cache: Map<string, Repo>; //maps repository url to list of file
-
 	constructor(data :Cv) {
 		super();
 		Object.assign(this, data);
+
 		this.fromMock();
+
 		// get repos in github got parsing
 		// getUserRepos(this.getLinkUsernameByName("github")).then( (repos) => {
 		// 	this.cache = repos;
-
 		// 	this.storeCache() // save all downloaded information as file
-			this.cache.forEach( (v, k) => {
-				console.log(k);
-				console.log(v.info.name);
-				console.log(v.topics);
-			});
+		// 	this.cache.forEach( (v, k) => {
+		// 		console.log(k);
+		// 		console.log(v.info.name);
+		// 		console.log(v.topics);
+		// 	});
 		// }).catch(checkForApiLimit); // get repo information
-		// this.fromMock();
+
 	}
 
 	storeCache() {
@@ -44,9 +43,11 @@ export class CvMaker extends Cv {
 	}
 
 	generate() {
-		console.log("generation not implemented yet");
+		this.genSkills();
 	}
 
+	genSkills() {
+	}
 
 	fromMock() {
 		this.cache = new Map();
@@ -116,4 +117,3 @@ function checkForApiLimit(error :any) {
 	}
 	console.error(error.message);
 }
-
