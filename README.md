@@ -5,6 +5,7 @@ A personal cv generator.
 ## To use:
 1. Fork or otherwise copy this repository.
 2. Configure basic settings in cv.yml file, then run pipeline.
+3. (OPTIONAL) You can save settings by copying the generated JSON to cv.json. Pipeline will not override changes in this file.
 
 ## Yaml syntax
 
