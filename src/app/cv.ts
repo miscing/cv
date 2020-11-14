@@ -1,8 +1,6 @@
 export class Cv {
 	profile :Profile;
 	skills? :Skill[];
-	constructor() {
-	}
 }
 
 export class Profile {
@@ -20,17 +18,24 @@ export class Link {
 }
 
 export class Skill {
-	name: string;
-	text?: string; //optional text to show
-	links?: URL[];
-	skill?: Skill;
+	name :string;
+	text? :string; //optional text to show
+	links? :URL[]; //contains files or repositories to display in cv
+	options? :SkillOption; //internal use
 }
 
-export class Timeline {
-	dates :Moment[];
+// contains option information for parsing of skills
+export class SkillOption {
+	topics? :string[]; // used instead of skill name if exists
+	file? :string[];
+	rfile? :string[];
 }
 
-export class Moment {
-	date :Date;
-	event :string; //text to show, for example "Started as account handler at Company A"
-}
+// export class Timeline {
+// 	dates :Moment[];
+// }
+
+// export class Moment {
+// 	date :Date;
+// 	event :string; //text to show, for example "Started as account handler at Company A"
+// }

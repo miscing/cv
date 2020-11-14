@@ -1,4 +1,5 @@
 import { Octokit } from "@octokit/rest"
+import { Observable } from "rxjs"
 
 import { Cv } from './cv';
 
@@ -12,8 +13,8 @@ class Repo { // holds github data dumps
 }
 
 export class CvMaker extends Cv {
+	cache: Map<string, Repo>; //maps repo name to information (not url due to difficult characters in urls)
 
-	cache: Map<string, Repo>; //maps repository url to list of file
 	constructor(data :Cv) {
 		super();
 		Object.assign(this, data);
@@ -30,10 +31,10 @@ export class CvMaker extends Cv {
 		// 		console.log(v.topics);
 		// 	});
 		// }).catch(checkForApiLimit); // get repo information
-
 	}
 
 	storeCache() {
+		// used to generate mock data, makes browser download cache as a json file
 		let payload = [];
 		this.cache.forEach( (v) => {
 			payload.push(v);
@@ -42,11 +43,81 @@ export class CvMaker extends Cv {
 		saveAs(file);
 	}
 
-	generate() {
-		this.genSkills();
+	generate() :Observable<Cv>{
+		return new Observable( (observer) => {
+			observer.next(this); //send initial payload
+			this.matchGitToSkills();
+		});
 	}
 
-	genSkills() {
+	matchGitToSkills() {
+		this.skills.forEach( (v, i) => {
+			if (!v.hasOwnProperty("links")) {
+				// avoids pushing to undefined on first push
+				v.links = [];
+			}
+			if ("options" in v) {
+				Object.getOwnPropertyNames(v.options).forEach( (option) => {
+					switch (option) {
+						case "topics":
+							v.options.topics.forEach( (topic) => {
+								this.skills[i].links = v.links.concat(this.getReposByTopic(topic));
+							});
+							break
+						case "file":
+							v.options.file.forEach( (file) => {
+								this.skills[i].links = v.links.concat(this.getReposByFileName(file));
+							});
+							break
+						case "rfile":
+							v.options.file.forEach( (file) => {
+								this.skills[i].links = v.links.concat(this.getReposByFileNameRegex(file));
+							});
+							break
+						default:
+							throw "invalid option found in skill "+option;
+					}
+				});
+			} else {
+				this.skills[i].links = v.links.concat(this.getReposByTopic(v.name));
+			}
+		});
+	}
+
+	getReposByFileNameRegex(regex :string) :URL[] {
+		let result :URL[] = [];
+		let re = new RegExp(regex);
+		this.cache.forEach( (v) => {
+			let file = v.files.data.find( (ele :any) => {
+				return re.test(ele.name);
+			});
+			if (file != undefined) {
+				result.push(new URL(file.html_url));
+			}
+		});
+		return result;
+	}
+
+
+	getReposByFileName(filename :string) :URL[] {
+		let result :URL[] = [];
+		this.cache.forEach( (v) => {
+			let file = v.files.data.find( (ele :any) => { return ele.name === filename });
+			if (file != undefined) {
+				result.push(new URL(file.html_url));
+			}
+		});
+		return result;
+	}
+
+	getReposByTopic(topic :string) :URL[] {
+		let result :URL[] = [];
+		this.cache.forEach( (v) => {
+			if (v.topics.data.names.some( (ele :string) => { return ele === topic })) {
+				result.push(new URL(v.info.html_url));
+			}
+		});
+		return result;
 	}
 
 	fromMock() {
@@ -102,7 +173,6 @@ function getUserRepos(username :string) :Promise<Map<string, Repo>>{
 			});
 			// resolve on all promises completing
 			Promise.all(promiseArr).then( () => {
-				console.log(payload);
 				resolve(payload);
 			}).catch((e) => { reject(e) });
 		}).catch((e) => { reject(e) });
@@ -112,7 +182,7 @@ function getUserRepos(username :string) :Promise<Map<string, Repo>>{
 function checkForApiLimit(error :any) {
 	// Checks if error is caused by too many api calls, to open a dialog to use a token
 	if (error.message.includes('API rate limit exceeded')) {
-		console.log("api rate limit reached, use token or wait 1 hour");
+		console.error("api rate limit reached, use token or wait 1 hour");
 		return
 	}
 	console.error(error.message);

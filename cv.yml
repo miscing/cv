@@ -9,12 +9,13 @@ skills:
     - text: ""
   - backend
   - frontend
-  - typescript
+  - typescript/javascript:
+    - javascript
+    - typescript
   - golang
   - cicd:
     - file:
-      - "gitlab-ci.yml"
-    - rfile:
+      - ".gitlab-ci.yml"
 
 # name: Alexander Saastamoinen
 # github:
