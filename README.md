@@ -6,7 +6,8 @@ Configure basic settings in cv.yml file, then run pipeline.
 ## Yaml syntax
 
 ### User:
-Children items may user:
+Children items may use:
+
 | Keyword    | Input syntax              | Explanation                                                                                                       |
 |------------|---------------------------|-------------------------------------------------------------------------------------------------------------------|
 | name       | Firstname Surname         | Name to display, only accepts two words. Required                                                                 |
