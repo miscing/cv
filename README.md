@@ -1,8 +1,11 @@
 # Cv
 
-A personal cv website.
+A personal cv generator.
 
-Configure basic settings in cv.yml file, then run pipeline.
+## To use:
+1. Fork or otherwise copy this repository.
+2. Configure basic settings in cv.yml file, then run pipeline.
+
 ## Yaml syntax
 
 ### User:
@@ -10,7 +13,7 @@ Children items may use:
 
 | Keyword    | Input syntax              | Explanation                                                                                                       |
 |------------|---------------------------|-------------------------------------------------------------------------------------------------------------------|
-| name       | Firstname Surname         | Name to display, only accepts two words. Required                                                                 |
+| name       | Firstname Surname         | Name to display, only accepts two words. Required.                                                                |
 | custom     | username                  | remaining items will be assumed to be name of a service with username following it. For example `gitlab: username`|
 
 ### Skills:
@@ -24,8 +27,8 @@ skills:
 
 | Keyword    | Input syntax              | Explanation                                                                                                       |
 |------------|---------------------------|-------------------------------------------------------------------------------------------------------------------|
-| text       | long string escape with ""| This will be displayed after the skill name and before matched topics                                             |
-| file       | file name to use, see ->  | Ontop of showing links to matching topics, will also have direct links to files with provided filename            |
-| rfile      | file name to use, regex   | Same as file, except string is interpreted as regex. Notice "." in regex is a special character                   |
+| text       | long string escape with ""| This will be displayed after the skill name and before matched topics.                                            |
+| file       | file name to use, see ->  | Ontop of showing links to matching topics, will also have direct links to files with provided filename.           |
+| rfile      | file name to use, regex   | Same as file, except string is interpreted as regex. Notice "." in regex is a special character.                  |
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.1.7.
