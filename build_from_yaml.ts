@@ -198,49 +198,18 @@ function genSkill(item :any) :Skill {
 	return skill;
 }
 
-function readOldJson(file :string) : Promise<Cv>{
-	return new Promise( (resolve, reject) => {
-		readFile(file, 'utf8', (err, data) => {
-			if (err !== null) {
-				if (err.code === "ENOENT") {
-					return resolve(null);
-				} else {
-					return reject(err);
-				}
-			}
-			return resolve(JSON.parse(data));
-		});
-	});
-}
-
-function combine(oldCv :Cv, newCv :Cv) :Cv{
-	for (const key in oldCv) {
-		newCv[key] = oldCv[key];
-	}
-	return newCv;
-}
-
 function main() {
-	let newCv = readYaml("cv.yml");
-	let oldCv = readOldJson("cv.json");
-	Promise.all([oldCv, newCv]).then( cvs => {
-		let cv :Cv;
-		if (cvs[0] != null && cvs[1] != null) {
-			cv = combine(cvs[0], cvs[1]); // replace existing fields into new fields
-		} else {
-			cv = cvs[1]; // should only get here if cv.json does not exist
-		}
+	let cv = readYaml("cv.yml");
 
-		// write payload to file
-		let payload = JSON.stringify(cv);
-		writeFile("cv.json", payload, 'utf-8', err => {
-			if (err !== null) {
-				throw "error writing file, error: "+err as string;
-			} else {
-				console.log("succesfully parsed yaml and generated json cv");
-			}
-		});
-	}).catch( e => { return console.error(e);} );
+	// write payload to file
+	let payload = JSON.stringify(cv);
+	writeFile("cv.json", payload, 'utf-8', err => {
+		if (err !== null) {
+			throw "error writing file, error: "+err as string;
+		} else {
+			console.log("succesfully parsed yaml and generated json cv");
+		}
+	});
 }
 
 if (require.main === module) {
