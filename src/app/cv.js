@@ -9,6 +9,7 @@ var Cv = /** @class */ (function () {
 exports.Cv = Cv;
 var Profile = /** @class */ (function () {
     function Profile() {
+        this.links = [];
     }
     return Profile;
 }());

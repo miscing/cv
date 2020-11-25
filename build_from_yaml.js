@@ -39,26 +39,143 @@ exports.__esModule = true;
 var yaml_1 = require("yaml");
 var fs_1 = require("fs");
 var cv_1 = require("./src/app/cv");
+var file_type_1 = require("file-type");
 function readYaml(file) {
-    return new Promise(function (resolve, reject) {
-        fs_1.readFile(file, 'utf8', function (err, data) {
-            var cv = new cv_1.Cv; // new cv for yaml data
-            if (err !== null) {
-                return reject(err);
-            }
-            console.log(data); // print so input is visible in cicd logs
-            var parsed = yaml_1.parse(data);
-            // generate skills
-            if (parsed.skills.length != 0) {
-                try {
-                    cv.skills = genSkills(parsed.skills);
+    var _this = this;
+    return new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            fs_1.readFile(file, 'utf8', function (err, data) {
+                if (err !== null) {
+                    return reject(err);
                 }
-                catch (e) {
-                    return reject(e);
-                }
-                return resolve(cv);
+                var cv = new cv_1.Cv; // new cv for yaml data
+                console.log(data); // print so input is visible in cicd logs
+                var parsed = yaml_1.parse(data);
+                // generate skills
+                generateSkills(parsed.skills)
+                    .then(function (skills) {
+                    cv.skills = skills;
+                    // generate profile
+                    return generateProfile(parsed);
+                })
+                    .then(function (prof) {
+                    cv.profile = prof;
+                    return resolve(cv);
+                })["catch"](function (e) { return reject(e); });
+            });
+            return [2 /*return*/];
+        });
+    }); });
+}
+function generateProfile(parsed) {
+    var _this = this;
+    return new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
+        var picPromise, cv_2, pic_1, e_1;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    picPromise = getProfilePic();
+                    cv_2 = genProfile(parsed);
+                    return [4 /*yield*/, picPromise];
+                case 1:
+                    pic_1 = _a.sent();
+                    fs_1.copyFile(pic_1, "./src/assets/" + pic_1, function (e) {
+                        if (e != null) {
+                            return reject(e);
+                        }
+                        else {
+                            cv_2.pic = "assets/" + pic_1;
+                            return resolve(cv_2);
+                        }
+                    });
+                    return [3 /*break*/, 3];
+                case 2:
+                    e_1 = _a.sent();
+                    return [2 /*return*/, reject(e_1)];
+                case 3: return [2 /*return*/];
             }
         });
+    }); });
+}
+function getProfilePic() {
+    return new Promise(function (resolve, reject) {
+        // add profile pic to assets and link name. sets empty path if no valid image found
+        fs_1.readdir(".", { withFileTypes: true }, function (err, files) {
+            if (err != null) {
+                reject(err);
+            }
+            var promises = [];
+            var fileNames = [];
+            var profileName = /profile\.\w*/;
+            files.forEach(function (file) {
+                if (file.isFile()) {
+                    if (file.name.match(profileName)) {
+                        promises.push(file_type_1.fromFile(file.name));
+                        fileNames.push(file.name);
+                    }
+                }
+            });
+            Promise.all(promises).then(function (filetypes) {
+                var imageMime = /image\/\w*/;
+                var i = filetypes.findIndex(function (ft) { return ft.mime.match(imageMime); });
+                resolve(fileNames[i]);
+            })["catch"](function (e) { reject(e); });
+        });
+    });
+}
+function genProfile(parsed) {
+    var profile = new cv_1.Profile;
+    Object.getOwnPropertyNames(parsed).forEach(function (field) {
+        switch (field) {
+            case "name":
+                var words = parsed[field].split(' ');
+                if (words.length != 2) {
+                    throw "name must be in format 'firstname surname'";
+                }
+                profile.firstname = words[0];
+                profile.surname = words[1];
+                break;
+            case "github":
+                var githublink = new cv_1.Link;
+                githublink.name = "github";
+                githublink.url = "https://github.com/" + parsed[field];
+                githublink.username = parsed[field];
+                profile.links.push(githublink);
+                break;
+            case "gitlab":
+                var gitlablink = new cv_1.Link;
+                gitlablink.name = "gitlab";
+                gitlablink.url = "https://gitlab.com/" + parsed[field];
+                gitlablink.username = parsed[field];
+                profile.links.push(gitlablink);
+                break;
+            case "matrix":
+                var matrixlink = new cv_1.Link;
+                matrixlink.name = "matrix";
+                matrixlink.url = "https://app.element.io/";
+                matrixlink.text = parsed[field];
+                profile.links.push(matrixlink);
+                break;
+            case "skills":
+                //skip
+                break;
+            default:
+                throw "unrecognized top level field in yaml: " + field;
+        }
+    });
+    return profile;
+}
+function generateSkills(yamlSkills) {
+    return new Promise(function (resolve, reject) {
+        if (yamlSkills.length != 0) {
+            try {
+                return resolve(genSkills(yamlSkills));
+            }
+            catch (e) {
+                return reject(e);
+            }
+        }
     });
 }
 // generates js skills from yaml skills
@@ -129,7 +246,12 @@ function readOldJson(file) {
     return new Promise(function (resolve, reject) {
         fs_1.readFile(file, 'utf8', function (err, data) {
             if (err !== null) {
-                return reject(err);
+                if (err.code === "ENOENT") {
+                    return resolve(null);
+                }
+                else {
+                    return reject(err);
+                }
             }
             return resolve(JSON.parse(data));
         });
@@ -139,37 +261,30 @@ function combine(oldCv, newCv) {
     for (var key in oldCv) {
         newCv[key] = oldCv[key];
     }
-    // newCv["causefailure"] = "matt daemon";
     return newCv;
 }
 function main() {
-    return __awaiter(this, void 0, void 0, function () {
-        var newCv, oldCv, cvs, cv, payload;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    newCv = readYaml("cv.yml");
-                    oldCv = readOldJson("data.json");
-                    return [4 /*yield*/, Promise.all([oldCv, newCv])["catch"](function (e) { return e; })];
-                case 1:
-                    cvs = _a.sent();
-                    if (!Array.isArray(cvs)) { //if cvs isn't an array it must contain an error, due to being a Promise made will Promise.all
-                        return [2 /*return*/, console.error(cvs)];
-                    }
-                    cv = combine(cvs[0], cvs[1]);
-                    payload = JSON.stringify(cv);
-                    fs_1.writeFile("cv.json", payload, 'utf-8', function (err) {
-                        if (err !== null) {
-                            throw "error writing file, error: " + err;
-                        }
-                        else {
-                            console.log("succesfully parsed yaml and generated json cv");
-                        }
-                    });
-                    return [2 /*return*/];
+    var newCv = readYaml("cv.yml");
+    var oldCv = readOldJson("cv.json");
+    Promise.all([oldCv, newCv]).then(function (cvs) {
+        var cv;
+        if (cvs[0] != null && cvs[1] != null) {
+            cv = combine(cvs[0], cvs[1]); // replace existing fields into new fields
+        }
+        else {
+            cv = cvs[1]; // should only get here if cv.json does not exist
+        }
+        // write payload to file
+        var payload = JSON.stringify(cv);
+        fs_1.writeFile("cv.json", payload, 'utf-8', function (err) {
+            if (err !== null) {
+                throw "error writing file, error: " + err;
+            }
+            else {
+                console.log("succesfully parsed yaml and generated json cv");
             }
         });
-    });
+    })["catch"](function (e) { return console.error(e); });
 }
 if (require.main === module) {
     main();

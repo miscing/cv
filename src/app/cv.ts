@@ -8,6 +8,9 @@ export class Profile {
 	surname :string;
 	pic :string;
 	links? :Link[];
+	constructor() {
+		this.links = [];
+	}
 }
 
 export class Link {

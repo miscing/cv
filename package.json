@@ -23,6 +23,7 @@
     "@angular/router": "~10.1.6",
     "@octokit/rest": "^18.0.6",
     "file-saver": "^2.0.2",
+    "file-type": "^16.0.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "yaml": "^2.0.0-1",

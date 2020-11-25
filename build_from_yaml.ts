@@ -1,27 +1,135 @@
 import { parse } from 'yaml';
-import { readFile, writeFile } from 'fs';
-import { Cv, Skill, SkillOption } from './src/app/cv';
+import { copyFile, readdir, readFile, writeFile } from 'fs';
+import { Cv, Profile, Link,  Skill, SkillOption } from './src/app/cv';
+import { fromFile } from 'file-type';
 
 function readYaml(file :string) : Promise<Cv>{
-	return new Promise( (resolve, reject) => {
+	return new Promise(  async (resolve, reject) => {
 		readFile(file, 'utf8', (err, data) => {
-			let cv = new Cv; // new cv for yaml data
 			if (err !== null) {
 				return reject(err);
 			}
+			let cv = new Cv; // new cv for yaml data
 			console.log(data); // print so input is visible in cicd logs
 			let parsed = parse(data);
 
 			// generate skills
-			if (parsed.skills.length != 0){
-				try {
-					cv.skills = genSkills(parsed.skills);
-				} catch (e) {
-					return reject(e);
-				}
-				return resolve(cv);
-			}
+			generateSkills(parsed.skills)
+				.then( skills => {
+					cv.skills = skills;
+					// generate profile
+					return generateProfile(parsed);
+				})
+				.then( prof => {
+					cv.profile = prof;
+					return resolve(cv);
+				})
+				.catch(e => { return reject(e) });
 		});
+	});
+}
+
+function generateProfile(parsed :any) :Promise<Profile> {
+	return new Promise( async (resolve, reject) => {
+		try {
+			let picPromise = getProfilePic()
+			let cv = genProfile(parsed)
+			let pic = await picPromise
+			copyFile(pic, "./src/assets/"+pic, e => {
+				if (e != null){
+					return reject(e)
+				} else {
+					cv.pic = "assets/"+pic;
+					return resolve(cv);
+				}
+			});
+		} catch (e) {
+			return reject(e);
+		}
+	});
+}
+
+function getProfilePic() :Promise<string> {
+	return new Promise( (resolve, reject) => {
+		// add profile pic to assets and link name. sets empty path if no valid image found
+		readdir( ".", {withFileTypes: true}, (err, files) => {
+			if (err != null) {
+				reject(err);
+			}
+			let promises = [];
+			let fileNames = [];
+			let profileName = /profile\.\w*/;
+			files.forEach( file => {
+				if (file.isFile()) {
+					if (file.name.match(profileName)){
+						promises.push(fromFile(file.name));
+						fileNames.push(file.name);
+					}
+				}
+			});
+			Promise.all(promises).then( filetypes => {
+				let imageMime = /image\/\w*/;
+				let i = filetypes.findIndex( ft =>  ft.mime.match(imageMime) );
+				resolve(fileNames[i]);
+			}).catch( e => { reject(e) });
+		});
+	});
+}
+
+function genProfile(parsed :any) :Profile {
+	let profile = new Profile;
+
+	Object.getOwnPropertyNames(parsed).forEach( (field :any) => {
+		switch (field) {
+			case "name":
+				let words = parsed[field].split(' ');
+				if (words.length != 2) {
+					throw "name must be in format 'firstname surname'";
+				}
+				profile.firstname = words[0];
+				profile.surname = words[1];
+				break;
+			case "github":
+				let githublink = new Link;
+				githublink.name = "github";
+				githublink.url = "https://github.com/"+parsed[field];
+				githublink.username = parsed[field];
+				profile.links.push(githublink);
+				break;
+			case "gitlab":
+				let gitlablink = new Link;
+				gitlablink.name = "gitlab";
+				gitlablink.url = "https://gitlab.com/"+parsed[field];
+				gitlablink.username = parsed[field];
+				profile.links.push(gitlablink);
+				break;
+			case "matrix":
+				let matrixlink = new Link;
+				matrixlink.name = "matrix";
+				matrixlink.url = "https://app.element.io/";
+				matrixlink.text = parsed[field];
+				profile.links.push(matrixlink);
+				break;
+			case "skills":
+				//skip
+				break;
+			default:
+				throw "unrecognized top level field in yaml: "+field;
+		}
+	});
+
+	return profile;
+}
+
+function generateSkills(yamlSkills :any) :Promise<Skill[]> {
+	return new Promise( (resolve, reject) => {
+		if (yamlSkills.length != 0){
+			try {
+				return resolve(genSkills(yamlSkills));
+			} catch (e) {
+				return reject(e);
+			}
+		}
 	});
 }
 
@@ -91,7 +199,11 @@ function readOldJson(file :string) : Promise<Cv>{
 	return new Promise( (resolve, reject) => {
 		readFile(file, 'utf8', (err, data) => {
 			if (err !== null) {
-				return reject(err);
+				if (err.code === "ENOENT") {
+					return resolve(null);
+				} else {
+					return reject(err);
+				}
 			}
 			return resolve(JSON.parse(data));
 		});
@@ -102,28 +214,30 @@ function combine(oldCv :Cv, newCv :Cv) :Cv{
 	for (const key in oldCv) {
 		newCv[key] = oldCv[key];
 	}
-	// newCv["causefailure"] = "matt daemon";
 	return newCv;
 }
 
-async function main() {
+function main() {
 	let newCv = readYaml("cv.yml");
-	let oldCv = readOldJson("data.json");
-	let cvs = await Promise.all([oldCv, newCv]).catch( e => { return e;} );
-	if (!Array.isArray(cvs)) { //if cvs isn't an array it must contain an error, due to being a Promise made will Promise.all
-		return console.error(cvs);
-	}
-
-	let cv = combine(cvs[0], cvs[1]); // replace existing fields into new fields
-
-	let payload = JSON.stringify(cv);
-	writeFile("cv.json", payload, 'utf-8', err => {
-		if (err !== null) {
-			throw "error writing file, error: "+err as string;
+	let oldCv = readOldJson("cv.json");
+	Promise.all([oldCv, newCv]).then( cvs => {
+		let cv :Cv;
+		if (cvs[0] != null && cvs[1] != null) {
+			cv = combine(cvs[0], cvs[1]); // replace existing fields into new fields
 		} else {
-			console.log("succesfully parsed yaml and generated json cv");
+			cv = cvs[1]; // should only get here if cv.json does not exist
 		}
-	});
+
+		// write payload to file
+		let payload = JSON.stringify(cv);
+		writeFile("cv.json", payload, 'utf-8', err => {
+			if (err !== null) {
+				throw "error writing file, error: "+err as string;
+			} else {
+				console.log("succesfully parsed yaml and generated json cv");
+			}
+		});
+	}).catch( e => { return console.error(e);} );
 }
 
 if (require.main === module) {
