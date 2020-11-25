@@ -6,7 +6,9 @@ skills:
   - virtualization:
     - text: ""
   - backend
-  - frontend
+  - frontend:
+    - url:
+      - "https://white-lynx.fi"
   - typescript/javascript:
     - javascript
     - typescript

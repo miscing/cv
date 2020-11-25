@@ -32,6 +32,7 @@ export class SkillOption {
 	topics? :string[]; // used instead of skill name if exists
 	file? :string[];
 	rfile? :string[];
+	urls? :string[]; // websites to show
 }
 
 // export class Timeline {

@@ -220,6 +220,9 @@ function genSkill(item) {
                     case 'rfile':
                         skillOpt.rfile = option[optName];
                         break;
+                    case 'url':
+                        skillOpt.urls = option[optName];
+                        break;
                     default:
                         throw "invalid option name " + optName;
                 }
