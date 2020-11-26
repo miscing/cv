@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 
-import { Observable } from 'rxjs';
-
 import rawData from '../../cv.json';
 import { Cv } from './cv';
 import { CvMaker } from './cv-maker';
@@ -12,11 +10,9 @@ import { CvMaker } from './cv-maker';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-	data :Observable<Cv>;
-	cvMaker :CvMaker //maybe remove from here, making it inaccessable outside constructor?
+	data :Cv;
 
 	constructor() {
-		this.cvMaker = new CvMaker(rawData);
-		this.data = this.cvMaker.generate(); //initiliaze
+		this.data = new CvMaker(rawData); //initiliaze
 	}
 }

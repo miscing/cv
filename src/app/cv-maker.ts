@@ -31,6 +31,8 @@ export class CvMaker extends Cv {
 		// 		console.log(v.topics);
 		// 	});
 		// }).catch(checkForApiLimit); // get repo information
+
+		this.matchGitToSkills();
 	}
 
 	storeCache() {
@@ -43,18 +45,11 @@ export class CvMaker extends Cv {
 		saveAs(file);
 	}
 
-	generate() :Observable<Cv>{
-		return new Observable( (observer) => {
-			observer.next(this); //send initial payload
-			this.matchGitToSkills();
-		});
-	}
 
 	matchGitToSkills() {
 		this.skills.forEach( (v, i) => {
 			if (!v.hasOwnProperty("links")) {
-				// avoids pushing to undefined on first push
-				v.links = [];
+				v.links = []; // avoids pushing to undefined on first push
 			}
 			if ("options" in v) {
 				Object.getOwnPropertyNames(v.options).forEach( (option) => {
@@ -70,8 +65,12 @@ export class CvMaker extends Cv {
 							});
 							break
 						case "rfile":
-							v.options.file.forEach( (file) => {
+							v.options.rfile.forEach( (file) => {
 								this.skills[i].links = v.links.concat(this.getReposByFileNameRegex(file));
+							});
+						case "urls":
+							v.options.urls.forEach( (url) => {
+								this.skills[i].links.push(new URL(url));
 							});
 							break
 						default:
