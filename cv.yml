@@ -19,11 +19,14 @@ skills:
       - "main.yml"
   - data-science
   - docker/podman:
-    - text: "I use both docker and podman extensively, and have created a currently private database-like program using docker api. Many of my projects include container images available from the corresponding gitlab repositories container registry."
+    - text: "I use both docker and podman extensively, and have created a (currently private) database-like program using docker api. Many of my projects include container images available from the corresponding gitlab repositories container registry."
     - docker
     - podman
+  - sql:
+    - text: "I have used mariadb in the past as a database, lately usage is limited to linking mariadb official container to other solutions such as matomo, wordpress and mattermost using podman pods."
   - git:
-    - text: "I use git primarily from commandline. I do use gitlab for development and cicd and mirror to github my public/open repos. I am fairly experienced with the features of all three, including self-hosting pure-git and gitlab."
+    - text: "I use git primarily from commandline. I do use gitlab for development and cicd and mirror to github my public/open repos. I am fairly experienced with the features of all three, including self-hosting pure-git and gitlab. I have also used both gitlab-python api and github octokit. By far most experienced with pure git usage."
+    - octokit
   - golang
   - python
   - typescript/javascript:
