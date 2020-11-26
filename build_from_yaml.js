@@ -245,38 +245,8 @@ function genSkill(item) {
     });
     return skill;
 }
-function readOldJson(file) {
-    return new Promise(function (resolve, reject) {
-        fs_1.readFile(file, 'utf8', function (err, data) {
-            if (err !== null) {
-                if (err.code === "ENOENT") {
-                    return resolve(null);
-                }
-                else {
-                    return reject(err);
-                }
-            }
-            return resolve(JSON.parse(data));
-        });
-    });
-}
-function combine(oldCv, newCv) {
-    for (var key in oldCv) {
-        newCv[key] = oldCv[key];
-    }
-    return newCv;
-}
 function main() {
-    var newCv = readYaml("cv.yml");
-    var oldCv = readOldJson("cv.json");
-    Promise.all([oldCv, newCv]).then(function (cvs) {
-        var cv;
-        if (cvs[0] != null && cvs[1] != null) {
-            cv = combine(cvs[0], cvs[1]); // replace existing fields into new fields
-        }
-        else {
-            cv = cvs[1]; // should only get here if cv.json does not exist
-        }
+    readYaml("cv.yml").then(function (cv) {
         // write payload to file
         var payload = JSON.stringify(cv);
         fs_1.writeFile("cv.json", payload, 'utf-8', function (err) {
@@ -287,7 +257,7 @@ function main() {
                 console.log("succesfully parsed yaml and generated json cv");
             }
         });
-    })["catch"](function (e) { return console.error(e); });
+    });
 }
 if (require.main === module) {
     main();

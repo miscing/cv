@@ -13,6 +13,6 @@ export class AppComponent {
 	data :Cv;
 
 	constructor() {
-		this.data = new CvMaker(rawData); //initiliaze
+		this.data = new CvMaker(rawData, true); //initiliaze
 	}
 }

@@ -1,5 +1,4 @@
 import { Octokit } from "@octokit/rest"
-import { Observable } from "rxjs"
 
 import { Cv } from './cv';
 
@@ -15,24 +14,25 @@ class Repo { // holds github data dumps
 export class CvMaker extends Cv {
 	cache: Map<string, Repo>; //maps repo name to information (not url due to difficult characters in urls)
 
-	constructor(data :Cv) {
+	constructor(data :Cv, mock? :boolean, store? :boolean) {
 		super();
 		Object.assign(this, data);
 
-		this.fromMock();
-
-		// get repos in github got parsing
-		// getUserRepos(this.getLinkUsernameByName("github")).then( (repos) => {
-		// 	this.cache = repos;
-		// 	this.storeCache() // save all downloaded information as file
-		// 	this.cache.forEach( (v, k) => {
-		// 		console.log(k);
-		// 		console.log(v.info.name);
-		// 		console.log(v.topics);
-		// 	});
-		// }).catch(checkForApiLimit); // get repo information
+		if (mock) {
+			console.log("using mock data");
+			this.fromMock();
+		} else {
+			// get repos in github got parsing
+			getUserRepos(this.getLinkUsernameByName("github")).then( (repos) => {
+				this.cache = repos;
+				if (store) {
+					this.storeCache() // save all downloaded information as file
+				}
+			}).catch(checkForApiLimit); // get repo information
+		}
 
 		this.matchGitToSkills();
+		this.removeDuplicates();
 	}
 
 	storeCache() {
@@ -45,6 +45,17 @@ export class CvMaker extends Cv {
 		saveAs(file);
 	}
 
+	removeDuplicates() {
+		this.skills.forEach( (skill, skillI) => {
+			for (let i=0; i<skill.links.length; i++) {
+				for (let j=i+1; j<skill.links.length; j++) {
+					if (skill.links[i].toString() === skill.links[j].toString()) {
+						this.skills[skillI].links.splice(j, 1);
+					}
+				}
+			}
+		});
+	}
 
 	matchGitToSkills() {
 		this.skills.forEach( (v, i) => {

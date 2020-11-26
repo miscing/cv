@@ -1,8 +1,10 @@
+<h2>Skills:</h2>
 <div *ngFor="let skill of skills">
-	{{ skill.name}}
-	<div *ngFor="let link of skill.links">
-		<a href="{{ link.toString() }}">
+	<h3>{{ capitalize(skill.name) }}</h3>
+	<mat-card class="text" *ngIf="skill.hasOwnProperty('text')">{{ skill.text }}</mat-card>
+	<mat-nav-list>
+		<a mat-list-item *ngFor="let link of skill.links" href="{{ link.toString() }}">
 			{{ link.hostname + link.pathname }}
 		</a>
-	</div>
+	</mat-nav-list>
 </div>

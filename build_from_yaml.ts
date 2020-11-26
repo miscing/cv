@@ -199,16 +199,16 @@ function genSkill(item :any) :Skill {
 }
 
 function main() {
-	let cv = readYaml("cv.yml");
-
-	// write payload to file
-	let payload = JSON.stringify(cv);
-	writeFile("cv.json", payload, 'utf-8', err => {
-		if (err !== null) {
-			throw "error writing file, error: "+err as string;
-		} else {
-			console.log("succesfully parsed yaml and generated json cv");
-		}
+	readYaml("cv.yml").then( cv => {
+		// write payload to file
+		let payload = JSON.stringify(cv);
+		writeFile("cv.json", payload, 'utf-8', err => {
+			if (err !== null) {
+				throw "error writing file, error: "+err as string;
+			} else {
+				console.log("succesfully parsed yaml and generated json cv");
+			}
+		});
 	});
 }
 

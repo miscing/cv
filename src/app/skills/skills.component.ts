@@ -13,7 +13,10 @@ export class SkillsComponent implements OnInit {
 	constructor() { }
 
 	ngOnInit(): void {
-		console.log(this.skills);
+	}
+
+	capitalize(input: string): string {
+		return input.charAt(0).toUpperCase() + input.slice(1);
 	}
 
 }
