@@ -21,6 +21,8 @@ export class CvMaker extends Cv {
 		if (mock) {
 			console.log("using mock data");
 			this.fromMock();
+			this.matchGitToSkills();
+			this.removeDuplicates();
 		} else {
 			// get repos in github got parsing
 			getUserRepos(this.getLinkUsernameByName("github")).then( (repos) => {
@@ -28,11 +30,11 @@ export class CvMaker extends Cv {
 				if (store) {
 					this.storeCache() // save all downloaded information as file
 				}
+				this.matchGitToSkills();
+				this.removeDuplicates();
 			}).catch(checkForApiLimit); // get repo information
 		}
 
-		this.matchGitToSkills();
-		this.removeDuplicates();
 	}
 
 	storeCache() {
