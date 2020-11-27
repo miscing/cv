@@ -8,8 +8,8 @@ A personal cv generator.
 
 ## Yaml syntax
 
-### User:
-Children items may use:
+### Top level:
+Top level items are used to construct the profile. On top of the reserved keywords in the table below all following sections have their own keyword.
 
 | Keyword    | Input syntax              | Explanation                                                                                                       |
 |------------|---------------------------|-------------------------------------------------------------------------------------------------------------------|
