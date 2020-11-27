@@ -1,10 +1,24 @@
-<h2>Skills:</h2>
+<h1 id="section-header">Skills:</h1>
+<p class="proficiency-desc">Proficiency goes 1-5, where 5 is best</p>
 <div *ngFor="let skill of skills">
-	<h3>{{ capitalize(skill.name) }}</h3>
-	<mat-card class="text" *ngIf="skill.hasOwnProperty('text')">{{ skill.text }}</mat-card>
-	<mat-nav-list>
-		<a mat-list-item *ngFor="let link of skill.links" href="{{ link.toString() }}">
-			{{ link.hostname + link.pathname }}
-		</a>
-	</mat-nav-list>
+	<mat-card>
+		<mat-card-header>
+			<mat-card-title>{{ capitalize(skill.name) }}</mat-card-title>
+			<h2 *ngIf="skill.level != null" matBadge="{{skill.level}}" matBadgeSize="large" matBadgeOverlap="false">Proficiency</h2>
+		</mat-card-header>
+		<mat-card-content *ngIf="skill.hasOwnProperty('text')">
+			<p class="skill-desc">{{ skill.text }}</p>
+		</mat-card-content>
+		<mat-card-actions *ngIf="skill.links.length > 0">
+			<h4 class="link-desc">References:</h4>
+			<mat-nav-list>
+				<a mat-list-item *ngFor="let link of skill.links" href="{{ link.toString() }}">
+					<mat-icon>link</mat-icon>
+					<span class="external-link">
+						{{ link.hostname + link.pathname }}
+					</span>
+				</a>
+			</mat-nav-list>
+		</mat-card-actions>
+	</mat-card>
 </div>

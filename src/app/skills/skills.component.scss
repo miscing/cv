@@ -19,20 +19,35 @@
 // permissions and limitations under the Licence.
 //
 
-h2 {
-	margin: 2vh 0 0 1vw;
+mat-card {
+	margin: 3vh 2vw;
+	padding: 4vh 4vw;
 }
 
-h3 {
-	margin: 1vh 0 0 2vw;
+mat-card-header {
+	justify-content: space-between;
 }
 
-a {
-	margin: 0 0 0 4vw;
+mat-card-title {
+	margin: 0 0 4vh 0;
 }
 
-.text {
-	font-size: 1.1em;
-	margin: 0 0 0 3vw;
+#section-header {
+	margin: 0 0 1vh 1vh;
+}
+.proficiency-desc {
+	margin: 0 0 2vh 2vw;
+	color: grey;
+}
+
+.link-desc { //override default margins
+	margin: 0 0 0 0;
+}
+
+.external-link {
+	margin: 0 0 0 1vw;
+}
+
+.skill-desc {
 	white-space: pre-wrap;
 }

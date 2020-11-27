@@ -70,7 +70,13 @@ function readYaml(file) {
                 }
                 var cv = new cv_1.Cv; // new cv for yaml data
                 console.log(data); // print so input is visible in cicd logs
-                var parsed = yaml_1.parse(data);
+                var parsed;
+                try {
+                    parsed = yaml_1.parse(data);
+                }
+                catch (e) {
+                    return reject(e);
+                }
                 // generate skills
                 generateSkills(parsed.skills)
                     .then(function (skills) {
@@ -243,6 +249,9 @@ function genSkill(item) {
                     case 'url':
                         skillOpt.urls = option[optName];
                         break;
+                    case "level":
+                        skill.level = option[optName];
+                        break;
                     default:
                         throw "invalid option name " + optName;
                 }
@@ -277,6 +286,8 @@ function main() {
                 console.log("succesfully parsed yaml and generated json cv");
             }
         });
+    })["catch"](function (e) {
+        console.error(e.message);
     });
 }
 if (require.main === module) {

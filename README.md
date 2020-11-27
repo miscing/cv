@@ -31,5 +31,6 @@ skills:
 | file       | file name to use, see ->  | Ontop of showing links to matching topics, will also have direct links to files with provided filename.           |
 | rfile      | file name to use, regex   | Same as file, except string is interpreted as regex. Notice "." in regex is a special character.                  |
 | url        | list of valid url         | This urls will be show in addition (or alone) to repositories, in the same way                                    |
+| level      | number 1-5, 5 is best     | Meant to be a general indication of proficiency in the given skill.                                               |
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.1.7.

@@ -32,7 +32,12 @@ function readYaml(file :string) : Promise<Cv>{
 			}
 			let cv = new Cv; // new cv for yaml data
 			console.log(data); // print so input is visible in cicd logs
-			let parsed = parse(data);
+			let parsed :any;
+			try {
+				parsed = parse(data);
+			} catch (e) {
+				return reject(e);
+			}
 
 			// generate skills
 			generateSkills(parsed.skills)
@@ -198,6 +203,9 @@ function genSkill(item :any) :Skill {
 					case 'url':
 						skillOpt.urls = option[optName];
 						break;
+					case "level":
+						skill.level = option[optName];
+						break;
 					default:
 						throw "invalid option name "+optName;
 				}
@@ -230,6 +238,8 @@ function main() {
 				console.log("succesfully parsed yaml and generated json cv");
 			}
 		});
+	}).catch( e => {
+		console.error(e.message);
 	});
 }
 

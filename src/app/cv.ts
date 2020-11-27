@@ -43,6 +43,7 @@ export class Link {
 
 export class Skill {
 	name :string;
+	level? :number;
 	text? :string; //optional text to show
 	links? :URL[]; //contains files or repositories to display in cv
 	options? :SkillOption; //internal use

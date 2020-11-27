@@ -27,6 +27,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
+import {MatBadgeModule} from '@angular/material/badge';
 
 import { AppComponent } from './app.component';
 import { ProfileComponent } from './profile/profile.component';
@@ -50,6 +51,7 @@ import { SkillsComponent } from './skills/skills.component';
 		MatIconModule,
 		MatListModule,
 		MatCardModule,
+		MatBadgeModule,
 		BrowserAnimationsModule
 	],
 	providers: [],
