@@ -1,24 +1,3 @@
-#
-# Copyright 2020 Alexander Saastamoinen
-#
-#  Licensed under the EUPL, Version 1.2 or – as soon they
-# will be approved by the European Commission - subsequent
-# versions of the EUPL (the "Licence");
-#  You may not use this work except in compliance with the
-# Licence.
-#  You may obtain a copy of the Licence at:
-#
-#  https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12
-#
-#  Unless required by applicable law or agreed to in
-# writing, software distributed under the Licence is
-# distributed on an "AS IS" basis,
-#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
-# express or implied.
-#  See the Licence for the specific language governing
-# permissions and limitations under the Licence.
-#
-
 name: Alexander Saastamoinen
 github: miscing
 gitlab: miscing
@@ -34,34 +13,41 @@ skills:
     - url:
       - "https://white-lynx.fi"
       - "https://alakoski.fi"
-  - virtualization:
+  - golang:
+    - level: 4
+  - bash:
+    - level: 3
+  - typescript/javascript:
     - level: 2
+    - javascript
+    - typescript
+  - python:
+    - level: 2
+  - c:
+    - level: 1
+  - sql:
+    - level: 1
+    - text: "I have used mariadb in the past as a database, lately usage is limited to linking mariadb official container to other solutions such as matomo, wordpress and mattermost using podman pods. While I am not currently proficient with mysql, I feel confident in my ability to work with it if necessary."
   - cicd:
     - text: "Primarily use gitlab cicd with a self-hosted runner, but have also used github cicd for its pages."
     - file:
       - ".gitlab-ci.yml"
       - "main.yml"
-  - data-science:
-    - level: 1
+  - virtualization:
+    - text: "I use kvm to operate my homelab containing a production vm, multiple development vm's and a cicd runner."
+    - level: 3
   - docker/podman:
-    - level: 4
+    - level: 3
     - text: "I use both docker and podman extensively, and have created a (currently private) database-like program using docker api. Many of my projects include container images available from the corresponding gitlab repositories container registry."
     - docker
     - podman
-  - sql:
-    - level: 2
-    - text: "I have used mariadb in the past as a database, lately usage is limited to linking mariadb official container to other solutions such as matomo, wordpress and mattermost using podman pods."
   - git:
-    - level: 4
-    - text: "I use git primarily from commandline. I do use gitlab for development(for its issues and cicd) and mirror to github my public/open repos. I am fairly experienced with the features of all three, including self-hosting pure-git and gitlab. I also use both gitlab-python api and github octokit."
-    - octokit
-  - golang:
-    - level: 4
-  - python:
-    - level: 2
-  - typescript/javascript:
     - level: 3
-    - javascript
-    - typescript
-  - c:
+    - text: "I use git primarily from commandline. Gitlab for development(for its issue's and cicd) and mirror to github my public/open repos. I have some experience with the features of all three, including self-hosting pure-git and gitlab(very limited). I also use both gitlab-python api and github octokit."
+    - octokit
+  - networking:
+    - level: 2
+    - text: "I know the basics of networking and firewalls. This consists of an understanding of routing (ip rule, route, netns), iptables/nftables and a very basic understanding of networking layers. I am also familiar with troubleshooting with nmap, traceroute and wireshark/tshark. Have also set up a wireguard vpn."
+  - data-science:
     - level: 1
+    - text: "Done parts of online courses on DFT(EPFL DSP course) and machine learning (Andrew Ng), know the fundamentals in these but would need to refresh most of them. Did not attempt to complete the courses as I was interested in specific parts of the curriculum (First half of each) for coding projects."
