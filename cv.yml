@@ -28,7 +28,7 @@ skills:
   - backend:
     - text: "I run the following homelab setup: \nHardware:\tHP ProLiant ML350p, 2 Xeon E5, 64Gb ram\nOperating system:\tCentOS 8\n\nCentOS is a headless server acting purely as kvm hypervisor, ontop of it I run multiple VM's, usually cloned from a base thin lvm image. One production VM (CentOS) is exposed to internet, others are for development (Fedora) and a single gitlab runner (CoreOS). Firewall is configurated with nftables and Firewalld, access to development VM's via wireguard or lan and ssh. All development VM's are run on seperate nat networks, production VM is run on a routed network. You can see some details in the helper scripts in the kvm-scripts repository. All software in production is run on podman/docker.\nI typically run my own http servers written in golang, although the code is private since they are exposed to the internet."
   - frontend:
-    - text: "Primarily developed using Angular framework, but am happy to learn any framework."
+    - text: "Primarily developed using Angular framework, but am happy to learn any framework or use pure javascript."
     - url:
       - "https://white-lynx.fi"
       - "https://alakoski.fi"
@@ -46,7 +46,7 @@ skills:
   - sql:
     - text: "I have used mariadb in the past as a database, lately usage is limited to linking mariadb official container to other solutions such as matomo, wordpress and mattermost using podman pods."
   - git:
-    - text: "I use git primarily from commandline. I do use gitlab for development and cicd and mirror to github my public/open repos. I am fairly experienced with the features of all three, including self-hosting pure-git and gitlab. I have also used both gitlab-python api and github octokit. By far most experienced with pure git usage."
+    - text: "I use git primarily from commandline. I do use gitlab for development and cicd and mirror to github my public/open repos. I am fairly experienced with the features of all three, including self-hosting pure-git and gitlab. I have also used both gitlab-python api and github octokit."
     - octokit
   - golang
   - python
