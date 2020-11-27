@@ -7,6 +7,7 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
+    "gen": "./node_modules/typescript/bin/tsc build_from_yaml.ts && node build_from_yaml.js",
     "e2e": "ng e2e"
   },
   "private": true,
