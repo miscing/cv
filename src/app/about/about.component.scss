@@ -1,0 +1,38 @@
+:host {
+	margin: 4vh 0;
+}
+
+
+.about-text {
+	padding: 0 2vw;
+	white-space: pre-wrap;
+	line-height: 1.8;
+}
+
+#about {
+	margin: 0 0 2vh 0;
+}
+
+.extra-info {
+	display: flex;
+	margin: 4vh 0;
+	justify-content: space-evenly;
+	h3 {
+		margin: 0;
+	}
+	#languages {
+		.proficiency-desc {
+			margin: 0 0 2vh 2vw;
+			color: grey;
+			font-size: small;
+		}
+	}
+	mat-list {
+		mat-list-item {
+			p {
+				font-size: 1.5em;
+			}
+		}
+	}
+}
+
