@@ -34,6 +34,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { BannerComponent } from './banner/banner.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SkillsComponent } from './skills/skills.component';
+import { AboutComponent } from './about/about.component';
 // import { DialogComponent } from './dialog/dialog.component';
 
 @NgModule({
@@ -41,7 +42,8 @@ import { SkillsComponent } from './skills/skills.component';
 		AppComponent,
 		ProfileComponent,
 		BannerComponent,
-		SkillsComponent
+		SkillsComponent,
+		AboutComponent
 		// DialogComponent
 	],
 	imports: [
