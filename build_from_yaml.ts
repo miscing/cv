@@ -21,11 +21,11 @@
 
 import { parse } from 'yaml';
 import { copyFile, readdir, readFile, writeFile } from 'fs';
-import { Cv, Profile, Link,  Skill, SkillOption } from './src/app/cv';
+import { Cv, About, Lang, Profile, Link,  Skill, SkillOption } from './src/app/cv';
 import { fromFile } from 'file-type';
 
-function readYaml(file :string) : Promise<Cv>{
-	return new Promise(  async (resolve, reject) => {
+function generateCv(file :string) : Promise<Cv>{
+	return new Promise(  (resolve, reject) => {
 		readFile(file, 'utf8', (err, data) => {
 			if (err !== null) {
 				return reject(err);
@@ -40,18 +40,52 @@ function readYaml(file :string) : Promise<Cv>{
 			}
 
 			// generate skills
-			generateSkills(parsed.skills)
-				.then( skills => {
-					cv.skills = skills;
-					// generate profile
-					return generateProfile(parsed);
-				})
-				.then( prof => {
-					cv.profile = prof;
-					return resolve(cv);
-				})
-				.catch(e => { return reject(e) });
+			let skills = generateSkills(parsed.skills);
+			// generate about
+			let about = generateAbout(parsed.about);
+			// generate profile
+			let prof = generateProfile(parsed);
+
+			// collect results
+			Promise.all([skills, prof, about]).then( resArr => {
+				cv.skills = resArr[0];
+				cv.profile = resArr[1];
+				cv.about = resArr[2];
+				return resolve(cv);
+			}).catch(e => { return reject(e) });
 		});
+	});
+}
+
+function generateAbout(parsedAbout :any) :Promise<About> {
+	return new Promise( (resolve, reject) => {
+		let about = new About;
+		if (Array.isArray(parsedAbout)) {
+			parsedAbout.forEach( field => {
+				if (typeof field === "string") {
+					// strings must be texts
+					about.text.push(field);
+				} else if (typeof field === "object") {
+					try {
+						field.languages.forEach( yamlLang => {
+							let languageName = Object.getOwnPropertyNames(yamlLang);
+							if (languageName.length === 0) {
+								throw "language contains more than one field, invalid syntax.";
+							}
+							about.langs.push(new Lang(languageName[0], yamlLang[languageName[0]]));
+						});
+					} catch (e) {
+						return reject(e);
+					}
+				}
+			});
+		} else if ((typeof parsedAbout) === "string") {
+			// only contains a single main text
+			about.text.push(parsedAbout);
+		} else {
+			throw "syntax error in about, must contain an array or string";
+		}
+		resolve(about);
 	});
 }
 
@@ -136,11 +170,8 @@ function genProfile(parsed :any) :Profile {
 				matrixlink.text = parsed[field];
 				profile.links.push(matrixlink);
 				break;
-			case "skills":
-				//skip
-				break;
 			default:
-				throw "unrecognized top level field in yaml: "+field;
+				break;
 		}
 	});
 
@@ -228,7 +259,7 @@ function genSkill(item :any) :Skill {
 }
 
 function main() {
-	readYaml("cv.yml").then( cv => {
+	generateCv("cv.yml").then( cv => {
 		// write payload to file
 		let payload = JSON.stringify(cv);
 		writeFile("cv.json", payload, 'utf-8', err => {
@@ -239,7 +270,11 @@ function main() {
 			}
 		});
 	}).catch( e => {
-		console.error(e.message);
+		if (e instanceof Error) {
+			console.error(e.message);
+		} else {
+			console.error(e);
+		}
 	});
 }
 

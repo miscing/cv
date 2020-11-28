@@ -60,38 +60,71 @@ var yaml_1 = require("yaml");
 var fs_1 = require("fs");
 var cv_1 = require("./src/app/cv");
 var file_type_1 = require("file-type");
-function readYaml(file) {
-    var _this = this;
-    return new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            fs_1.readFile(file, 'utf8', function (err, data) {
-                if (err !== null) {
-                    return reject(err);
-                }
-                var cv = new cv_1.Cv; // new cv for yaml data
-                console.log(data); // print so input is visible in cicd logs
-                var parsed;
-                try {
-                    parsed = yaml_1.parse(data);
-                }
-                catch (e) {
-                    return reject(e);
-                }
-                // generate skills
-                generateSkills(parsed.skills)
-                    .then(function (skills) {
-                    cv.skills = skills;
-                    // generate profile
-                    return generateProfile(parsed);
-                })
-                    .then(function (prof) {
-                    cv.profile = prof;
-                    return resolve(cv);
-                })["catch"](function (e) { return reject(e); });
-            });
-            return [2 /*return*/];
+function generateCv(file) {
+    return new Promise(function (resolve, reject) {
+        fs_1.readFile(file, 'utf8', function (err, data) {
+            if (err !== null) {
+                return reject(err);
+            }
+            var cv = new cv_1.Cv; // new cv for yaml data
+            console.log(data); // print so input is visible in cicd logs
+            var parsed;
+            try {
+                parsed = yaml_1.parse(data);
+            }
+            catch (e) {
+                return reject(e);
+            }
+            // generate skills
+            var skills = generateSkills(parsed.skills);
+            // generate about
+            var about = generateAbout(parsed.about);
+            // generate profile
+            var prof = generateProfile(parsed);
+            // collect results
+            Promise.all([skills, prof, about]).then(function (resArr) {
+                cv.skills = resArr[0];
+                cv.profile = resArr[1];
+                cv.about = resArr[2];
+                return resolve(cv);
+            })["catch"](function (e) { return reject(e); });
         });
-    }); });
+    });
+}
+function generateAbout(parsedAbout) {
+    return new Promise(function (resolve, reject) {
+        var about = new cv_1.About;
+        if (Array.isArray(parsedAbout)) {
+            parsedAbout.forEach(function (field) {
+                if (typeof field === "string") {
+                    // strings must be texts
+                    about.text.push(field);
+                }
+                else if (typeof field === "object") {
+                    try {
+                        field.languages.forEach(function (yamlLang) {
+                            var languageName = Object.getOwnPropertyNames(yamlLang);
+                            if (languageName.length === 0) {
+                                throw "language contains more than one field, invalid syntax.";
+                            }
+                            about.langs.push(new cv_1.Lang(languageName[0], yamlLang[languageName[0]]));
+                        });
+                    }
+                    catch (e) {
+                        return reject(e);
+                    }
+                }
+            });
+        }
+        else if ((typeof parsedAbout) === "string") {
+            // only contains a single main text
+            about.text.push(parsedAbout);
+        }
+        else {
+            throw "syntax error in about, must contain an array or string";
+        }
+        resolve(about);
+    });
 }
 function generateProfile(parsed) {
     var _this = this;
@@ -183,11 +216,8 @@ function genProfile(parsed) {
                 matrixlink.text = parsed[field];
                 profile.links.push(matrixlink);
                 break;
-            case "skills":
-                //skip
-                break;
             default:
-                throw "unrecognized top level field in yaml: " + field;
+                break;
         }
     });
     return profile;
@@ -275,7 +305,7 @@ function genSkill(item) {
     return skill;
 }
 function main() {
-    readYaml("cv.yml").then(function (cv) {
+    generateCv("cv.yml").then(function (cv) {
         // write payload to file
         var payload = JSON.stringify(cv);
         fs_1.writeFile("cv.json", payload, 'utf-8', function (err) {
@@ -287,7 +317,12 @@ function main() {
             }
         });
     })["catch"](function (e) {
-        console.error(e.message);
+        if (e instanceof Error) {
+            console.error(e.message);
+        }
+        else {
+            console.error(e);
+        }
     });
 }
 if (require.main === module) {

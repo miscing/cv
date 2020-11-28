@@ -21,6 +21,7 @@
 
 export class Cv {
 	profile :Profile;
+	about? :About;
 	skills? :Skill[];
 }
 
@@ -31,6 +32,24 @@ export class Profile {
 	links? :Link[];
 	constructor() {
 		this.links = [];
+	}
+}
+
+export class About {
+	text :string[];
+	langs :Lang[];
+	constructor() {
+		this.text = [];
+		this.langs = [];
+	}
+}
+ 
+export class Lang {
+	lang :string;
+	level :number; //language proficiency
+	constructor(name :string, level :number) {
+		this.lang = name;
+		this.level = level;
 	}
 }
 
