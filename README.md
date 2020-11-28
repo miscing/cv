@@ -27,6 +27,7 @@ about:
 | Keyword    | Input syntax              | Explanation                                                                                                       |
 |------------|---------------------------|-------------------------------------------------------------------------------------------------------------------|
 | language   | a language number pair    | Name of language spoken and proficiency in a scale of 1-5.                                                        |
+| license    | a string                  | The name or value of your driver's license.                                                                       |
 | custom     | string                    | A string containing a free form text describing you, all items that are strings will be interpreted as this.      |
 
 

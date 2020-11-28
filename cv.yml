@@ -9,6 +9,7 @@ about:
     - english: 5
     - spanish: 2
     - finnish: 3
+  - license: "EU: AB"
 
 skills:
   - backend:

@@ -101,17 +101,21 @@ function generateAbout(parsedAbout) {
                     about.text.push(field);
                 }
                 else if (typeof field === "object") {
-                    try {
-                        field.languages.forEach(function (yamlLang) {
-                            var languageName = Object.getOwnPropertyNames(yamlLang);
-                            if (languageName.length === 0) {
-                                throw "language contains more than one field, invalid syntax.";
-                            }
-                            about.langs.push(new cv_1.Lang(languageName[0], yamlLang[languageName[0]]));
-                        });
-                    }
-                    catch (e) {
-                        return reject(e);
+                    switch (Object.getOwnPropertyNames(field)[0]) {
+                        case "languages":
+                            field.languages.forEach(function (yamlLang) {
+                                var languageName = Object.getOwnPropertyNames(yamlLang);
+                                if (languageName.length === 0) {
+                                    throw "language contains more than one field, invalid syntax.";
+                                }
+                                about.langs.push(new cv_1.Lang(languageName[0], yamlLang[languageName[0]]));
+                            });
+                            break;
+                        case "license":
+                            about.license = field.license;
+                            break;
+                        default:
+                            throw "Error in About section-> invalid field: " + Object.getOwnPropertyNames(field);
                     }
                 }
             });
@@ -317,7 +321,8 @@ function main() {
             }
         });
     })["catch"](function (e) {
-        if (e instanceof Error) {
+        console.error("ERROR:");
+        if (e.name === "YAMLSyntaxError") {
             console.error(e.message);
         }
         else {

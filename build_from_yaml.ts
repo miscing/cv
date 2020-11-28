@@ -66,16 +66,21 @@ function generateAbout(parsedAbout :any) :Promise<About> {
 					// strings must be texts
 					about.text.push(field);
 				} else if (typeof field === "object") {
-					try {
-						field.languages.forEach( yamlLang => {
-							let languageName = Object.getOwnPropertyNames(yamlLang);
-							if (languageName.length === 0) {
-								throw "language contains more than one field, invalid syntax.";
-							}
-							about.langs.push(new Lang(languageName[0], yamlLang[languageName[0]]));
-						});
-					} catch (e) {
-						return reject(e);
+					switch (Object.getOwnPropertyNames(field)[0]) {
+						case "languages":
+							field.languages.forEach( yamlLang => {
+								let languageName = Object.getOwnPropertyNames(yamlLang);
+								if (languageName.length === 0) {
+									throw "language contains more than one field, invalid syntax.";
+								}
+								about.langs.push(new Lang(languageName[0], yamlLang[languageName[0]]));
+							});
+							break;
+						case "license":
+							about.license = field.license;
+							break;
+						default:
+							throw "Error in About section-> invalid field: "+Object.getOwnPropertyNames(field);
 					}
 				}
 			});
@@ -270,7 +275,8 @@ function main() {
 			}
 		});
 	}).catch( e => {
-		if (e instanceof Error) {
+		console.error("ERROR:");
+		if (e.name === "YAMLSyntaxError") {
 			console.error(e.message);
 		} else {
 			console.error(e);

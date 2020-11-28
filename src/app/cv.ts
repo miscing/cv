@@ -37,7 +37,8 @@ export class Profile {
 
 export class About {
 	text :string[];
-	langs :Lang[];
+	langs? :Lang[];
+	license? :string;
 	constructor() {
 		this.text = [];
 		this.langs = [];
