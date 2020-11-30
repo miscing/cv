@@ -1,18 +1,20 @@
 <h1 id="about">About me:</h1>
 <p *ngFor="let text of about.text" class="about-text">{{ text }}</p>
-<div class="extra-info">
-	<div>
+<mat-card>
+	<div class="extra-info">
 		<div id="languages">
 			<h3>Languages:</h3>
 			<p class="proficiency-desc">Proficiency goes 1-5, where 5 is best</p>
+			<mat-list dense>
+				<mat-list-item *ngFor="let lang of about.langs">
+					<p>{{lang.lang}}: {{lang.level}}</p>
+				</mat-list-item>
+			</mat-list>
 		</div>
-		<mat-list dense>
-			<mat-list-item *ngFor="let lang of about.langs">
-				<p>{{lang.lang}}: {{lang.level}}</p>
-			</mat-list-item>
-		</mat-list>
+		<div class="others">
+			<h3 *ngIf="about.license != undefined">
+				Drivers license: {{ about.license }}
+			</h3>
+		</div>
 	</div>
-	<h4 *ngIf="about.license != undefined">
-		Drivers license: {{ about.license }}
-	</h4>
-</div>
+</mat-card>

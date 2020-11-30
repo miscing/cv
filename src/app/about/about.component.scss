@@ -1,7 +1,6 @@
-:host {
-	margin: 4vh 0;
+#about {
+	margin: 0 0 2vh 0;
 }
-
 
 .about-text {
 	padding: 0 2vw;
@@ -9,30 +8,33 @@
 	line-height: 1.8;
 }
 
-#about {
-	margin: 0 0 2vh 0;
-}
-
-.extra-info {
-	display: flex;
-	margin: 4vh 0;
-	justify-content: space-evenly;
-	h3 {
-		margin: 0;
-	}
-	#languages {
-		.proficiency-desc {
-			margin: 0 0 2vh 2vw;
-			color: grey;
-			font-size: small;
+mat-card {
+	margin: 4vh auto;
+	padding: 4vh 4vw;
+	width: fit-content;
+	.extra-info {
+		display: flex;
+		justify-content: space-evenly;
+		h3 {
+			margin: 0;
 		}
-	}
-	mat-list {
-		mat-list-item {
-			p {
-				font-size: 1.5em;
+		#languages {
+			margin: 0 2vw;
+			.proficiency-desc {
+				margin: 0 0 2vh 0;
+				color: grey;
+				font-size: small;
+			}
+			mat-list {
+				mat-list-item {
+					p {
+						font-size: 1.5em;
+					}
+				}
 			}
 		}
+		.others {
+			margin: 0 2vw;
+		}
 	}
 }
-

@@ -41,11 +41,12 @@ a {
 }
 
 .profile {
-	img {
-		height: 15vh;
-	}
 	display: flex;
 	align-items: center;
+	img {
+		height: 100px;
+		width: auto;
+	}
 }
 
 .name {
