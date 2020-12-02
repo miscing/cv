@@ -1,16 +1,16 @@
 #about {
-	margin: 0 0 2vh 0;
+	margin: 0 0 5mm 0;
 }
 
 .about-text {
-	padding: 0 2vw;
+	padding: 0 4mm;
 	white-space: pre-wrap;
 	line-height: 1.8;
 }
 
 mat-card {
-	margin: 4vh auto;
-	padding: 4vh 4vw;
+	margin: 6mm auto;
+	padding: 6mm;
 	width: fit-content;
 	.extra-info {
 		display: flex;
@@ -19,9 +19,9 @@ mat-card {
 			margin: 0;
 		}
 		#languages {
-			margin: 0 2vw;
+			margin: 0 4mm;
 			.proficiency-desc {
-				margin: 0 0 2vh 0;
+				margin: 0 0 2mm 0;
 				color: grey;
 				font-size: small;
 			}
@@ -34,7 +34,7 @@ mat-card {
 			}
 		}
 		.others {
-			margin: 0 2vw;
+			margin: 0 4mm;
 		}
 	}
 }

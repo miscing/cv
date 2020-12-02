@@ -20,25 +20,21 @@
 //
 
 #section-header {
-	margin: 0 0 1vh 1vh;
+	margin: 0 0 2mm 0;
 }
 
 .proficiency-desc {
-	margin: 0 0 2vh 2vw;
+	margin: 0 0 6mm 5mm;
 	color: grey;
 }
 
 
 mat-card {
-	margin: 3vh 2vw;
-	padding: 4vh 4vw;
+	margin: 8mm 6mm;
+	padding: 8mm 12mm;
 
 	mat-card-header {
 		justify-content: space-between;
-	}
-
-	mat-card-title {
-		margin: 0 0 4vh 0;
 	}
 
 	.link-desc { //override default margins
@@ -46,7 +42,7 @@ mat-card {
 	}
 
 	.external-link {
-		margin: 0 0 0 1vw;
+		margin: 0 0 0 5mm;
 	}
 
 	.skill-desc {

@@ -24,10 +24,8 @@
 	justify-content: space-between;
 	align-items: center;
 	width: 100%;
-	margin: 2vh 2vh;
+	margin: 4mm 4mm;
 }
-
-$gmargin: 2vh 2vh;
 
 
 a {
@@ -44,20 +42,20 @@ a {
 	display: flex;
 	align-items: center;
 	img {
-		height: 100px;
+		height: 25mm;
 		width: auto;
 	}
 }
 
 .name {
-	margin: 0vh 2vh;
+	margin: 0 5mm;
 	@include column;
 }
 
 .external {
 	@include column;
 	.links {
-		margin: 1vh;
+		margin: 2mm;
 		display: flex;
 		flex-flow: row nowrap;
 		align-items: center;
@@ -65,8 +63,8 @@ a {
 			margin: auto;
 		}
 		img {
-			margin: 0 2vw;
-			max-height: 5vh;
+			margin: 0 5mm;
+			max-height: 8mm;
 		}
 	}
 }
