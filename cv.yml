@@ -4,7 +4,7 @@ gitlab: miscing
 matrix: "@miscing:matrix.org"
 
 about:
-  - "A passionate coder and computer enthusiast, I started my adult career studying for a Bachelor Programme in International Business at Aalto university. After my university years I found my love for computers and eventually, coding. Since then I have spend the majority of my time coding or tweaking linux systems, I particularly enjoy learning new computer skills, and consider myself adept at quickly picking up programming languages, libraries and frameworks. While my strengths lie in low level (linux) stuff, I have also build websites and dabbled in data analysis such as discrete fourier transform and machine learning. My years of business studies and running my single-person company (I imported and sold industrial parts in Finland) have also given me a solid understanding of finance, sales and customer service. Before all this I spend my formative years in Spain, before moving to Finland at the age of 8. This has given me a multicultural outlook on life as well as a native speaker dominance of Finnish, Spanish and English. Of these, by far my strongest language is English, having been in english-speaking environments since kindergarden. In my free time I like to read, climb, ski, scuba-dive (not so often in Finland) or go camping. Nevertheless, my true leisure time love has to be good food.\n\n\tIf you are looking for a motivated and social coder who isn't afraid of learning new skills, here I am."
+  - "A passionate coder and computer enthusiast, I started my adult career studying for a Bachelor Programme in International Business at Aalto university. After my university years I found my love for computers and eventually, coding. Since then I have spend the majority of my time coding or tweaking linux systems, I particularly enjoy learning new computer skills, and consider myself adept at quickly picking up programming languages, libraries and frameworks. While my strengths lie in low level (linux) stuff, I have also build websites and dabbled in data analysis such as discrete fourier transform and machine learning. My years of business studies and running my single-person company (I imported and sold industrial parts in Finland) have also given me a solid understanding of finance, sales and customer service. It has also made me a very social person who enjoys working with others in projects as well as performing presentations and other public events. Before all this I spend my formative years in Spain, before moving to Finland at the age of 8. This has given me a multicultural outlook on life as well as a native speaker dominance of Finnish, Spanish and English. Of these, by far my strongest language is English, having been in english-speaking environments since kindergarden. In my free time I like to read, climb, ski, scuba-dive (not so often in Finland) or go camping. Nevertheless, my true leisure time love has to be good food.\n\n\tIf you are looking for a motivated and social coder who isn't afraid of learning new skills, here I am."
   - languages:
     - english: 5
     - spanish: 2
@@ -17,7 +17,7 @@ skills:
     - text: "I run the following homelab setup: \nHardware:\tHP ProLiant ML350p, 2 Xeon E5, 64Gb ram\nOperating system:\tCentOS 8\n\nCentOS is a headless server acting purely as kvm hypervisor, ontop of it I run multiple VM's, usually cloned from a base thin lvm image. One production VM (CentOS) is exposed to internet, others are for development (Fedora) and a single gitlab runner (CoreOS). Firewall is configurated with nftables and Firewalld, access to development VM's via wireguard or lan and ssh. All development VM's are run on seperate nat networks, production VM is run on a routed network. You can see some details in the helper scripts in the kvm-scripts repository. All software in production is run on podman/docker.\nI typically run my own http servers written in golang, although the code is private since they are exposed to the internet."
   - frontend:
     - level: 2
-    - text: "Primarily developed using Angular framework, but I am happy to learn any framework or use pure javascript."
+    - text: "Primarily developed using Angular framework, but I am happy to learn any framework or use pure javascript. While I admittedly lack any 'design sense', I am confident in my ability to implement any required features that are technically possible (the bigger the challenge the better)."
     - url:
       - "https://white-lynx.fi"
       - "https://alakoski.fi"
@@ -35,16 +35,16 @@ skills:
     - level: 1
   - sql:
     - level: 1
-    - text: "I have used mariadb in the past as a database, lately usage is limited to linking mariadb official container to other solutions such as matomo, wordpress and mattermost using podman pods. While I am not currently proficient with mysql, I feel confident in my ability to work with it if necessary."
+    - text: "I have used mariadb in the past as a database, lately usage is limited to linking mariadb official container to other solutions such as matomo, wordpress and mattermost using podman pods. While I am not currently proficient with mysql, I feel confident in my ability to work with it if necessary as well as fulyl capable of designing and implementing a full-fledge working SQL database."
   - linux:
     - level: 4
-    - text: "I have run linux computers for over 10 years. Started from Mint/Ubuntu then installed Arch from scratch. Since then I have constantly improved my knowledge and skills with linux systems, currently running CentOS on my homelab and Fedora for development servers and laptop. I have fairly extensive knowledge of internals, ranging from ssh/gpg to systemd and kernel modules. Although as I primarily use my computer from the terminal, my knowledge of GUI parts of linux is limited."
+    - text: "I have run linux computers for over 10 years. Started from Mint/Ubuntu then installed Arch from scratch. Since then I have constantly improved my knowledge and skills with linux systems, currently running CentOS on my homelab and Fedora for development servers and laptop. I have fairly extensive knowledge of internals, ranging from ssh/gpg to systemd and kernel modules. Although, as I primarily use my computer from the terminal, my knowledge of GUI parts of linux is limited."
   - virtualization:
-    - text: "I use kvm to operate my homelab containing a production vm, multiple development vm's and a cicd runner."
+    - text: "I use kvm/libvirt via virsh to operate my homelab containing a production vm, multiple development vm's and a cicd runner."
     - level: 3
   - docker/podman:
     - level: 3
-    - text: "I use both docker and podman extensively, and have created a (currently private) database-like program using docker api. Many of my projects include container images available from the corresponding gitlab repositories container registry. Most of my production code resides in a container ontop of podman, and I have some, but limited, experience with kubernetes."
+    - text: "I use both docker and podman extensively. I have also created a (currently private) database-like program using docker api. Many of my projects include container images available in the corresponding gitlab repositories container registry. Most of my production code resides in a container ontop of podman and I have some, very limited, experience with kubernetes."
     - docker
     - podman
   - cicd:
@@ -54,11 +54,11 @@ skills:
       - "main.yml"
   - git:
     - level: 3
-    - text: "I use git primarily from commandline. Gitlab for development(for its issue's and cicd) and mirror to github my public/open repos. I have some experience with the features of all three, including self-hosting pure-git and gitlab(very limited). I also use both gitlab-python api and github octokit."
+    - text: "I use git primarily from commandline. Gitlab for development(for its issue's and cicd) and mirror to github my public/open repos. I have some experience with the features of all three, including self-hosting pure-git and gitlab(very limited). I also use both gitlab-python api and github octokit for automating git operations."
     - octokit
   - networking:
     - level: 2
-    - text: "I know the basics of networking and firewalls. This consists of an understanding of routing (ip rule, route, netns), iptables/nftables and a very basic understanding of networking layers. I am also familiar with troubleshooting with nmap, traceroute and wireshark/tshark. Have also set up a wireguard vpn."
+    - text: "I know the basics of networking and firewalls. This consists of an understanding of routing (ip rule, route, netns), iptables/nftables and a very basic understanding of networking layers. I am also familiar with troubleshooting with nmap, traceroute and wireshark/tshark. I have also set up a wireguard vpn. While I have experience in solving networking problems in software levels, anything below this is beyond my current know-how."
   - data-science:
     - level: 1
-    - text: "Done parts of online courses on signal processing(EPFL DSP course) and machine learning (Andrew Ng), know the fundamentals in these but would need to a refresher. Did not attempt to complete the courses as I was interested in specific parts of the curriculum (About the first half of each) for coding projects."
+    - text: "Done online courses on signal processing(EPFL DSP course) and machine learning (Andrew Ng), know the fundamentals in these but would need to a refresher to do anything meant for production. Did not attempt to complete the courses as I was interested in specific parts of the curriculum (Completed about the first half of each) for coding projects."
