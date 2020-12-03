@@ -37,7 +37,16 @@ export class SkillsComponent implements OnInit {
 	}
 
 	capitalize(input: string): string {
-		return input.charAt(0).toUpperCase() + input.slice(1);
+		if (input.includes("/")) {
+			// capitalize each item seperated by '/'
+			return input.split('/').map( str => this.simpleCapitalize(str)).join("/");
+		} else {
+			return this.simpleCapitalize(input);
+		}
+	}
+
+	simpleCapitalize(input :string) :string {
+			return input.charAt(0).toUpperCase() + input.slice(1);
 	}
 
 }
