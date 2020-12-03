@@ -45,6 +45,8 @@ skills:
   - docker/podman:
     - level: 3
     - text: "I use both docker and podman extensively. I have also created a (currently private) database-like program using docker api. Many of my projects include container images available in the corresponding gitlab repositories container registry. Most of my production code resides in a container ontop of podman and I have some, very limited, experience with kubernetes."
+    - file:
+      - "Dockerfile"
     - docker
     - podman
   - cicd:
