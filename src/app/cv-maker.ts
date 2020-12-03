@@ -111,6 +111,10 @@ export class CvMaker extends Cv {
 							throw "invalid option found in skill "+option;
 					}
 				});
+				// if topics is not an option, use skill name to get repo urls
+				if (! ("topics" in v.options)) {
+					this.skills[i].links = v.links.concat(this.getReposByTopic(v.name));
+				}
 			} else {
 				this.skills[i].links = v.links.concat(this.getReposByTopic(v.name));
 			}
