@@ -25,15 +25,53 @@ import rawData from '../../cv.json';
 import { Cv } from './cv';
 import { CvMaker } from './cv-maker';
 
+const letterHeight = 279.4 // mm, default pdf size is letter, aka freedom units
+const a4Height = 297 // mm, non-retard units
+
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+	selector: 'app-root',
+	templateUrl: './app.component.html',
+	styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
 	data :Cv;
 
 	constructor() {
 		this.data = new CvMaker(rawData, true); //initiliaze
+
+		// todo: use letter height for freedom browsers
+			document.addEventListener('DOMContentLoaded', addWhitespaceToPreventPdfPrintCutoff);
 	}
+
+}
+
+function addWhitespaceToPreventPdfPrintCutoff() {
+	console.log('hello');
+	// todo: replace with getElementByClass and give each element that should be protected a specific class
+	let matCards = document.getElementsByTagName('mat-card');
+	for (let i=0;i<matCards.length;i++) {
+		if (withinBounds(matCards[i])) {
+			console.log(matCards[i].getElementsByTagName('mat-card-title')[0].textContent);
+			let whitespace = document.createElement("div");
+			whitespace.style.height = "100px";
+			matCards[i].parentNode.insertBefore(whitespace, matCards[i]);
+			// return
+		}
+	}
+}
+
+function withinBounds(element :Element) :boolean {
+	const topOffset = pxToMm(element.getBoundingClientRect().top + window.pageYOffset);
+	const bottomOffset = pxToMm(element.getBoundingClientRect().bottom + window.pageYOffset);
+	const normalizer = Math.floor(topOffset / a4Height) + 1;
+	if (topOffset/normalizer < a4Height && a4Height < bottomOffset/normalizer) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+function pxToMm(px :number) :number {
+	// return ((px * 25.4) / 96);
+	return px * (1 / 3.78);
 }
