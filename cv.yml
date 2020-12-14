@@ -13,8 +13,8 @@ about:
 
 skills:
   - backend:
-    - level: 4
-    - text: "I run the following homelab setup: \nHardware:\tHP ProLiant ML350p, 2 Xeon E5, 64Gb ram\nOperating system:\tCentOS 8\n\nCentOS is a headless server acting purely as kvm hypervisor, ontop of it I run multiple VM's, usually cloned from a base thin lvm image. One production VM (CentOS) is exposed to internet, others are for development (Fedora) and a single gitlab runner (CoreOS). Firewall is configurated with nftables and Firewalld, access to development VM's via wireguard or lan and ssh. All development VM's are run on seperate nat networks, production VM is run on a routed network. You can see some details in the helper scripts in the kvm-scripts repository. All software in production is run on podman/docker.\nI typically run my own http servers written in golang, although the code is private since they are exposed to the internet."
+    - level: 3
+    - text: "I run the following homelab setup: \nHardware:\tHP ProLiant ML350p, 2 Xeon E5, 64Gb ram\nOperating system:\tCentOS 8\n\nCentOS is a headless server acting purely as kvm hypervisor, ontop of it I run multiple VM's, usually cloned from a base thin lvm image. One production VM (CentOS) is exposed to internet, others are for development (Fedora) and a single gitlab runner (CoreOS). Firewall is configurated with nftables and Firewalld, access to development VM's via wireguard or lan and ssh. All development VM's are run on seperate nat networks, production VM is run on a routed network. You can see some details in the helper scripts in the kvm-scripts repository. All software in production is run on podman/docker.\nI typically run my own http servers written in golang, although that code is private since they are exposed to the internet."
   - frontend:
     - level: 2
     - text: "Primarily developed using Angular framework, but I am happy to learn any framework or use pure javascript. While I admittedly lack any 'design sense', I am confident in my ability to implement any required features that are technically possible (the bigger the challenge the better)."
@@ -43,8 +43,8 @@ skills:
     - text: "I use kvm/libvirt via virsh to operate my homelab containing a production vm, multiple development vm's and a cicd runner."
     - level: 3
   - docker/podman:
-    - level: 3
-    - text: "I use both docker and podman extensively. I have also created a (currently private) database-like program using docker api. Many of my projects include container images available in the corresponding gitlab repositories container registry. Most of my production code resides in a container ontop of podman and I have some, very limited, experience with kubernetes."
+    - level: 4
+    - text: "I use both docker and podman extensively. I have also created a (currently private) database-like program using docker api. Many of my projects include container images available in the corresponding gitlab repositories container registry. My self-hosted production code resides in a container ontop of podman. I also have some, very limited, experience with kubernetes."
     - file:
       - "Dockerfile"
     - docker
@@ -60,7 +60,7 @@ skills:
     - octokit
   - networking:
     - level: 2
-    - text: "I know the basics of networking and firewalls. This consists of an understanding of routing (ip rule, route, netns), iptables/nftables and a very basic understanding of networking layers. I am also familiar with troubleshooting with nmap, traceroute and wireshark/tshark. I have also set up a wireguard vpn. While I have experience in solving networking problems in software levels, anything below this is beyond my current know-how."
+    - text: "I know the basics of networking and firewalls. This consists of an understanding (and a fair amount of practical usage) of routing (ip rule, route, netns), iptables/nftables and a very basic understanding of networking layers. I am also familiar with troubleshooting with nmap, traceroute and wireshark/tshark. I have also used wireguard as a vpn solution."
   - data-science:
     - level: 1
-    - text: "Done online courses on signal processing(EPFL DSP course) and machine learning (Andrew Ng), know the fundamentals in these but would need to a refresher to do anything meant for production. Did not attempt to complete the courses as I was interested in specific parts of the curriculum (Completed about the first half of each) for coding projects."
+    - text: "Done online courses on signal processing(EPFL DSP course) and machine learning (Andrew Ng), know the very bare basics."
