@@ -21,7 +21,9 @@ Top level items are used to construct the profile. On top of the reserved keywor
 | Keyword    | Input syntax              | Explanation                                                                                                       |
 |------------|---------------------------|-------------------------------------------------------------------------------------------------------------------|
 | name       | Firstname Surname         | Name to display, only accepts two words. Required.                                                                |
-| custom     | username                  | remaining items will be assumed to be name of a service with username following it. For example `gitlab: username`|
+| gitlab     | username                  | Gitlab username                                                                                                   |
+| github     | username                  | Github username                                                                                                   |
+| matrix     | username                  | Matrix username                                                                                                   |
 
 #### About:
 An array of strings allowing one to put multiple 'about me' texts as well as defining some basic information with keywords. You can place the text on the same line if you only have one item.
