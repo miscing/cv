@@ -7,13 +7,13 @@
 			<p class="proficiency-desc">Proficiency goes 1-5, where 5 is best</p>
 			<mat-list dense>
 				<mat-list-item *ngFor="let lang of about.langs">
-					<p>{{lang.lang}}: {{lang.level}}</p>
+					<p>{{capitalize(lang.lang)}}: {{lang.level}}</p>
 				</mat-list-item>
 			</mat-list>
 		</div>
 		<div *ngIf="about.custom != undefined" class="others">
 			<h3 *ngFor="let custom of about.custom">
-				<span class="emphasize">{{capitalize(custom.key)}}:</span> {{custom.value}}
+				{{capitalize(custom.key)}}: <span class="emphasize">{{custom.value}}</span>
 			</h3>
 		</div>
 	</div>

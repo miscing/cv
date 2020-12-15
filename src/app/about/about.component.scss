@@ -6,6 +6,7 @@
 	padding: 0 4mm;
 	white-space: pre-wrap;
 	line-height: 1.8;
+	font-size: 1.2em;
 }
 
 mat-card {
@@ -15,14 +16,12 @@ mat-card {
 	.extra-info {
 		display: flex;
 		justify-content: space-evenly;
-		h3 {
-			margin: 0;
-			.emphasize {
-				font-size: larger;
-			}
-		}
 		#languages {
 			margin: 0 4mm;
+			h3 {
+				font-size: 1.3em;
+				margin: 0;
+			}
 			.proficiency-desc {
 				margin: 0 0 2mm 0;
 				color: grey;
@@ -31,13 +30,16 @@ mat-card {
 			mat-list {
 				mat-list-item {
 					p {
-						font-size: 1.5em;
+						font-size: 1.3em;
 					}
 				}
 			}
 		}
 		.others {
 			margin: 0 4mm;
+			.emphasize {
+				font-size: 0.9em;
+			}
 		}
 	}
 }

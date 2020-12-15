@@ -25,6 +25,16 @@ html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 @import '@angular/material/prebuilt-themes/deeppurple-amber.css';
 
+// custom font
+@import '~@angular/material/theming';
+@include mat-core();
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap');
+
+$custom-typography: mat-typography-config(
+$font-family: 'EB Garamond, serif',
+);
+@include angular-material-typography($custom-typography);
+
 // protects elements from breaking in printing
 .protected {
 	page-break-inside: avoid;
