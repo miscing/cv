@@ -33,5 +33,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 // settings for printing
 @page {
 	size: a4;
-	margin: 1.5cm 0;
+	margin: 1cm 0;
+}
+
+@media print {
+	app-banner {
+		display: none;
+	}
 }
