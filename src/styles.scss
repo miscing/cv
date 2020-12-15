@@ -24,3 +24,9 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 @import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+// settings for printing
+@page {
+	size: a4;
+	margin: 1cm 0 0 0;
+}

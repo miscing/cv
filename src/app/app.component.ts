@@ -19,56 +19,100 @@
 // permissions and limitations under the Licence.
 //
 
-import { Component } from '@angular/core';
+import { Renderer2, AfterViewInit, Component } from '@angular/core';
 
 import rawData from '../../cv.json';
 import { Cv } from './cv';
 import { CvMaker } from './cv-maker';
-
-const letterHeight = 279.4 // mm, default pdf size is letter, aka freedom units
-const a4Height = 297 // mm, non-retard units
 
 @Component({
 	selector: 'app-root',
 	templateUrl: './app.component.html',
 	styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements AfterViewInit {
 	data :Cv;
 
-	constructor() {
+	constructor(private renderer :Renderer2) {
 		this.data = new CvMaker(rawData, true); //initiliaze
-
-		// todo: use letter height for freedom browsers
-			document.addEventListener('DOMContentLoaded', addWhitespaceToPreventPdfPrintCutoff);
 	}
 
-}
+	ngAfterViewInit() {
+		// TODO: use letter height for freedom browsers
+		this.addPageBreaks();
+	}
 
-function addWhitespaceToPreventPdfPrintCutoff() {
-	console.log('hello');
-	// todo: replace with getElementByClass and give each element that should be protected a specific class
-	let matCards = document.getElementsByTagName('mat-card');
-	for (let i=0;i<matCards.length;i++) {
-		if (withinBounds(matCards[i])) {
-			console.log(matCards[i].getElementsByTagName('mat-card-title')[0].textContent);
-			let whitespace = document.createElement("div");
-			whitespace.style.height = "100px";
-			matCards[i].parentNode.insertBefore(whitespace, matCards[i]);
-			// return
+
+	addPageBreaks() :void {
+		let elements = document.getElementsByClassName('protected');
+		let modifier = 0;
+		for (let i=0;i<elements.length;i++) {
+			console.log(elements[i]);
+			let eFitter = new elementPdfFitter(elements[i], modifier);
+			if (eFitter.withinBounds()) {
+				console.log(elements[i].getElementsByTagName('mat-card-title')[0].textContent);
+				this.renderer.setStyle(elements[i], "page-break-before", "always");
+				// the number at the end is to account for 1cm margins
+				// modifier += eFitter.distanceToNextPage()+20;
+				modifier += eFitter.distanceToNextPage()+10;
+			}
 		}
 	}
+
 }
 
-function withinBounds(element :Element) :boolean {
-	const topOffset = pxToMm(element.getBoundingClientRect().top + window.pageYOffset);
-	const bottomOffset = pxToMm(element.getBoundingClientRect().bottom + window.pageYOffset);
-	const normalizer = Math.floor(topOffset / a4Height) + 1;
-	if (topOffset/normalizer < a4Height && a4Height < bottomOffset/normalizer) {
-		return true;
-	} else {
-		return false;
+
+
+const letterHeight = 279.4 // mm, freedom units
+const a4Height = 297 // mm, non-freedom units
+
+// checks whether element fits into pdf pages
+// default is a4, use options for US letter
+class elementPdfFitter {
+	topOffset :number;
+	bottomOffset :number;
+	normalizer :number;
+	height :number
+
+	// modifier is given in millimeters
+	constructor(element :Element, modifier :number = 0, usLetter? :boolean) {
+		if (usLetter) {
+			this.height = letterHeight;
+		} else {
+			this.height = a4Height;
+		}
+		// this.topOffset = pxToMm(element.getBoundingClientRect().top + window.pageYOffset);
+		// this.bottomOffset = pxToMm(element.getBoundingClientRect().bottom + window.pageYOffset);
+		this.topOffset = pxToMm(element.getBoundingClientRect().top + window.pageYOffset) + modifier;
+		this.bottomOffset = pxToMm(element.getBoundingClientRect().bottom + window.pageYOffset) + modifier;
+		this.normalizer = Math.floor(this.topOffset / this.height)+1;
 	}
+
+	// does element coincide with a page break
+	withinBounds() :boolean {
+			// console.log(this.topOffset/this.normalizer ,this.height ,this.bottomOffset/this.normalizer);
+		if (this.topOffset/this.normalizer < this.height && this.height < this.bottomOffset/this.normalizer) {
+		// the 10 are for 1cm top and bottom margin
+		// if (this.topOffset/this.normalizer < (this.height - 10) && (this.height + 10)< this.bottomOffset/this.normalizer) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	// mm response
+	distanceToNextPage() :number {
+		return this.height - (this.topOffset/this.normalizer);
+	}
+
+	// distanceToNextPage() :string {
+	// 	return mmToPx(this.height - (this.topOffset/this.normalizer)).toString()+"px";
+	// }
+
+}
+
+function mmToPx(mm :number) :number {
+	return mm * 3.78;
 }
 
 function pxToMm(px :number) :number {
