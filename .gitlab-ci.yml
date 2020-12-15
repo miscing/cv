@@ -1,15 +1,15 @@
 # image: docker.io/library/node:alpine
-# image: docker.io/library/alpine:latest
+image: docker.io/library/alpine:latest
 
-# before_script:
-#   - apk add npm
+before_script:
+  - apk add npm
 
-# cache:
-#   paths:
-#     - node_modules/
+cache:
+  paths:
+    - node_modules/
 
-# variables:
-#   GIT_STRATEGY: clone
+variables:
+  GIT_STRATEGY: clone
 
 # pages:
 #   stage: deploy
@@ -38,23 +38,22 @@
 #     changes:
 #       - ./.github/
 
-# update:
-#   cache: {}
-#   tags:
-#     - docker
-#     - owned
-#   script:
-#     - git config --global user.email "bot_miscing@protonmail.com"
-#     - git config --global user.name "bot_miscing"
-#     - git checkout -b update
-#     - git remote set-url origin https://bot_miscing:$TOKEN@gitlab.com/miscing/cv.git
-#     # TODO: replace hardcoded path with predefined variable
-#     - npm update
-#     - |
-#       if [[ -n '$(git status -s)' ]]; then
-#         git commit -a -m 'updated dependencies'
-#         git push -u origin update
-#       fi
-#   only:
-#     - schedules
-
+update:
+  cache: {}
+  tags:
+    - docker
+    - owned
+  script:
+    - git config --global user.email "bot_miscing@protonmail.com"
+    - git config --global user.name "bot_miscing"
+    - git checkout -b update
+    - git remote set-url origin https://bot_miscing:$TOKEN@gitlab.com/miscing/cv.git
+    # TODO: replace hardcoded path with predefined variable
+    - npm update
+    - |
+      if [[ -n '$(git status -s)' ]]; then
+        git commit -a -m 'updated dependencies'
+        git push -u origin update
+      fi
+  only:
+    - schedules
