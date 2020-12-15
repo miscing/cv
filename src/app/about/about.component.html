@@ -11,9 +11,9 @@
 				</mat-list-item>
 			</mat-list>
 		</div>
-		<div class="others">
-			<h3 *ngIf="about.license != undefined">
-				Drivers license: {{ about.license }}
+		<div *ngIf="about.custom != undefined" class="others">
+			<h3 *ngFor="let custom of about.custom">
+				<span class="emphasize">{{capitalize(custom.key)}}:</span> {{custom.value}}
 			</h3>
 		</div>
 	</div>

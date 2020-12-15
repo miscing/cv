@@ -17,6 +17,9 @@ mat-card {
 		justify-content: space-evenly;
 		h3 {
 			margin: 0;
+			.emphasize {
+				font-size: larger;
+			}
 		}
 		#languages {
 			margin: 0 4mm;
@@ -38,3 +41,4 @@ mat-card {
 		}
 	}
 }
+

@@ -3,21 +3,20 @@
 A personal cv generator. Generates a cv based on github repository topics, so your cv will always reflect your current code.
 
 ## Cool features:
- - Prevents PDF pages from breaking content. Harder to implement than you'd think.
  - Select the parts you want to keep, then print as PDF. Keep all your CV versions in one place, customize for each job application.
- - As long as your github repository topics reflect the content, so will you CV.
+ - Make CV include all your newest github repositories.
  - Use YAML to easily configure, or generate a JSON using GUI.
 
 ## To use:
 1. Fork or otherwise copy this repository. (you may want to delete/rename/empty `cv.json` and `cv.yml`
 2. Configure with one of the two methods:
-   1. Use GUI in website and copy generated json to `cv.json`.
+   1. Use GUI in website and copy generated JSON to `cv.json`.
    2. Configure using YAML in cv.yml file, then run pipeline.
 
 ## Yaml syntax
 
 ### Top level:
-Top level items are used to construct the profile. On top of the reserved keywords in the table below all following sections have their own keyword, names after the section title.
+Top level items are used to construct the profile. On top of the reserved keywords in the table below, all the following sections have their own keyword, keyword are same as section title (`- about`).
 
 | Keyword    | Input syntax              | Explanation                                                                                                       |
 |------------|---------------------------|-------------------------------------------------------------------------------------------------------------------|
@@ -25,7 +24,7 @@ Top level items are used to construct the profile. On top of the reserved keywor
 | custom     | username                  | remaining items will be assumed to be name of a service with username following it. For example `gitlab: username`|
 
 #### About:
-An array of strings allowing one to put multiple 'about me' texts as well as defining some basic information with keywords.
+An array of strings allowing one to put multiple 'about me' texts as well as defining some basic information with keywords. You can place the text on the same line if you only have one item.
 ```yaml
 about:
   - "This is a elaborate and embellished explanation of who I am and what I have done."
@@ -35,7 +34,6 @@ about:
 | Keyword    | Input syntax              | Explanation                                                                                                       |
 |------------|---------------------------|-------------------------------------------------------------------------------------------------------------------|
 | language   | a language number pair    | Name of language spoken and proficiency in a scale of 1-5.                                                        |
-| license    | a string                  | The name or value of your driver's license.                                                                       |
 | custom     | string                    | A string containing a free form text describing you, all items that are strings will be interpreted as this.      |
 
 

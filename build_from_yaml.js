@@ -103,6 +103,9 @@ function generateAbout(parsedAbout) {
                 else if (typeof field === "object") {
                     switch (Object.getOwnPropertyNames(field)[0]) {
                         case "languages":
+                            if (!about.hasOwnProperty("languages")) {
+                                about.langs = [];
+                            }
                             field.languages.forEach(function (yamlLang) {
                                 var languageName = Object.getOwnPropertyNames(yamlLang);
                                 if (languageName.length === 0) {
@@ -111,11 +114,13 @@ function generateAbout(parsedAbout) {
                                 about.langs.push(new cv_1.Lang(languageName[0], yamlLang[languageName[0]]));
                             });
                             break;
-                        case "license":
-                            about.license = field.license;
-                            break;
                         default:
-                            throw "Error in About section-> invalid field: " + Object.getOwnPropertyNames(field);
+                            if (!about.hasOwnProperty("custom")) {
+                                about.custom = [];
+                            }
+                            var extra = new cv_1.AboutExtra(Object.getOwnPropertyNames(field)[0], field[Object.getOwnPropertyNames(field)[0]]);
+                            about.custom.push(extra);
+                            break;
                     }
                 }
             });

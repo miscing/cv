@@ -21,7 +21,7 @@
 
 import { parse } from 'yaml';
 import { copyFile, readdir, readFile, writeFile } from 'fs';
-import { Cv, About, Lang, Profile, Link,  Skill, SkillOption } from './src/app/cv';
+import { Cv, About, AboutExtra, Lang, Profile, Link,  Skill, SkillOption } from './src/app/cv';
 import { fromFile } from 'file-type';
 
 function generateCv(file :string) : Promise<Cv>{
@@ -68,6 +68,9 @@ function generateAbout(parsedAbout :any) :Promise<About> {
 				} else if (typeof field === "object") {
 					switch (Object.getOwnPropertyNames(field)[0]) {
 						case "languages":
+							if (!about.hasOwnProperty("languages")) {
+								about.langs = [];
+							}
 							field.languages.forEach( yamlLang => {
 								let languageName = Object.getOwnPropertyNames(yamlLang);
 								if (languageName.length === 0) {
@@ -76,11 +79,13 @@ function generateAbout(parsedAbout :any) :Promise<About> {
 								about.langs.push(new Lang(languageName[0], yamlLang[languageName[0]]));
 							});
 							break;
-						case "license":
-							about.license = field.license;
-							break;
 						default:
-							throw "Error in About section-> invalid field: "+Object.getOwnPropertyNames(field);
+							if (!about.hasOwnProperty("custom")) {
+								about.custom = [];
+							}
+							let extra = new AboutExtra(Object.getOwnPropertyNames(field)[0], field[Object.getOwnPropertyNames(field)[0]]);
+							about.custom.push(extra);
+							break;
 					}
 				}
 			});

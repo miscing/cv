@@ -38,10 +38,18 @@ export class Profile {
 export class About {
 	text :string[];
 	langs? :Lang[];
-	license? :string;
+	custom? :AboutExtra[];
 	constructor() {
 		this.text = [];
-		this.langs = [];
+	}
+}
+
+export class AboutExtra {
+	key :string;
+	value :string;
+	constructor(key :string, value :string) {
+		this.key = key;
+		this.value = value;
 	}
 }
  

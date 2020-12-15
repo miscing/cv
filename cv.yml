@@ -9,7 +9,8 @@ about:
     - english: 5
     - spanish: 2
     - finnish: 3
-  - license: "AB, EU"
+  - 'drivers license': "AB, EU"
+  - company: "Oniservus"
 
 skills:
   - backend:

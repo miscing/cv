@@ -15,4 +15,17 @@ export class AboutComponent implements OnInit {
   ngOnInit(): void {
   }
 
+	capitalize(input: string): string {
+		if (input.includes(" ")) {
+			// capitalize each item seperated by '/'
+			return input.split(' ').map( str => this.simpleCapitalize(str)).join(" ");
+		} else {
+			return this.simpleCapitalize(input);
+		}
+	}
+
+	simpleCapitalize(input :string) :string {
+		return input.charAt(0).toUpperCase() + input.slice(1);
+	}
+
 }
