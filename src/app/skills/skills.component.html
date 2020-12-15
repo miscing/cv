@@ -1,6 +1,6 @@
 <h1 id="section-header">Skills:</h1>
 <p class="proficiency-desc">Proficiency goes 1-5, where 5 is best</p>
-<div *ngFor="let skill of skills">
+<div class="protected" *ngFor="let skill of skills">
 	<mat-card>
 		<mat-card-header>
 			<mat-card-title>{{ capitalize(skill.name) }}</mat-card-title>

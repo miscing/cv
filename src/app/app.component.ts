@@ -26,14 +26,15 @@ import { Cv } from './cv';
 import { CvMaker } from './cv-maker';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+	selector: 'app-root',
+	templateUrl: './app.component.html',
+	styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
 	data :Cv;
 
 	constructor() {
+		// second argument is optional, true to use mock data
 		this.data = new CvMaker(rawData, true); //initiliaze
 	}
 }

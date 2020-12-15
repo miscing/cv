@@ -1,10 +1,18 @@
 # Cv
 
-A personal cv generator.
+A personal cv generator. Generates a cv based on github repository topics, so your cv will always reflect your current code.
+
+## Cool features:
+ - Prevents PDF pages from breaking content. Harder to implement than you'd think.
+ - Select the parts you want to keep, then print as PDF. Keep all your CV versions in one place, customize for each job application.
+ - As long as your github repository topics reflect the content, so will you CV.
+ - Use YAML to easily configure, or generate a JSON using GUI.
 
 ## To use:
-1. Fork or otherwise copy this repository.
-2. Configure basic settings in cv.yml file, then run pipeline.
+1. Fork or otherwise copy this repository. (you may want to delete/rename/empty `cv.json` and `cv.yml`
+2. Configure with one of the two methods:
+   1. Use GUI in website and copy generated json to `cv.json`.
+   2. Configure using YAML in cv.yml file, then run pipeline.
 
 ## Yaml syntax
 
@@ -32,7 +40,7 @@ about:
 
 
 #### Skills:
-All children are assumed to be the name of a skill to display on CV. Default behavior is to create the skill with links to all github repositories that contain the skill name as a github "Topic". If the skill has children, they are assumed to be topic names to match with (multiple topics to match with can be assigned like this), with the exception of reserved keywords below. Note that some options do not make sense together with topic matching, and will have result in strange behaviour (cv will attempt to display both repositories and option url's)
+Default behavior is to create the skill with links to all github repositories that contain the skill name as a github "Topic". If the skill has children, they are assumed to be topic names to match with (multiple topics to match with can be assigned like this, skill name is ignored in this case), with the exception of reserved keywords below.
 ```yaml
 skills:
   - c:
@@ -47,5 +55,6 @@ skills:
 | rfile      | file name to use, regex   | Same as file, except string is interpreted as regex. Notice "." in regex is a special character.                  |
 | url        | list of valid url         | This urls will be show in addition (or alone) to repositories, in the same way                                    |
 | level      | number 1-5, 5 is best     | Meant to be a general indication of proficiency in the given skill.                                               |
+| custom     | string, skill name        | Name of topic or topics to match with, overrides matching with parent skill name.                                 |
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.1.7.
