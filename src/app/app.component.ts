@@ -34,6 +34,7 @@ export class AppComponent {
 	data :Cv;
 
 	constructor() {
+		// second argument is optional, true to use mock data
 		this.data = new CvMaker(rawData, true); //initiliaze
 	}
 }
