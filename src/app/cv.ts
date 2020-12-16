@@ -35,6 +35,13 @@ export class Profile {
 	}
 }
 
+export class Link {
+	name :string;
+	url :string;
+	username? :string; //added to url to create shown text
+	text? :string; //if set overrides normal (url+username) text shown
+}
+
 export class About {
 	text :string[];
 	langs? :Lang[];
@@ -60,13 +67,6 @@ export class Lang {
 		this.lang = name;
 		this.level = level;
 	}
-}
-
-export class Link {
-	name :string;
-	url :string;
-	username? :string; //added to url to create shown text
-	text? :string; //if set overrides normal (url+username) text shown
 }
 
 export class Skill {

@@ -1,0 +1,43 @@
+<div class="selector">
+	<section>
+		<mat-checkbox checked="true" color="primary">
+			Profile
+		</mat-checkbox>
+		<div class="nested" *ngIf="cv.profile.links">
+			<mat-checkbox checked="true" color="primary" *ngFor="let link of cv.profile.links">
+				{{ link.name }}
+			</mat-checkbox>
+		</div>
+	</section>
+	<section>
+		<mat-checkbox checked="true" color="primary">
+			About
+		</mat-checkbox>
+		<div class="nested">
+			<mat-checkbox checked="true" color="primary" *ngFor="let text of cv.about.text |keyvalue">
+				Text: {{ text.key }}
+			</mat-checkbox>
+		</div>
+		<div class="nested" *ngIf="cv.about.langs">
+			<mat-checkbox checked="true" color="primary" *ngFor="let lang of cv.about.langs">
+				{{ lang.lang }}
+			</mat-checkbox>
+		</div>
+		<div class="nested" *ngIf="cv.about.custom">
+			<mat-checkbox checked="true" color="primary" *ngFor="let custom of cv.about.custom">
+				{{ custom.key }}
+			</mat-checkbox>
+		</div>
+	</section>
+	<section>
+		<mat-checkbox checked="true" color="primary">
+			Skills
+		</mat-checkbox>
+		<div class="nested">
+			<mat-checkbox checked="true" color="primary" *ngFor="let skill of cv.skills">
+				{{ skill.name }}
+			</mat-checkbox>
+		</div>
+	</section>
+</div>
+

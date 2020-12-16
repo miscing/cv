@@ -4,12 +4,12 @@
 	<mat-card>
 		<mat-card-header>
 			<mat-card-title>{{ capitalize(skill.name) }}</mat-card-title>
-			<h2 *ngIf="skill.level != null" matBadge="{{skill.level}}" matBadgeSize="large" matBadgeOverlap="false">Proficiency</h2>
+			<h2 *ngIf="skill.level" matBadge="{{skill.level}}" matBadgeSize="large" matBadgeOverlap="false">Proficiency</h2>
 		</mat-card-header>
 		<mat-card-content *ngIf="skill.hasOwnProperty('text')">
 			<p class="skill-desc">{{ skill.text }}</p>
 		</mat-card-content>
-		<mat-card-actions *ngIf="skill.links.length > 0">
+		<mat-card-actions *ngIf="skill.links?.length > 0">
 			<h3 class="link-desc">References:</h3>
 			<mat-nav-list>
 				<a mat-list-item *ngFor="let link of skill.links" href="{{ link.toString() }}">

@@ -1,0 +1,14 @@
+.selector {
+	padding: 2vh 0;
+	display: flex;
+	flex-direction: column;
+	.nested {
+		margin: 0 0 0 1vw;
+		display: flex;
+		flex-direction: column;
+	}
+}
+
+mat-checkbox {
+	margin: 1vh;
+}

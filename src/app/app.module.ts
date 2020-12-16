@@ -27,23 +27,24 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
-import {MatBadgeModule} from '@angular/material/badge';
+import { MatBadgeModule } from '@angular/material/badge';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 import { AppComponent } from './app.component';
 import { ProfileComponent } from './profile/profile.component';
-import { BannerComponent } from './banner/banner.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SkillsComponent } from './skills/skills.component';
 import { AboutComponent } from './about/about.component';
+import { SelectComponent } from './select/select.component';
 // import { DialogComponent } from './dialog/dialog.component';
 
 @NgModule({
 	declarations: [
 		AppComponent,
 		ProfileComponent,
-		BannerComponent,
 		SkillsComponent,
-		AboutComponent
+		AboutComponent,
+		SelectComponent
 		// DialogComponent
 	],
 	imports: [
@@ -54,6 +55,7 @@ import { AboutComponent } from './about/about.component';
 		MatListModule,
 		MatCardModule,
 		MatBadgeModule,
+		MatCheckboxModule,
 		BrowserAnimationsModule
 	],
 	providers: [],
