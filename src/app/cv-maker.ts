@@ -21,6 +21,8 @@
 
 import { Octokit } from "@octokit/rest"
 
+import { Observable, BehaviorSubject } from "rxjs"
+
 import { Cv } from './cv';
 
 import mockdata from './cv_data_dump.json';
@@ -32,13 +34,14 @@ class Repo { // holds github data dumps
 	topics? :any;
 }
 
-export class CvMaker extends Cv {
+export class CvMaker {
+	cv :Cv;
+	sub$ :BehaviorSubject<Cv>;
 	cache: Map<string, Repo>; //maps repo name to information (not url due to difficult characters in urls)
 
 	constructor(data :Cv, mock? :boolean, store? :boolean) {
-		super();
-		Object.assign(this, data);
-
+		this.cv = data;
+		this.sub$ = new BehaviorSubject<Cv>(data);
 		if (mock) {
 			console.log("using mock data");
 			this.fromMock();
@@ -55,7 +58,10 @@ export class CvMaker extends Cv {
 				this.removeDuplicates();
 			}).catch(checkForApiLimit); // get repo information
 		}
+	}
 
+	output() :Observable<Cv> {
+		return this.sub$;
 	}
 
 	storeCache() {
@@ -69,11 +75,11 @@ export class CvMaker extends Cv {
 	}
 
 	removeDuplicates() {
-		this.skills.forEach( (skill, skillI) => {
+		this.cv.skills.forEach( (skill, skillI) => {
 			for (let i=0; i<skill.links.length; i++) {
 				for (let j=i+1; j<skill.links.length; j++) {
 					if (skill.links[i].toString() === skill.links[j].toString()) {
-						this.skills[skillI].links.splice(j, 1);
+						this.cv.skills[skillI].links.splice(j, 1);
 					}
 				}
 			}
@@ -81,7 +87,7 @@ export class CvMaker extends Cv {
 	}
 
 	matchGitToSkills() {
-		this.skills.forEach( (v, i) => {
+		this.cv.skills.forEach( (v, i) => {
 			if (!v.hasOwnProperty("links")) {
 				v.links = []; // avoids pushing to undefined on first push
 			}
@@ -90,21 +96,21 @@ export class CvMaker extends Cv {
 					switch (option) {
 						case "topics":
 							v.options.topics.forEach( (topic) => {
-								this.skills[i].links = v.links.concat(this.getReposByTopic(topic));
+								this.cv.skills[i].links = v.links.concat(this.getReposByTopic(topic));
 							});
 							break
 						case "file":
 							v.options.file.forEach( (file) => {
-								this.skills[i].links = v.links.concat(this.getReposByFileName(file));
+								this.cv.skills[i].links = v.links.concat(this.getReposByFileName(file));
 							});
 							break
 						case "rfile":
 							v.options.rfile.forEach( (file) => {
-								this.skills[i].links = v.links.concat(this.getReposByFileNameRegex(file));
+								this.cv.skills[i].links = v.links.concat(this.getReposByFileNameRegex(file));
 							});
 						case "urls":
 							v.options.urls.forEach( (url) => {
-								this.skills[i].links.push(new URL(url));
+								this.cv.skills[i].links.push(new URL(url));
 							});
 							break
 						default:
@@ -113,10 +119,10 @@ export class CvMaker extends Cv {
 				});
 				// if topics is not an option, use skill name to get repo urls
 				if (! ("topics" in v.options)) {
-					this.skills[i].links = v.links.concat(this.getReposByTopic(v.name));
+					this.cv.skills[i].links = v.links.concat(this.getReposByTopic(v.name));
 				}
 			} else {
-				this.skills[i].links = v.links.concat(this.getReposByTopic(v.name));
+				this.cv.skills[i].links = v.links.concat(this.getReposByTopic(v.name));
 			}
 		});
 	}
@@ -166,7 +172,7 @@ export class CvMaker extends Cv {
 
 	getLinkUsernameByName(name :string) :string {
 		let username :string;
-		this.profile.links.forEach( link => {
+		this.cv.profile.links.forEach( link => {
 			if (link.name === name) {
 				username = link.username as string;
 				return
