@@ -77,25 +77,27 @@ export class SelectComponent implements OnInit {
 		for(const field in this.cv) {
 			if (field === topField) {
 				if (Array.isArray(this.cv[field])) {
-					this.cv[field].forEach( (child :any, i :number) => {
-						if (child.hasOwnProperty("name")){
-							result.push(new CvField(child.name));
-						} else {
-							result.push(new CvField(String(i)));
-						}
-					});
+					result.push(...makeCvField(this.cv[field]));
+					// this.cv[field].forEach( (child :any, i :number) => {
+					// 	if (child.hasOwnProperty("name")){
+					// 		result.push(new CvField(child.name));
+					// 	} else {
+					// 		result.push(new CvField(String(i)));
+					// 	}
+					// });
 				} else {
 					for(const child in this.cv[field]) {
 						if (Array.isArray(this.cv[field][child])) {
-							this.cv[field][child].forEach( (child :any, i :number) => {
-								if (child.hasOwnProperty("name")){
-									result.push(new CvField(child.name));
-								} else if(child.hasOwnProperty("key")) {
-									result.push(new CvField(child.key));
-								} else {
-									result.push(new CvField(String(i)));
-								}
-							});
+								result.push(...makeCvField(this.cv[field][child]));
+							// this.cv[field][child].forEach( (child :any, i :number) => {
+								// if (child.hasOwnProperty("name")){
+								// 	result.push(new CvField(child.name));
+								// } else if(child.hasOwnProperty("key")) {
+								// 	result.push(new CvField(child.key));
+								// } else {
+								// 	result.push(new CvField(String(i)));
+								// }
+							// });
 						}
 					}
 				}
@@ -104,4 +106,18 @@ export class SelectComponent implements OnInit {
 		}
 		return null;
 	}
+}
+
+function makeCvField(arr :any[]) :CvField[] {
+	let result = [];
+	arr.forEach( (child :any, i :number) => {
+		if (child.hasOwnProperty("name")){
+			result.push(new CvField(child.name));
+		} else if(child.hasOwnProperty("key")) {
+			result.push(new CvField(child.key));
+		} else {
+			result.push(new CvField(String(i)));
+		}
+	});
+	return result;
 }
