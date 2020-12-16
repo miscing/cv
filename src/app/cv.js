@@ -20,7 +20,7 @@
 // permissions and limitations under the Licence.
 //
 exports.__esModule = true;
-exports.SkillOption = exports.Skill = exports.Link = exports.Lang = exports.AboutExtra = exports.About = exports.Profile = exports.Cv = void 0;
+exports.SkillOption = exports.Skill = exports.Lang = exports.AboutExtra = exports.About = exports.Link = exports.Profile = exports.Cv = void 0;
 var Cv = /** @class */ (function () {
     function Cv() {
     }
@@ -34,6 +34,12 @@ var Profile = /** @class */ (function () {
     return Profile;
 }());
 exports.Profile = Profile;
+var Link = /** @class */ (function () {
+    function Link() {
+    }
+    return Link;
+}());
+exports.Link = Link;
 var About = /** @class */ (function () {
     function About() {
         this.text = [];
@@ -51,18 +57,12 @@ var AboutExtra = /** @class */ (function () {
 exports.AboutExtra = AboutExtra;
 var Lang = /** @class */ (function () {
     function Lang(name, level) {
-        this.lang = name;
+        this.name = name;
         this.level = level;
     }
     return Lang;
 }());
 exports.Lang = Lang;
-var Link = /** @class */ (function () {
-    function Link() {
-    }
-    return Link;
-}());
-exports.Link = Link;
 var Skill = /** @class */ (function () {
     function Skill() {
     }

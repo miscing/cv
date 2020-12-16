@@ -61,10 +61,10 @@ export class AboutExtra {
 }
  
 export class Lang {
-	lang :string;
+	name :string;
 	level :number; //language proficiency
 	constructor(name :string, level :number) {
-		this.lang = name;
+		this.name = name;
 		this.level = level;
 	}
 }

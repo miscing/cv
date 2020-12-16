@@ -7,7 +7,7 @@
 			<p class="proficiency-desc">Proficiency goes 1-5, where 5 is best</p>
 			<mat-list dense>
 				<mat-list-item *ngFor="let lang of about.langs">
-					<p>{{lang.lang | titlecase}}: {{lang.level}}</p>
+					<p>{{lang.name | titlecase}}: {{lang.level}}</p>
 				</mat-list-item>
 			</mat-list>
 		</div>

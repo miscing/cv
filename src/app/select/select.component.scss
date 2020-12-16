@@ -12,3 +12,9 @@
 mat-checkbox {
 	margin: 1vh;
 }
+
+@media print {
+	:host {
+		display: none;
+	}
+}
