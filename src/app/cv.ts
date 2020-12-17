@@ -35,6 +35,13 @@ export class Profile {
 	}
 }
 
+export class Link {
+	name :string;
+	url :string;
+	username? :string; //added to url to create shown text
+	text? :string; //if set overrides normal (url+username) text shown
+}
+
 export class About {
 	text :string[];
 	langs? :Lang[];
@@ -54,26 +61,19 @@ export class AboutExtra {
 }
  
 export class Lang {
-	lang :string;
+	name :string;
 	level :number; //language proficiency
 	constructor(name :string, level :number) {
-		this.lang = name;
+		this.name = name;
 		this.level = level;
 	}
-}
-
-export class Link {
-	name :string;
-	url :string;
-	username? :string; //added to url to create shown text
-	text? :string; //if set overrides normal (url+username) text shown
 }
 
 export class Skill {
 	name :string;
 	level? :number;
 	text? :string; //optional text to show
-	links? :URL[]; //contains files or repositories to display in cv
+	links? :string[]; //contains files or repositories to display in cv
 	options? :SkillOption; //internal use
 }
 
@@ -82,7 +82,6 @@ export class SkillOption {
 	topics? :string[]; // used instead of skill name if exists
 	file? :string[];
 	rfile? :string[];
-	urls? :string[]; // websites to show
 }
 
 // export class Timeline {

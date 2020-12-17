@@ -21,6 +21,8 @@
 
 import { Component } from '@angular/core';
 
+import { Observable } from 'rxjs';
+
 import rawData from '../../cv.json';
 import { Cv } from './cv';
 import { CvMaker } from './cv-maker';
@@ -31,10 +33,12 @@ import { CvMaker } from './cv-maker';
 	styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-	data :Cv;
+	data :Observable<Cv>;
+	maker :CvMaker;
 
 	constructor() {
 		// second argument is optional, true to use mock data
-		this.data = new CvMaker(rawData, true); //initiliaze
+		this.maker = new CvMaker(rawData, true); //initiliaze
+		this.data = this.maker.Output();
 	}
 }

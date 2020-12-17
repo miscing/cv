@@ -36,6 +36,11 @@ export class SkillsComponent implements OnInit {
 	ngOnInit(): void {
 	}
 
+	urlify(raw :string) :string {
+		let url = new URL(raw);
+		return url.hostname+url.pathname;
+	}
+
 	capitalize(input: string): string {
 		if (input.includes("/")) {
 			// capitalize each item seperated by '/'

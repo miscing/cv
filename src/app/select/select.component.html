@@ -1,0 +1,15 @@
+<div *ngFor="let parent of checkboxes" class="selector">
+	<mat-checkbox color="primary"
+								[checked]="parent.selected"
+								[indeterminate]="parent.someSelected()"
+								(change)="parent.setAll($event.checked); emitMasks(parent)">
+		{{ parent.name }}
+	</mat-checkbox>
+	<div class="nested" *ngIf="parent.children">
+		<mat-checkbox color="primary" *ngFor="let child of parent.children"
+									[checked]="child.selected"
+									(change)="child.toggle($event.checked); parent.updateAllCompleted(); emitMask(child.mask, !child.selected)">
+			{{ child.name }}
+		</mat-checkbox>
+	</div>
+</div>

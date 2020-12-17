@@ -19,7 +19,7 @@
 // permissions and limitations under the Licence.
 //
 
-import {  Component, Input, OnInit } from '@angular/core';
+import { OnChanges, Component, Input  } from '@angular/core';
 
 import { Profile, Link } from '../cv';
 
@@ -69,7 +69,7 @@ function getKnownAsset(name :string) :string {
 	templateUrl: './profile.component.html',
 	styleUrls: ['./profile.component.scss']
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnChanges {
 	@Input() profile :Profile;
 	links :external[];
 
@@ -77,11 +77,14 @@ export class ProfileComponent implements OnInit {
 		this.links = new Array();
 	}
 
-	ngOnInit(): void {
-		this.profile.links.forEach( (item) => {
-			let newLink = new external(item);
-			this.links.push(newLink);
-		});
+	ngOnChanges() :void {
+		let links = [];
+		if (this.profile?.links) {
+			this.profile.links.forEach( (item) => {
+				let newLink = new external(item);
+				links.push(newLink);
+			});
+			this.links = links;
+		}
 	}
-
 }

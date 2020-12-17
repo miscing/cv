@@ -45,9 +45,3 @@ $font-family: 'EB Garamond, serif',
 	size: a4;
 	margin: 1cm 0;
 }
-
-@media print {
-	app-banner {
-		display: none;
-	}
-}

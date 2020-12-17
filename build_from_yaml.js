@@ -275,6 +275,7 @@ function genSkill(item) {
         if (typeof option === "object") {
             // if child is an object, it must be a reserved keyword
             Object.getOwnPropertyNames(option).forEach(function (optName) {
+                var _a;
                 switch (optName) {
                     case "text":
                         skill.text = option[optName];
@@ -286,7 +287,11 @@ function genSkill(item) {
                         skillOpt.rfile = option[optName];
                         break;
                     case 'url':
-                        skillOpt.urls = option[optName];
+                        // skillOpt.urls = option[optName];
+                        if (!skill.links) {
+                            skill.links = [];
+                        }
+                        (_a = skill.links).push.apply(_a, option[optName]);
                         break;
                     case "level":
                         skill.level = option[optName];
