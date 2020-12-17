@@ -2,7 +2,7 @@
 	<mat-checkbox color="primary"
 								[checked]="parent.selected"
 								[indeterminate]="parent.someSelected()"
-								(change)="parent.setAll($event.checked); emitMask([parent.name], !parent.selected)">
+								(change)="parent.setAll($event.checked); emitMasks(parent)">
 		{{ parent.name }}
 	</mat-checkbox>
 	<div class="nested" *ngIf="parent.children">

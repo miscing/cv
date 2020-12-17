@@ -24,22 +24,16 @@ import { Octokit } from "@octokit/rest"
 import { Observable, BehaviorSubject } from "rxjs"
 
 import { Cv } from './cv';
-import { CvMask, MaskApplier } from './cv-mask';
+import { CvMask } from './cv-mask';
 
 import mockdata from './cv_data_dump.json';
 import { saveAs } from 'file-saver';
-
-class Repo { // holds github data dumps
-	info? :any;
-	files? :any;
-	topics? :any;
-}
 
 export class CvMaker {
 	cv :Cv;
 	sub$ :BehaviorSubject<Cv>;
 	cache: Map<string, Repo>; //maps repo name to information (not url due to difficult characters in urls)
-	maskCache: Map<string, any[]>; //maps repo name to information (not url due to difficult characters in urls)
+	maskCache: Map<string, any[][]>; //maps repo name to information (not url due to difficult characters in urls)
 
 	constructor(data :Cv, mock? :boolean, store? :boolean) {
 		this.cv = data;
@@ -68,10 +62,15 @@ export class CvMaker {
 	}
 
 	Mask(mask :CvMask) {
+		let key = mask.mask.slice(0, mask.mask.length-1).join();
 		if (mask.add) {
-			this.maskCache.set(mask.mask.join(), mask.mask);
+			if (this.maskCache.has(key)) {
+				this.maskCache.get(key).push(mask.mask);
+			} else {
+				this.maskCache.set(key, [mask.mask]);
+			}
 		} else {
-			this.maskCache.delete(mask.mask.join());
+			this.maskCache.set(key, this.maskCache.get(key).filter( fmask => fmask.join() !== mask.mask.join()));
 		}
 		this.applyMasks();
 	}
@@ -79,13 +78,42 @@ export class CvMaker {
 	applyMasks() :void {
 		// TODO: ASYNC this? What will happen if multiple delete get called in async?
 		let newCv = JSON.parse(JSON.stringify(this.cv)); //What a disgusting hack. Jesus
-		let applier = new MaskApplier(newCv);
 		for(const entry of this.maskCache) {
-			applier.ApplyMask(entry[1]);
+			entry[1].sort( (a :any[], b :any[]) => b[b.length-1] -a[a.length-1] );
+			entry[1].forEach( mask => this.applyMask(mask, newCv));
 		}
 		this.sub$.next(newCv);
-		console.log(newCv);
 	}
+
+	applyMask(mask :any[], cv) {
+		try {
+			switch (mask.length) {
+				case 1:
+					delete cv[mask[0]];
+					break;
+				case 2:
+					cv[mask[0]].splice(mask[1], 1);
+					break;
+				case 3:
+					cv[mask[0]][mask[1]].splice(mask[2], 1);
+					break;
+				default:
+					console.error("Received mask of invalid length, must be between 1-3. Got: ", mask.length, "\nmask: ",mask);
+					break;
+			}
+		} catch (e) {
+			// console.log(e.name);
+			// console.log(e.message);
+			const re = /Cannot read property '\w*' of undefined/;
+			if (re.test(e.message)) {
+				// probably caused by a parent mask, ignore as a easy solution
+				// TODO: better solution would be to make sure parent masks are evaluated last, or prevent child masks from being evaluated
+			} else {
+				console.error(e);
+			}
+		}
+	}
+
 
 	storeCache() {
 		// used to generate mock data, makes browser download cache as a json file
@@ -206,6 +234,12 @@ export class CvMaker {
 		}
 		return username;
 	}
+}
+
+class Repo { // holds github data dumps
+	info? :any;
+	files? :any;
+	topics? :any;
 }
 
 function getUserRepos(username :string) :Promise<Map<string, Repo>>{

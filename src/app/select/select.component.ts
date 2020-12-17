@@ -55,6 +55,13 @@ export class SelectComponent implements OnInit {
 	emitMask(mask :any[], add :boolean) :void {
 		this.mask.emit(new CvMask(mask, add));
 	}
+
+	emitMasks(par :TopLevel) :void {
+		this.emitMask([par.name], !par.selected);
+		par.children.forEach( child => {
+			this.emitMask(child.mask, !child.selected);
+		});
+	}
 }
 
 function makeCvField(arr :any[], mask :any[]) :CvField[] {
@@ -105,6 +112,7 @@ class TopLevel extends CvField {
 		if(this.children == null) {
 			return false;
 		}
+		// return this.children.filter(c => c.selected).length > 0 && !this.selected;
 		return this.children.filter(c => c.selected).length > 0 && !this.selected;
 	}
 
