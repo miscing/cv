@@ -24,7 +24,7 @@ import { Octokit } from "@octokit/rest"
 import { Observable, BehaviorSubject } from "rxjs"
 
 import { Cv } from './cv';
-import { CvMask } from './cv-mask';
+import { CvMask, MaskApplier } from './cv-mask';
 
 import mockdata from './cv_data_dump.json';
 import { saveAs } from 'file-saver';
@@ -79,27 +79,12 @@ export class CvMaker {
 	applyMasks() :void {
 		// TODO: ASYNC this? What will happen if multiple delete get called in async?
 		let newCv = JSON.parse(JSON.stringify(this.cv)); //What a disgusting hack. Jesus
+		let applier = new MaskApplier(newCv);
 		for(const entry of this.maskCache) {
-			this.applyMask(entry[1], newCv);
+			applier.ApplyMask(entry[1]);
 		}
 		this.sub$.next(newCv);
-	}
-
-	applyMask(mask :any[], cv :Cv) :void {
-		switch (mask.length) {
-			case 1:
-				delete cv[mask[0]];
-				break;
-			case 2:
-				cv[mask[0]].splice(mask[1], 1);
-				break;
-			case 3:
-				cv[mask[0]][mask[1]].splice(mask[2], 1);
-				break;
-			default:
-				console.error("Received mask of invalid length, must be between 1-3. Got: ", mask.length, "\nmask: ",mask);
-				break;
-		}
+		console.log(newCv);
 	}
 
 	storeCache() {
