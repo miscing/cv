@@ -227,7 +227,7 @@ function genSkill(item :any) :Skill {
 	}
 	skill.name = fields[0];
 	let skillOpt = new SkillOption;
-	item[fields[0]].forEach( (option) => {
+	item[fields[0]].forEach( (option :any) => {
 		if (typeof option === "object") {
 			// if child is an object, it must be a reserved keyword
 			Object.getOwnPropertyNames(option).forEach( (optName) => {
@@ -242,7 +242,10 @@ function genSkill(item :any) :Skill {
 						skillOpt.rfile = option[optName];
 						break;
 					case 'url':
-						skillOpt.urls = option[optName];
+						if (!skill.links) {
+							skill.links = [];
+						}
+						skill.links.push(...option[optName]);
 						break;
 					case "level":
 						skill.level = option[optName];

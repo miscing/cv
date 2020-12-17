@@ -73,7 +73,7 @@ export class Skill {
 	name :string;
 	level? :number;
 	text? :string; //optional text to show
-	links? :URL[]; //contains files or repositories to display in cv
+	links? :string[]; //contains files or repositories to display in cv
 	options? :SkillOption; //internal use
 }
 
@@ -82,7 +82,6 @@ export class SkillOption {
 	topics? :string[]; // used instead of skill name if exists
 	file? :string[];
 	rfile? :string[];
-	urls? :string[]; // websites to show
 }
 
 // export class Timeline {

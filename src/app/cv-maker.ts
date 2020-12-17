@@ -85,7 +85,7 @@ export class CvMaker {
 		this.sub$.next(newCv);
 	}
 
-	applyMask(mask :any[], cv) {
+	applyMask(mask :any[], cv) :void {
 		try {
 			switch (mask.length) {
 				case 1:
@@ -102,12 +102,11 @@ export class CvMaker {
 					break;
 			}
 		} catch (e) {
-			// console.log(e.name);
-			// console.log(e.message);
+				// TODO: better solution would be to make sure parent masks are evaluated last, or prevent child masks from being evaluated
 			const re = /Cannot read property '\w*' of undefined/;
 			if (re.test(e.message)) {
 				// probably caused by a parent mask, ignore as a easy solution
-				// TODO: better solution would be to make sure parent masks are evaluated last, or prevent child masks from being evaluated
+				return;
 			} else {
 				console.error(e);
 			}
@@ -147,68 +146,63 @@ export class CvMaker {
 					switch (option) {
 						case "topics":
 							v.options.topics.forEach( (topic) => {
-								this.cv.skills[i].links = v.links.concat(this.getReposByTopic(topic));
+								this.cv.skills[i].links.push(...this.getReposByTopic(topic));
 							});
 							break
 						case "file":
 							v.options.file.forEach( (file) => {
-								this.cv.skills[i].links = v.links.concat(this.getReposByFileName(file));
+								this.cv.skills[i].links.push(...this.getReposByFileName(file));
 							});
 							break
 						case "rfile":
 							v.options.rfile.forEach( (file) => {
-								this.cv.skills[i].links = v.links.concat(this.getReposByFileNameRegex(file));
+								this.cv.skills[i].links.push(...this.getReposByFileNameRegex(file));
 							});
-						case "urls":
-							v.options.urls.forEach( (url) => {
-								this.cv.skills[i].links.push(new URL(url));
-							});
-							break
 						default:
 							throw "invalid option found in skill "+option;
 					}
 				});
 				// if topics is not an option, use skill name to get repo urls
 				if (! ("topics" in v.options)) {
-					this.cv.skills[i].links = v.links.concat(this.getReposByTopic(v.name));
+					this.cv.skills[i].links.push(...this.getReposByTopic(v.name));
 				}
 			} else {
-				this.cv.skills[i].links = v.links.concat(this.getReposByTopic(v.name));
+				this.cv.skills[i].links.push(...this.getReposByTopic(v.name));
 			}
 		});
 	}
 
-	getReposByFileNameRegex(regex :string) :URL[] {
-		let result :URL[] = [];
+	getReposByFileNameRegex(regex :string) :string[] {
+		let result :string[] = [];
 		let re = new RegExp(regex);
 		this.cache.forEach( (v) => {
 			let file = v.files.data.find( (ele :any) => {
 				return re.test(ele.name);
 			});
 			if (file != undefined) {
-				result.push(new URL(file.html_url));
+				result.push(file.html_url);
 			}
 		});
 		return result;
 	}
 
 
-	getReposByFileName(filename :string) :URL[] {
-		let result :URL[] = [];
+	getReposByFileName(filename :string) :string[] {
+		let result :string[] = [];
 		this.cache.forEach( (v) => {
 			let file = v.files.data.find( (ele :any) => { return ele.name === filename });
 			if (file != undefined) {
-				result.push(new URL(file.html_url));
+				result.push(file.html_url);
 			}
 		});
 		return result;
 	}
 
-	getReposByTopic(topic :string) :URL[] {
-		let result :URL[] = [];
+	getReposByTopic(topic :string) :string[] {
+		let result :string[] = [];
 		this.cache.forEach( (v) => {
 			if (v.topics.data.names.some( (ele :string) => { return ele === topic })) {
-				result.push(new URL(v.info.html_url));
+				result.push(v.info.html_url);
 			}
 		});
 		return result;

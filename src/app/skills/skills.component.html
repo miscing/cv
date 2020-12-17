@@ -12,10 +12,10 @@
 		<mat-card-actions *ngIf="skill.links?.length > 0">
 			<h3 class="link-desc">References:</h3>
 			<mat-nav-list>
-				<a mat-list-item *ngFor="let link of skill.links" href="{{ link.toString() }}">
+				<a mat-list-item *ngFor="let link of skill.links" href="{{ link }}">
 					<mat-icon>link</mat-icon>
 					<span class="external-link">
-						{{ link.hostname + link.pathname }}
+						{{ urlify(link) }}
 					</span>
 				</a>
 			</mat-nav-list>
