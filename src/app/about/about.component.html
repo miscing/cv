@@ -2,7 +2,7 @@
 <p *ngFor="let text of about.text" class="protected about-text">{{ text }}</p>
 <mat-card class="protected">
 	<div class="extra-info">
-		<div id="languages">
+		<div *ngIf="about?.langs" id="languages">
 			<h3>Languages:</h3>
 			<p class="proficiency-desc">Proficiency goes 1-5, where 5 is best</p>
 			<mat-list dense>
@@ -11,7 +11,7 @@
 				</mat-list-item>
 			</mat-list>
 		</div>
-		<div *ngIf="about.custom" class="others">
+		<div *ngIf="about?.custom" class="others">
 			<h3 *ngFor="let custom of about.custom">
 				{{custom.key | titlecase}}: <span class="emphasize">{{custom.value}}</span>
 			</h3>

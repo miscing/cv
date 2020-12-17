@@ -1,13 +1,92 @@
-import { Input, Component, OnInit } from '@angular/core';
+import { EventEmitter, Output, Input, Component, OnInit } from '@angular/core';
 
-import { Cv, Skill } from '../cv';
+import { Cv } from '../cv';
+import { CvMask } from '../cv-mask';
+
+const tops :string[] = [
+	"profile",
+	"about",
+	"skills",
+]
+
+@Component({
+	selector: 'app-select',
+	templateUrl: './select.component.html',
+	styleUrls: ['./select.component.scss']
+})
+export class SelectComponent implements OnInit {
+	@Input() cv :Cv;
+	@Output() mask = new EventEmitter<CvMask>();
+	checkboxes :TopLevel[];
+
+	constructor() {
+		this.checkboxes = [];
+	}
+
+	// this is necessary to guarantee order of top level items
+	ngOnInit(): void {
+		tops.forEach( name => {
+			let topLevel = new TopLevel(name);
+			topLevel.children = this.getChildren(name);
+			this.checkboxes.push(topLevel);
+		});
+	}
+
+	getChildren(topField :string) :CvField[] {
+		let result = [];
+		let mask = [topField];
+		for(const field in this.cv) {
+			if (field === topField) {
+				if (Array.isArray(this.cv[field])) {
+					result.push(...makeCvField(this.cv[field], mask));
+				} else {
+					for(const child in this.cv[field]) {
+						if (Array.isArray(this.cv[field][child])) {
+								result.push(...makeCvField(this.cv[field][child], mask.concat(child)));
+						}
+					}
+				}
+				return result;
+			}
+		}
+		return null;
+	}
+
+	emitMask(cvField :CvField) :void {
+		this.mask.emit(new CvMask(cvField.mask, !cvField.selected));
+	}
+
+	emitMasks(topLevel :TopLevel) :void {
+		topLevel.children.forEach( child => {
+			this.mask.emit(new CvMask(child.mask, !child.selected));
+		});
+	}
+}
+
+function makeCvField(arr :any[], mask :any[]) :CvField[] {
+	let result = [];
+	arr.forEach( (child :any, i :number) => {
+		if (child.hasOwnProperty("name")){
+			result.push(new CvField(child.name, mask.concat(i)));
+		} else if(child.hasOwnProperty("key")) {
+			result.push(new CvField(child.key, mask.concat(i)));
+		} else {
+			result.push(new CvField(String(i), mask.concat(i)));
+		}
+	});
+	return result;
+}
 
 class CvField {
 	name :string;
 	selected :boolean;
-	constructor(name :string) {
+	mask :any[];
+	constructor(name :string, mask? :any[]) {
 		this.name = name;
 		this.selected = true;
+		if (mask) {
+			this.mask = mask;
+		}
 	}
 
 	toggle(val :boolean) :void {
@@ -42,66 +121,4 @@ class TopLevel extends CvField {
 		}
 		this.children.forEach(c => c.selected = completed);
 	}
-}
-
-const tops :string[] = [
-	"profile",
-	"about",
-	"skills",
-]
-
-@Component({
-	selector: 'app-select',
-	templateUrl: './select.component.html',
-	styleUrls: ['./select.component.scss']
-})
-export class SelectComponent implements OnInit {
-	@Input() cv :Cv;
-	checkboxes :TopLevel[];
-
-	constructor() {
-		this.checkboxes = [];
-	}
-
-	// this is necessary to guarantee order of top level items
-	ngOnInit(): void {
-		tops.forEach( name => {
-			let topLevel = new TopLevel(name);
-			topLevel.children = this.getChildren(name);
-			this.checkboxes.push(topLevel);
-		});
-	}
-
-	getChildren(topField :string) :CvField[] {
-		let result = [];
-		for(const field in this.cv) {
-			if (field === topField) {
-				if (Array.isArray(this.cv[field])) {
-					result.push(...makeCvField(this.cv[field]));
-				} else {
-					for(const child in this.cv[field]) {
-						if (Array.isArray(this.cv[field][child])) {
-								result.push(...makeCvField(this.cv[field][child]));
-						}
-					}
-				}
-				return result;
-			}
-		}
-		return null;
-	}
-}
-
-function makeCvField(arr :any[]) :CvField[] {
-	let result = [];
-	arr.forEach( (child :any, i :number) => {
-		if (child.hasOwnProperty("name")){
-			result.push(new CvField(child.name));
-		} else if(child.hasOwnProperty("key")) {
-			result.push(new CvField(child.key));
-		} else {
-			result.push(new CvField(String(i)));
-		}
-	});
-	return result;
 }

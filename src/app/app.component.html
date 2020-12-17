@@ -1,4 +1,4 @@
-<app-select [cv]="data | async"></app-select>
+<app-select (mask)="maker.Mask($event)" [cv]="data | async"></app-select>
 <div #cvdoc class="cvdoc">
 	<app-profile [profile]="(data | async).profile"></app-profile>
 	<app-about [about]="(data | async).about"></app-about>

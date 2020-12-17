@@ -1,11 +1,11 @@
 <div class="profile">
-	<img src="{{ profile.pic }}">
-	<div class="name">
+	<img *ngIf="profile?.pic" src="{{ profile.pic }}">
+	<div *ngIf="profile"class="name">
 		<h1>{{ profile.firstname }}</h1>
 		<h1>{{ profile.surname }}</h1>
 	</div>
 </div>
-<div class="external">
+<div *ngIf="profile?.links" class="external">
 	<button *ngFor="let link of links" mat-button>
 		<a target="_blank" rel="noopener noreferrer" href="{{link.link.href}}" class="links">
 			<img *ngIf="link.img; else text" src="{{link.img}}">

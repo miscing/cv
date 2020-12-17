@@ -34,9 +34,11 @@ import { CvMaker } from './cv-maker';
 })
 export class AppComponent {
 	data :Observable<Cv>;
+	maker :CvMaker;
 
 	constructor() {
 		// second argument is optional, true to use mock data
-		this.data = new CvMaker(rawData, true).output(); //initiliaze
+		this.maker = new CvMaker(rawData, true); //initiliaze
+		this.data = this.maker.Output();
 	}
 }

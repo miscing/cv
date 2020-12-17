@@ -24,6 +24,7 @@ import { Octokit } from "@octokit/rest"
 import { Observable, BehaviorSubject } from "rxjs"
 
 import { Cv } from './cv';
+import { CvMask } from './cv-mask';
 
 import mockdata from './cv_data_dump.json';
 import { saveAs } from 'file-saver';
@@ -38,9 +39,11 @@ export class CvMaker {
 	cv :Cv;
 	sub$ :BehaviorSubject<Cv>;
 	cache: Map<string, Repo>; //maps repo name to information (not url due to difficult characters in urls)
+	maskCache: Map<string, any[]>; //maps repo name to information (not url due to difficult characters in urls)
 
 	constructor(data :Cv, mock? :boolean, store? :boolean) {
 		this.cv = data;
+		this.maskCache = new Map();
 		this.sub$ = new BehaviorSubject<Cv>(data);
 		if (mock) {
 			console.log("using mock data");
@@ -60,8 +63,44 @@ export class CvMaker {
 		}
 	}
 
-	output() :Observable<Cv> {
+	Output() :Observable<Cv> {
 		return this.sub$;
+	}
+
+	Mask(mask :CvMask) {
+		if (mask.add) {
+			this.maskCache.set(mask.mask.join(), mask.mask);
+		} else {
+			this.maskCache.delete(mask.mask.join());
+		}
+		this.applyMasks();
+	}
+
+	applyMasks() :void {
+		// TODO: ASYNC this? What will happen if multiple delete get called in async?
+		let newCv = JSON.parse(JSON.stringify(this.cv)); //What a disgusting hack. Jesus
+		for(const entry of this.maskCache) {
+			this.applyMask(entry[1], newCv);
+		}
+		this.sub$.next(newCv);
+		console.log(newCv);
+	}
+
+	applyMask(mask :any[], cv :Cv) :void {
+		switch (mask.length) {
+			case 1:
+				delete cv[mask[0]];
+				break;
+			case 2:
+				cv[mask[0]].splice(mask[1], 1);
+				break;
+			case 3:
+				cv[mask[0]][mask[1]].splice(mask[2], 1);
+				break;
+			default:
+				console.error("Received mask of invalid length, must be between 1-3. Got: ", mask.length, "\nmask: ",mask);
+				break;
+		}
 	}
 
 	storeCache() {

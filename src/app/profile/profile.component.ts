@@ -78,10 +78,12 @@ export class ProfileComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
-		this.profile.links.forEach( (item) => {
-			let newLink = new external(item);
-			this.links.push(newLink);
-		});
+		if (this.profile?.links) {
+			this.profile.links.forEach( (item) => {
+				let newLink = new external(item);
+				this.links.push(newLink);
+			});
+		}
 	}
 
 }
