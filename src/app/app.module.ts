@@ -36,6 +36,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SkillsComponent } from './skills/skills.component';
 import { AboutComponent } from './about/about.component';
 import { SelectComponent } from './select/select.component';
+import { ControlsComponent } from './controls/controls.component';
 // import { DialogComponent } from './dialog/dialog.component';
 
 @NgModule({
@@ -44,7 +45,8 @@ import { SelectComponent } from './select/select.component';
 		ProfileComponent,
 		SkillsComponent,
 		AboutComponent,
-		SelectComponent
+		SelectComponent,
+		ControlsComponent
 		// DialogComponent
 	],
 	imports: [

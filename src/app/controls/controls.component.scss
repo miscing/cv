@@ -1,0 +1,16 @@
+.control-buttons {
+	display: flex;
+	flex-direction: column;
+	button {
+		font-family: roboto;
+		font-weight: bold;
+		width: 100%;
+		margin: 2vh 1vw;
+	}
+}
+
+@media print {
+	:host {
+		display: none;
+	}
+}

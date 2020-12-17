@@ -1,3 +1,4 @@
+
 .selector {
 	padding: 2vh 0;
 	display: flex;
@@ -10,7 +11,8 @@
 }
 
 mat-checkbox {
-	margin: 1vh;
+	font-family: roboto;
+	margin: 2vh 1vw;
 }
 
 @media print {

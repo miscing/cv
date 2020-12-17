@@ -287,7 +287,6 @@ function genSkill(item) {
                         skillOpt.rfile = option[optName];
                         break;
                     case 'url':
-                        // skillOpt.urls = option[optName];
                         if (!skill.links) {
                             skill.links = [];
                         }
