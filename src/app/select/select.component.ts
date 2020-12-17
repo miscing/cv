@@ -52,14 +52,8 @@ export class SelectComponent implements OnInit {
 		return null;
 	}
 
-	emitMask(cvField :CvField) :void {
-		this.mask.emit(new CvMask(cvField.mask, !cvField.selected));
-	}
-
-	emitMasks(topLevel :TopLevel) :void {
-		topLevel.children.forEach( child => {
-			this.mask.emit(new CvMask(child.mask, !child.selected));
-		});
+	emitMask(mask :any[], add :boolean) :void {
+		this.mask.emit(new CvMask(mask, add));
 	}
 }
 

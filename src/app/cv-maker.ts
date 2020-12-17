@@ -83,7 +83,6 @@ export class CvMaker {
 			this.applyMask(entry[1], newCv);
 		}
 		this.sub$.next(newCv);
-		console.log(newCv);
 	}
 
 	applyMask(mask :any[], cv :Cv) :void {
