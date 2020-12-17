@@ -42,7 +42,8 @@ export class AppComponent implements AfterViewInit {
 
 	constructor(private renderer :Renderer2) {
 		// second argument is optional, true to use mock data
-		this.maker = new CvMaker(rawData, true); //initiliaze
+		// this.maker = new CvMaker(rawData, true); //initiliaze
+		this.maker = new CvMaker(rawData); //initiliaze
 		this.data = this.maker.Output();
 	}
 
