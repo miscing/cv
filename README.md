@@ -13,6 +13,10 @@ A personal cv generator. Generates a cv based on github repository topics, so yo
    1. Use GUI in website and copy generated JSON to `cv.json`.
    2. Configure using YAML in cv.yml file, then run pipeline.
 
+## Example:
+Here is my own CV, be nice (But feedback is highly encouraged, whether about content or underlying code)!
+[Always looking for a good job :)](https://miscing.github.io/cv/)
+
 ## Yaml syntax
 
 ### Top level:
