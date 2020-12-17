@@ -19,7 +19,7 @@
 // permissions and limitations under the Licence.
 //
 
-import { AfterViewChecked, Component } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 
 import { Renderer2 } from '@angular/core';
 
@@ -36,7 +36,7 @@ const a4Height = 297; //in millimeters
 	templateUrl: './app.component.html',
 	styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements AfterViewChecked {
+export class AppComponent implements AfterViewInit {
 	data :Observable<Cv>;
 	maker :CvMaker;
 
@@ -46,8 +46,10 @@ export class AppComponent implements AfterViewChecked {
 		this.data = this.maker.Output();
 	}
 
-	ngAfterViewChecked() {
-		this.pageBreakFromPage(20);
+	ngAfterViewInit() {
+		const distanceToPutInNewPage = 20;
+		this.pageBreakFromPage(distanceToPutInNewPage);
+		this.data.subscribe( () => this.pageBreakFromPage(distanceToPutInNewPage));
 	}
 
 	// inserts a page break to element if within distanceMM of end of a4
@@ -58,6 +60,8 @@ export class AppComponent implements AfterViewChecked {
 			const normalizer = Math.floor(botOffset / a4Height) + 1
 			if( Math.abs(botOffset*normalizer - a4Height) <= distanceMM) {
 				this.renderer.setStyle(els[i], "page-break-before", "always");
+			} else {
+				this.renderer.removeStyle(els[i], "page-break-before");
 			}
 		}
 	}
