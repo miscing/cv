@@ -10,7 +10,7 @@ A personal cv generator. Generates a cv based on github repository topics, so yo
 ## To use:
 1. Fork or otherwise copy this repository. (you may want to delete/rename/empty `cv.json` and `cv.yml`
 2. Configure with one of the two methods:
-   1. Use GUI in website and copy generated JSON to `cv.json`.
+   1. (Under development) Use GUI in website and copy generated JSON to `cv.json`.
    2. Configure using YAML in cv.yml file, then run pipeline.
 
 ## Example:

@@ -4,11 +4,11 @@ gitlab: miscing
 matrix: "@miscing:matrix.org"
 
 about:
-  - "A passionate coder and computer enthusiast, I started my adult career studying for a Bachelor Programme in International Business at Aalto university. After my university years I found my love for computers and eventually, coding. Since then I have spend the majority of my time coding or tweaking Linux systems, I particularly enjoy learning new computer skills, and consider myself adept at quickly picking up programming languages, libraries and frameworks. While my strengths lie in low level (Linux) stuff, I have also build websites and dabbled in data analysis such as discrete Fourier transform and machine learning. My years of business studies and running my single-person company (I imported and sold industrial parts in Finland) have also given me a solid understanding of finance, sales and customer service. It has also made me a very social person who enjoys working with others in projects as well as performing presentations and other public events. Before all this I spend my formative years in Spain, before moving to Finland at the age of 8. This has given me a multicultural outlook on life as well as a native speaker dominance of Finnish, Spanish and English. Of these, by far my strongest language is English, having been in English-speaking environments since kindergarten. In my free time I like to read, climb, ski, scuba-dive (not so often in Finland) or go camping. Nevertheless, my true leisure time love has to be good food.\n\n\tIf you are looking for a motivated and social coder who isn't afraid of learning new skills, here I am."
+  - "A passionate coder and computer enthusiast, I started my adult career studying for a Bachelor Programme in International Business at Aalto university. After my university years I found my love for computers and eventually, coding. Since then I have spent the majority of my time coding or tweaking Linux systems, I particularly enjoy learning new computer skills, and consider myself adept at quickly picking up programming languages, libraries and frameworks. While my strengths lie in low level (Linux) stuff, I have also build websites and dabbled in data analysis such as discrete Fourier transform and machine learning. My years of business studies and running my single-person company (I imported and sold industrial parts in Finland) have also given me a solid understanding of finance, sales and customer service. It has also made me a very social person who enjoys working with others in projects as well as performing presentations and other public events. Before all this I spent my formative years in Spain, before moving to Finland at the age of 8. This has given me a multicultural outlook on life as well as a native speaker dominance of Finnish, Spanish and English. Of these, by far my strongest language is English, having been in English-speaking environments since kindergarten. In my free time I like to read, climb, ski, scuba-dive (not so often in Finland) or go camping. Nevertheless, my true leisure time love has to be good food.\n\n\tIf you are looking for a motivated and social coder who isn't afraid of learning new skills, here I am."
   - languages:
     - english: 5
-    - spanish: 2
-    - finnish: 3
+    - spanish: 3
+    - finnish: 4
   - 'drivers license': "AB, EU"
   - company: "Oniservus"
 
@@ -27,7 +27,7 @@ skills:
   - bash:
     - level: 3
   - typescript/javascript:
-    - level: 2
+    - level: 3
     - javascript
     - typescript
   - python:
@@ -35,7 +35,7 @@ skills:
   - c:
     - level: 1
   - sql:
-    - level: 1
+    - level: 2
     - text: "I have used mariadb in the past as a database, lately usage is limited to linking mariadb official container to other solutions such as matomo, wordpress and mattermost using podman pods. While I am not currently proficient with mysql, I feel confident in my ability to work with it if necessary as well as fully capable of designing and implementing a SQL database."
   - linux:
     - level: 4
