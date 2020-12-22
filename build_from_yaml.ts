@@ -21,7 +21,7 @@
 
 import { parse } from 'yaml';
 import { copyFile, readdir, readFile, writeFile } from 'fs';
-import { Cv, About, AboutExtra, Lang, Profile, Link,  Skill, SkillOption } from './src/app/cv';
+import { Cv, About, AboutExtra, Lang, Profile, Link,  Skill, SkillOption, Moment, SimpleDate } from './src/app/cv';
 import { fromFile } from 'file-type';
 
 function generateCv(file :string) : Promise<Cv>{
@@ -43,18 +43,63 @@ function generateCv(file :string) : Promise<Cv>{
 			let skills = generateSkills(parsed.skills);
 			// generate about
 			let about = generateAbout(parsed.about);
+			// generate timeline
+			let timeline = generateTimeline(parsed.timeline);
 			// generate profile
 			let prof = generateProfile(parsed);
 
 			// collect results
-			Promise.all([skills, prof, about]).then( resArr => {
+			Promise.all([skills, prof, about, timeline]).then( resArr => {
 				cv.skills = resArr[0];
 				cv.profile = resArr[1];
 				cv.about = resArr[2];
+				cv.timeline = resArr[3];
 				return resolve(cv);
 			}).catch(e => { return reject(e) });
 		});
 	});
+}
+
+function generateTimeline(timeline :any) :Promise<Moment[]> {
+	return new Promise( (resolve, reject) => {
+		let result = [];
+		timeline.forEach( obj => {
+			let moment = parseDate(Object.getOwnPropertyNames(obj)[0]);
+			moment.desc = obj[Object.getOwnPropertyNames(obj)[0]];
+			result.push(moment);
+		});
+		resolve(result);
+	});
+}
+
+function parseDate(date :string) :Moment {
+	let dates = date.split('-');
+	if (dates.length != 2) {
+		throw "timeline dates must consist of two '-' seperated dates, a start and end";
+	}
+	let moment = new Moment;
+	dates.forEach( (d, i)=>  {
+		let dest :string;
+		if (i === 0) {
+			dest = "dateStart";
+		} else {
+			dest = "dateEnd";
+		}
+		let dFields = d.split('/');
+		switch (dFields.length) {
+			case 2:
+				moment[dest] = new SimpleDate(Number(dFields[0]), Number(dFields[1]));
+				break;
+			case 3:
+				// ignores day
+				console.log("CV only allows month/year dates, ignoring day in "+date);
+				moment[dest] = new SimpleDate(Number(dFields[1]), Number(dFields[2]));
+				break;
+			default:
+				throw new SyntaxError("incorrect syntax in date: "+date);
+		}
+	});
+	return moment;
 }
 
 function generateAbout(parsedAbout :any) :Promise<About> {

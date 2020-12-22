@@ -79,17 +79,61 @@ function generateCv(file) {
             var skills = generateSkills(parsed.skills);
             // generate about
             var about = generateAbout(parsed.about);
+            // generate timeline
+            var timeline = generateTimeline(parsed.timeline);
             // generate profile
             var prof = generateProfile(parsed);
             // collect results
-            Promise.all([skills, prof, about]).then(function (resArr) {
+            Promise.all([skills, prof, about, timeline]).then(function (resArr) {
                 cv.skills = resArr[0];
                 cv.profile = resArr[1];
                 cv.about = resArr[2];
+                cv.timeline = resArr[3];
                 return resolve(cv);
             })["catch"](function (e) { return reject(e); });
         });
     });
+}
+function generateTimeline(timeline) {
+    return new Promise(function (resolve, reject) {
+        var result = [];
+        timeline.forEach(function (obj) {
+            var moment = parseDate(Object.getOwnPropertyNames(obj)[0]);
+            moment.desc = obj[Object.getOwnPropertyNames(obj)[0]];
+            result.push(moment);
+        });
+        resolve(result);
+    });
+}
+function parseDate(date) {
+    var dates = date.split('-');
+    if (dates.length != 2) {
+        throw "timeline dates must consist of two '-' seperated dates, a start and end";
+    }
+    var moment = new cv_1.Moment;
+    dates.forEach(function (d, i) {
+        var dest;
+        if (i === 0) {
+            dest = "dateStart";
+        }
+        else {
+            dest = "dateEnd";
+        }
+        var dFields = d.split('/');
+        switch (dFields.length) {
+            case 2:
+                moment[dest] = new cv_1.SimpleDate(Number(dFields[0]), Number(dFields[1]));
+                break;
+            case 3:
+                // ignores day
+                console.log("CV only allows month/year dates, ignoring day in " + date);
+                moment[dest] = new cv_1.SimpleDate(Number(dFields[1]), Number(dFields[2]));
+                break;
+            default:
+                throw new SyntaxError("incorrect syntax in date: " + date);
+        }
+    });
+    return moment;
 }
 function generateAbout(parsedAbout) {
     return new Promise(function (resolve, reject) {

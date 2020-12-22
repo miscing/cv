@@ -20,7 +20,7 @@
 // permissions and limitations under the Licence.
 //
 exports.__esModule = true;
-exports.SkillOption = exports.Skill = exports.Lang = exports.AboutExtra = exports.About = exports.Link = exports.Profile = exports.Cv = void 0;
+exports.SimpleDate = exports.Moment = exports.SkillOption = exports.Skill = exports.Lang = exports.AboutExtra = exports.About = exports.Link = exports.Profile = exports.Cv = void 0;
 var Cv = /** @class */ (function () {
     function Cv() {
     }
@@ -76,10 +76,23 @@ var SkillOption = /** @class */ (function () {
     return SkillOption;
 }());
 exports.SkillOption = SkillOption;
-// export class Timeline {
-// 	dates :Moment[];
-// }
-// export class Moment {
-// 	date :Date;
-// 	event :string; //text to show, for example "Started as account handler at Company A"
-// }
+var Moment = /** @class */ (function () {
+    function Moment() {
+    }
+    return Moment;
+}());
+exports.Moment = Moment;
+var SimpleDate = /** @class */ (function () {
+    function SimpleDate(month, year) {
+        if (month > 12 || month < 1) {
+            throw SyntaxError("invalid month, must be between 1 and 12");
+        }
+        this.month = month;
+        if (year > new Date().getFullYear() || year < 1900) {
+            throw SyntaxError("invalid year, must be between current year and 1900");
+        }
+        this.year = year;
+    }
+    return SimpleDate;
+}());
+exports.SimpleDate = SimpleDate;

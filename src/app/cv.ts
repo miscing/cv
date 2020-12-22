@@ -22,6 +22,7 @@
 export class Cv {
 	profile :Profile;
 	about? :About;
+	timeline? :Moment[];
 	skills? :Skill[];
 }
 
@@ -84,11 +85,23 @@ export class SkillOption {
 	rfile? :string[];
 }
 
-// export class Timeline {
-// 	dates :Moment[];
-// }
+export class Moment {
+	dateStart :SimpleDate;
+	dateEnd :SimpleDate;
+	desc :string; //text to show, for example "Started as account handler at Company A"
+}
 
-// export class Moment {
-// 	date :Date;
-// 	event :string; //text to show, for example "Started as account handler at Company A"
-// }
+export class SimpleDate {
+	month :number;
+	year :number;
+	constructor(month, year) {
+		if (month > 12 || month < 1) {
+			throw SyntaxError("invalid month, must be between 1 and 12");
+		}
+		this.month = month;
+		if (year > new Date().getFullYear() || year < 1900) {
+			throw SyntaxError("invalid year, must be between current year and 1900");
+		}
+		this.year = year;
+	}
+}
