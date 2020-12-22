@@ -20,7 +20,7 @@ Here is my own CV, be nice (But feedback is highly encouraged, whether about con
 ## Yaml syntax
 
 ### Top level:
-Top level items are used to construct the profile. On top of the reserved keywords in the table below, all the following sections have their own keyword, keyword are same as section title (`- about`).
+Top level items are used to construct the profile. On top of the reserved keywords in the table below, all the following sections have their own keyword, keyword are same as section title.
 
 | Keyword    | Input syntax              | Explanation                                                                                                       |
 |------------|---------------------------|-------------------------------------------------------------------------------------------------------------------|
@@ -39,7 +39,7 @@ about:
 
 | Keyword    | Input syntax              | Explanation                                                                                                       |
 |------------|---------------------------|-------------------------------------------------------------------------------------------------------------------|
-| language   | a language number pair    | Name of language spoken and proficiency in a scale of 1-5.                                                        |
+| language   | a language and number     | Language proficiency: Limited working proficiency, working proficiency and native, 1-3 respectively (3 is native).|
 | custom     | string                    | A string containing a free form text describing you, all items that are strings will be interpreted as this.      |
 
 
@@ -60,5 +60,21 @@ skills:
 | url        | list of valid url         | This urls will be show in addition (or alone) to repositories, in the same way                                    |
 | level      | number 1-5, 5 is best     | Meant to be a general indication of proficiency in the given skill.                                               |
 | custom     | string, skill name        | Name of topic or topics to match with, overrides matching with parent skill name.                                 |
+
+### Example Yaml:
+```yaml
+name: John Doe
+github: johnnydoe
+
+about: "While my name is a reference to 'nobody', I assure you that I myself am incredibly irremarkable. I first entered existance on Decemeber 2020, when there came a need for a example person to use to showcase the features of a CV generation website. I have done little else in that capacity, but you will find that I am referenced everywhere in the world. You could say I am the greatest 'personal information' model in the world."
+
+skills:
+  - javascript
+  - c
+  - kotlin
+```
+
+
+## Other Information:
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.1.7.

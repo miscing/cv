@@ -4,10 +4,10 @@
 	<div class="extra-info">
 		<div *ngIf="about?.langs" id="languages">
 			<h3>Languages:</h3>
-			<p class="proficiency-desc">Proficiency goes 1-5, where 5 is best</p>
+			<p class="proficiency-desc">limited, working or native proficiency</p>
 			<mat-list dense>
 				<mat-list-item *ngFor="let lang of about.langs">
-					<p>{{lang.name | titlecase}}: {{lang.level}}</p>
+					<p>{{lang.name | titlecase}}: {{langProf(lang.level)}}</p>
 				</mat-list-item>
 			</mat-list>
 		</div>

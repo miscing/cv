@@ -14,4 +14,15 @@ export class AboutComponent implements OnInit {
 
 	ngOnInit(): void {
 	}
+
+	langProf(num :number) :string {
+		switch (num) {
+			case 1:
+				return "limited working proficiency";
+			case 2:
+				return "working proficiency";
+			case 3:
+				return "native";
+		}
+	}
 }
