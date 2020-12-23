@@ -159,7 +159,7 @@ export class CvMaker {
 								this.cv.skills[i].links.push(...this.getReposByFileNameRegex(file));
 							});
 						default:
-							throw "invalid option found in skill "+option;
+							throw new Error("invalid option found in skill "+option);
 					}
 				});
 				// if topics is not an option, use skill name to get repo urls
@@ -224,7 +224,7 @@ export class CvMaker {
 			}
 		});
 		if (typeof username !== "string" ) {
-			throw "no links found for "+name;
+			throw new Error("no links found for "+name);
 		}
 		return username;
 	}

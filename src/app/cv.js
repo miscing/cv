@@ -77,7 +77,17 @@ var SkillOption = /** @class */ (function () {
 }());
 exports.SkillOption = SkillOption;
 var Moment = /** @class */ (function () {
-    function Moment() {
+    function Moment(start, end) {
+        if (start.year === end.year) {
+            if (start.month > end.month) {
+                throw SyntaxError("Moment start month(" + start.month + ") must precede end month(" + end.month + ")");
+            }
+        }
+        else if (start.year > end.year) {
+            throw SyntaxError("Moment start year(" + start.year + ") must precede end year(" + end.year + ")");
+        }
+        this.start = start;
+        this.end = end;
     }
     return Moment;
 }());

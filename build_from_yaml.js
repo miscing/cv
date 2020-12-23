@@ -108,32 +108,35 @@ function generateTimeline(timeline) {
 function parseDate(date) {
     var dates = date.split('-');
     if (dates.length != 2) {
-        throw "timeline dates must consist of two '-' seperated dates, a start and end";
+        throw new SyntaxError("timeline dates must consist of two '-' seperated dates, a start and end");
     }
-    var moment = new cv_1.Moment;
+    var parsedD = [];
     dates.forEach(function (d, i) {
-        var dest;
-        if (i === 0) {
-            dest = "dateStart";
-        }
-        else {
-            dest = "dateEnd";
-        }
         var dFields = d.split('/');
         switch (dFields.length) {
             case 2:
-                moment[dest] = new cv_1.SimpleDate(Number(dFields[0]), Number(dFields[1]));
+                parsedD[i] = new cv_1.SimpleDate(Number(dFields[0]), Number(dFields[1]));
                 break;
             case 3:
                 // ignores day
                 console.log("CV only allows month/year dates, ignoring day in " + date);
-                moment[dest] = new cv_1.SimpleDate(Number(dFields[1]), Number(dFields[2]));
+                parsedD[i] = new cv_1.SimpleDate(Number(dFields[1]), Number(dFields[2]));
                 break;
             default:
                 throw new SyntaxError("incorrect syntax in date: " + date);
         }
     });
-    return moment;
+    try {
+        return new cv_1.Moment(parsedD[0], parsedD[1]);
+    }
+    catch (e) {
+        if (e instanceof SyntaxError) {
+            throw SyntaxError("error parsing date: " + date + "\nerror: " + e.message);
+        }
+        else {
+            throw e;
+        }
+    }
 }
 function generateAbout(parsedAbout) {
     return new Promise(function (resolve, reject) {
@@ -153,7 +156,7 @@ function generateAbout(parsedAbout) {
                             field.languages.forEach(function (yamlLang) {
                                 var languageName = Object.getOwnPropertyNames(yamlLang);
                                 if (languageName.length === 0) {
-                                    throw "language contains more than one field, invalid syntax.";
+                                    throw SyntaxError("language contains more than one field, invalid syntax.");
                                 }
                                 about.langs.push(new cv_1.Lang(languageName[0], yamlLang[languageName[0]]));
                             });
@@ -174,7 +177,7 @@ function generateAbout(parsedAbout) {
             about.text.push(parsedAbout);
         }
         else {
-            throw "syntax error in about, must contain an array or string";
+            throw SyntaxError("syntax error in about, must contain an array or string");
         }
         resolve(about);
     });
@@ -243,7 +246,7 @@ function genProfile(parsed) {
             case "name":
                 var words = parsed[field].split(' ');
                 if (words.length != 2) {
-                    throw "name must be in format 'firstname surname'";
+                    throw SyntaxError("name must be in format 'firstname surname'");
                 }
                 profile.firstname = words[0];
                 profile.surname = words[1];
@@ -300,7 +303,7 @@ function genSkills(yamlSkills) {
             skill.name = v;
         }
         else {
-            throw "unsupported field in " + v;
+            throw TypeError("unsupported field in " + v);
         }
         skills.push(skill);
     });
@@ -311,7 +314,7 @@ function genSkill(item) {
     var skill = new cv_1.Skill;
     var fields = Object.getOwnPropertyNames(item);
     if (fields.length != 1) {
-        throw "skill with more than one (or 0) names, should not be possible";
+        throw RangeError("skill with more than one (or 0) names, should not be possible");
     }
     skill.name = fields[0];
     var skillOpt = new cv_1.SkillOption;
@@ -340,7 +343,7 @@ function genSkill(item) {
                         skill.level = option[optName];
                         break;
                     default:
-                        throw "invalid option name " + optName;
+                        throw SyntaxError("invalid option name " + optName);
                 }
             });
         }
@@ -353,7 +356,7 @@ function genSkill(item) {
         }
         else {
             // we should not get here
-            throw "invalid yaml for cv";
+            throw SyntaxError("invalid yaml for cv");
         }
         if (Object.getOwnPropertyNames(skillOpt).length !== 0) {
             skill.options = skillOpt;
@@ -367,7 +370,7 @@ function main() {
         var payload = JSON.stringify(cv);
         fs_1.writeFile("cv.json", payload, 'utf-8', function (err) {
             if (err !== null) {
-                throw "error writing file, error: " + err;
+                throw Error("error writing file, error: " + err.message);
             }
             else {
                 console.log("succesfully parsed yaml and generated json cv");

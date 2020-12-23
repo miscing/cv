@@ -86,9 +86,20 @@ export class SkillOption {
 }
 
 export class Moment {
-	dateStart :SimpleDate;
-	dateEnd :SimpleDate;
+	start :SimpleDate;
+	end :SimpleDate;
 	desc :string; //text to show, for example "Started as account handler at Company A"
+	constructor(start :SimpleDate, end :SimpleDate) {
+		if (start.year === end.year) {
+			if(start.month > end.month) {
+				throw SyntaxError("Moment start month("+start.month+") must precede end month("+end.month+")");
+			}
+		} else if(start.year > end.year) {
+			throw SyntaxError("Moment start year("+start.year+") must precede end year("+end.year+")");
+		}
+		this.start = start;
+		this.end = end;
+	}
 }
 
 export class SimpleDate {

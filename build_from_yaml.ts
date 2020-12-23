@@ -75,31 +75,33 @@ function generateTimeline(timeline :any) :Promise<Moment[]> {
 function parseDate(date :string) :Moment {
 	let dates = date.split('-');
 	if (dates.length != 2) {
-		throw "timeline dates must consist of two '-' seperated dates, a start and end";
+		throw new SyntaxError("timeline dates must consist of two '-' seperated dates, a start and end");
 	}
-	let moment = new Moment;
+	let parsedD :SimpleDate[] = [];
 	dates.forEach( (d, i)=>  {
-		let dest :string;
-		if (i === 0) {
-			dest = "dateStart";
-		} else {
-			dest = "dateEnd";
-		}
 		let dFields = d.split('/');
 		switch (dFields.length) {
 			case 2:
-				moment[dest] = new SimpleDate(Number(dFields[0]), Number(dFields[1]));
+				parsedD[i] = new SimpleDate(Number(dFields[0]), Number(dFields[1]));
 				break;
 			case 3:
 				// ignores day
 				console.log("CV only allows month/year dates, ignoring day in "+date);
-				moment[dest] = new SimpleDate(Number(dFields[1]), Number(dFields[2]));
+				parsedD[i] = new SimpleDate(Number(dFields[1]), Number(dFields[2]));
 				break;
 			default:
 				throw new SyntaxError("incorrect syntax in date: "+date);
 		}
 	});
-	return moment;
+	try{
+		return new Moment(parsedD[0], parsedD[1]);
+	} catch (e) {
+		if (e instanceof SyntaxError) {
+			throw SyntaxError("error parsing date: "+date+"\nerror: "+e.message);
+		} else {
+			throw e;
+		}
+	}
 }
 
 function generateAbout(parsedAbout :any) :Promise<About> {
@@ -119,7 +121,7 @@ function generateAbout(parsedAbout :any) :Promise<About> {
 							field.languages.forEach( yamlLang => {
 								let languageName = Object.getOwnPropertyNames(yamlLang);
 								if (languageName.length === 0) {
-									throw "language contains more than one field, invalid syntax.";
+									throw SyntaxError("language contains more than one field, invalid syntax.");
 								}
 								about.langs.push(new Lang(languageName[0], yamlLang[languageName[0]]));
 							});
@@ -138,7 +140,7 @@ function generateAbout(parsedAbout :any) :Promise<About> {
 			// only contains a single main text
 			about.text.push(parsedAbout);
 		} else {
-			throw "syntax error in about, must contain an array or string";
+			throw SyntaxError("syntax error in about, must contain an array or string");
 		}
 		resolve(about);
 	});
@@ -199,7 +201,7 @@ function genProfile(parsed :any) :Profile {
 			case "name":
 				let words = parsed[field].split(' ');
 				if (words.length != 2) {
-					throw "name must be in format 'firstname surname'";
+					throw SyntaxError("name must be in format 'firstname surname'");
 				}
 				profile.firstname = words[0];
 				profile.surname = words[1];
@@ -256,7 +258,7 @@ function genSkills(yamlSkills :any) :Skill[] {
 			// if string assumed to be a skill which matches to same name topics
 			skill.name = v;
 		} else {
-			throw "unsupported field in "+v as string;
+			throw TypeError("unsupported field in "+v);
 		}
 		skills.push(skill);
 	});
@@ -268,7 +270,7 @@ function genSkill(item :any) :Skill {
 	let skill = new Skill;
 	let fields = Object.getOwnPropertyNames(item);
 	if (fields.length != 1) {
-		throw "skill with more than one (or 0) names, should not be possible";
+		throw RangeError("skill with more than one (or 0) names, should not be possible");
 	}
 	skill.name = fields[0];
 	let skillOpt = new SkillOption;
@@ -296,7 +298,7 @@ function genSkill(item :any) :Skill {
 						skill.level = option[optName];
 						break;
 					default:
-						throw "invalid option name "+optName;
+						throw SyntaxError("invalid option name "+optName);
 				}
 			});
 		} else if (typeof option === "string") {
@@ -307,7 +309,7 @@ function genSkill(item :any) :Skill {
 			skillOpt.topics.push(option);
 		} else {
 			// we should not get here
-			throw "invalid yaml for cv";
+			throw SyntaxError("invalid yaml for cv");
 		}
 		if (Object.getOwnPropertyNames(skillOpt).length !== 0) {
 			skill.options = skillOpt;
@@ -322,7 +324,7 @@ function main() {
 		let payload = JSON.stringify(cv);
 		writeFile("cv.json", payload, 'utf-8', err => {
 			if (err !== null) {
-				throw "error writing file, error: "+err as string;
+				throw Error("error writing file, error: "+err.message);
 			} else {
 				console.log("succesfully parsed yaml and generated json cv");
 			}
