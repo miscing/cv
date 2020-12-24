@@ -21,13 +21,45 @@
 
 import { Component } from '@angular/core';
 
+import { MatDialogRef } from '@angular/material/dialog';
+
 @Component({
 	selector: 'app-dialog',
 	templateUrl: './dialog.component.html',
 	styleUrls: ['./dialog.component.scss']
 })
 export class DialogComponent {
+	token :string;
 
-	constructor() { }
+	constructor(private matDialogRef: MatDialogRef<DialogComponent>) { }
 
+	MockData() :void {
+		this.matDialogRef.close(new DialogResponse(true));
+	}
+
+	Token() :void {
+		if (this.token){
+			this.matDialogRef.close(new DialogResponse(this.token));
+		} else {
+			console.error("you must supply a token");
+		}
+	}
+
+}
+
+export class DialogResponse {
+	mock? :boolean;
+	token? :string;
+	constructor(input :any) {
+		switch( typeof input) {
+			case "boolean":
+				this.mock = input;
+				break;
+			case "string":
+				this.token = input;
+				break;
+			default:
+				throw new Error("invalid use of DialogResponse, got an input of type "+typeof input);
+		}
+	}
 }

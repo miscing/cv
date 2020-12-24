@@ -21,6 +21,7 @@
 
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -56,6 +57,7 @@ import { DlJsonComponent } from './dl-json/dl-json.component';
 	],
 	imports: [
 		BrowserModule,
+		FormsModule,
 		MatButtonModule,
 		MatToolbarModule,
 		MatIconModule,

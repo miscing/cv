@@ -1,5 +1,14 @@
-<h1 mat-dialog-title>Dialog with elements</h1>
-<div mat-dialog-content>This dialog showcases the title, close, content and actions elements.</div>
-<div mat-dialog-actions>
+<h1 mat-dialog-title class="title">GitHub API limit reached</h1>
+<div mat-dialog-content class="content">
+	<p>Either supply a personal access token, wait 1 hour or switch to mock data.</p>
+	<p>If you provide a token please use one with minimal permissions.</p>
+	<a target="_blank" href="https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token">Token Instructions</a>
+	<input [(ngModel)]="token" placeholder="github token"/>
+</div>
+<div class="buttons" mat-dialog-actions>
+	<div>
+		<button mat-button mat-dialog-close (click)="MockData()">Use mock data</button>
+		<button mat-button mat-dialog-close (click)="Token()">Use token</button>
+	</div>
   <button mat-button mat-dialog-close>Close</button>
 </div>

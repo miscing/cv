@@ -44,8 +44,8 @@ export class AppComponent implements OnInit, AfterViewInit {
 
 	ngOnInit() :void {
 		// second argument is optional, true to use mock data
-		// this.maker = new CvMaker(rawData); //initiliaze
-		this.maker.Initialize(rawData, true); // with mock data
+		this.maker.Initialize(rawData); //initiliaze
+		// this.maker.Initialize(rawData, true); // with mock data
 		this.data = this.maker.Output();
 	}
 

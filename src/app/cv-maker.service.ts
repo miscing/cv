@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 
+import {MatDialog} from '@angular/material/dialog';
 import { Octokit } from "@octokit/rest"
-
 import { Observable, BehaviorSubject } from "rxjs"
 
 import { Cv } from './cv';
 import { CvMask } from './cv-mask';
+import { DialogComponent } from './dialog/dialog.component';
 
 import mockdata from './cv_data_dump.json';
 import { saveAs } from 'file-saver';
@@ -15,13 +16,13 @@ import { saveAs } from 'file-saver';
 })
 export class CvMakerService {
 
-	constructor() { }
+	constructor(private dialog :MatDialog) { }
 	cv :Cv;
 	sub$ :BehaviorSubject<Cv>;
 	cache: Map<string, Repo>; //maps repo name to information (not url due to difficult characters in urls)
 	maskCache: Map<string, any[][]>; //maps repo name to information (not url due to difficult characters in urls)
 
-	Initialize(data :Cv, mock? :boolean, store? :boolean) {
+	Initialize(data :Cv, mock? :boolean, token? :string, store? :boolean) {
 		this.cv = data;
 		this.maskCache = new Map();
 		this.sub$ = new BehaviorSubject<Cv>(data);
@@ -32,14 +33,29 @@ export class CvMakerService {
 			this.removeDuplicates();
 		} else {
 			// get repos in github got parsing
-			getUserRepos(this.getLinkUsernameByName("github")).then( (repos) => {
+			getUserRepos(this.getLinkUsernameByName("github"), token).then( (repos) => {
 				this.cache = repos;
 				if (store) {
 					this.storeCache() // save all downloaded information as file
 				}
 				this.matchGitToSkills();
 				this.removeDuplicates();
-			}).catch(checkForApiLimit); // get repo information
+			}).catch( error => {
+				if (error.message.includes('API rate limit exceeded')) {
+					console.error("api rate limit reached, use token, mock data or wait 1 hour");
+					this.dialog.open(DialogComponent).afterClosed().subscribe( res => {
+						if (res.mock) {
+							this.Initialize(data, true);
+						} else if (res.token) {
+							this.Initialize(data, false, res.token);
+						} else {
+							throw new Error("API limit reached Dialog have invalid answer");
+						}
+					});
+				} else {
+					console.error(error.message);
+				}
+			});
 		}
 	}
 
@@ -71,7 +87,7 @@ export class CvMakerService {
 		this.sub$.next(newCv);
 	}
 
-	applyMask(mask :any[], cv) :void {
+	applyMask(mask :any[], cv :Cv) :void {
 		try {
 			switch (mask.length) {
 				case 1:
@@ -222,9 +238,13 @@ class Repo { // holds github data dumps
 	topics? :any;
 }
 
-function getUserRepos(username :string) :Promise<Map<string, Repo>>{
+function getUserRepos(username :string, token? :string) :Promise<Map<string, Repo>>{
 	return new Promise( (resolve, reject) => {
-		let github = new Octokit();
+		if (token) {
+			var github = new Octokit({auth:token});
+		} else {
+			var github = new Octokit();
+		}
 		let payload :Map<string, Repo> = new Map(); //maps repository url to list of file
 		github.repos.listForUser({
 			username: username,
@@ -257,13 +277,4 @@ function getUserRepos(username :string) :Promise<Map<string, Repo>>{
 			}).catch((e) => { reject(e) });
 		}).catch((e) => { reject(e) });
 	});
-}
-
-function checkForApiLimit(error :any) {
-	// Checks if error is caused by too many api calls, to open a dialog to use a token
-	if (error.message.includes('API rate limit exceeded')) {
-		console.error("api rate limit reached, use token or wait 1 hour");
-		return
-	}
-	console.error(error.message);
 }
