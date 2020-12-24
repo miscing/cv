@@ -6,9 +6,10 @@ A personal cv generator. Generates a cv based on github repository topics, so yo
  - Select the parts you want to keep, then print as PDF. Keep all your CV versions in one place, customize for each job application.
  - Make CV include all your newest github repositories.
  - Use YAML to easily configure, or generate a JSON using GUI.
+ - You can store settings by removing cv.yml and using the generated cv.json (button right side of website panel)
 
 ## To use:
-1. Fork or otherwise copy this repository. (you may want to delete/rename/empty `cv.json` and `cv.yml`
+1. Fork or otherwise copy this repository. (you may want to delete/rename `cv.json` and/or `cv.yml`)
 2. Configure with one of the two methods:
    1. (Under development) Use GUI in website and copy generated JSON to `cv.json`.
    2. Configure using YAML in cv.yml file, then run pipeline.
@@ -16,6 +17,9 @@ A personal cv generator. Generates a cv based on github repository topics, so yo
 ## Example:
 Here is my own CV, be nice (But feedback is highly encouraged, whether about content or underlying code)!
 [Always looking for a good job :)](https://miscing.github.io/cv/)
+
+## Additional Features:
+Some features like LinkedIn, Facebook, etc. logos are missing but simple to implement. If you ask for such features (create an issue) I will be happy to add them should someone want them.
 
 ## Yaml syntax
 
