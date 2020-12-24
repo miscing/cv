@@ -1,10 +1,6 @@
 $main-line: solid 2px;
 $branch-line: solid 1px;
 
-:host {
-	height: 200mm;
-}
-
 .title {
 	margin: 10mm 0;
 }
@@ -12,6 +8,7 @@ $branch-line: solid 1px;
 .timeline {
 	margin: 0 0 15mm 0;
 	width: 100%;
+	height: 230mm;
 	display: grid;
 	grid-template-columns: 40% 10% 10% 40%;
 	mat-card-header {
@@ -32,7 +29,8 @@ $branch-line: solid 1px;
 
 	.left {
 		mat-card {
-			margin: 0 0 20mm 20mm;
+			// margin: 0 0 20mm 20mm;
+			margin: 0 0 5% 5%;
 		}
 		.lines-top {
 			border-right: $main-line;
@@ -46,7 +44,7 @@ $branch-line: solid 1px;
 
 	.right {
 		mat-card {
-			margin: 20mm 20mm 0 0;
+			margin: 5% 5% 0 0;
 		}
 		.lines-top {
 			height: 80%;
