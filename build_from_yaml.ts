@@ -75,11 +75,10 @@ function generateTimeline(timeline :any) :Promise<Moment[]> {
 function parseDate(date :string) :Moment {
 	let dates = date.split('-');
 	if (dates.length != 2) {
-		throw new SyntaxError("timeline dates must consist of two '-' seperated dates, a start and end");
+		throw new SyntaxError("timeline dates must consist of two '-' seperated dates, a start and end (which can be empty or present)");
 	}
 	if (dates[1] === "" || dates[1] === "present") {
-		let curDate = new Date();
-		dates[1] = String(curDate.getMonth()+1)+"/"+String(curDate.getFullYear())
+		dates.pop();
 	}
 	let parsedD :SimpleDate[] = [];
 	dates.forEach( (d, i)=>  {
@@ -98,6 +97,9 @@ function parseDate(date :string) :Moment {
 		}
 	});
 	try{
+		if (parsedD.length === 1) {
+			return new Moment(parsedD[0]);
+		}
 		return new Moment(parsedD[0], parsedD[1]);
 	} catch (e) {
 		if (e instanceof SyntaxError) {

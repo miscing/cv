@@ -89,7 +89,13 @@ export class Moment {
 	start :SimpleDate;
 	end :SimpleDate;
 	desc :string; //text to show, for example "Started as account handler at Company A"
-	constructor(start :SimpleDate, end :SimpleDate) {
+	present? :boolean;
+	constructor(start :SimpleDate, end? :SimpleDate) {
+		if (!end) {
+			let curDate = new Date();
+			end = new SimpleDate(curDate.getMonth()+1,curDate.getFullYear())
+			this.present = true;
+		}
 		if (start.year === end.year) {
 			if(start.month > end.month) {
 				throw SyntaxError("Moment start month("+start.month+") must precede end month("+end.month+")");
@@ -105,7 +111,7 @@ export class Moment {
 export class SimpleDate {
 	month :number;
 	year :number;
-	constructor(month, year) {
+	constructor(month :number, year :number) {
 		if (month > 12 || month < 1) {
 			throw SyntaxError("invalid month, must be between 1 and 12");
 		}
