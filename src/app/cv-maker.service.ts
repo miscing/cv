@@ -49,7 +49,7 @@ export class CvMakerService {
 						} else if (res.token) {
 							this.Initialize(data, false, res.token);
 						} else {
-							throw new Error("API limit reached Dialog have invalid answer");
+							throw new Error("API limit reached and dialog gave invalid answer");
 						}
 					});
 				} else {
