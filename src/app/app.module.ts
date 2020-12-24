@@ -37,6 +37,7 @@ import { SkillsComponent } from './skills/skills.component';
 import { AboutComponent } from './about/about.component';
 import { SelectComponent } from './select/select.component';
 import { ControlsComponent } from './controls/controls.component';
+import { TimelineComponent } from './timeline/timeline.component';
 // import { DialogComponent } from './dialog/dialog.component';
 
 @NgModule({
@@ -46,7 +47,8 @@ import { ControlsComponent } from './controls/controls.component';
 		SkillsComponent,
 		AboutComponent,
 		SelectComponent,
-		ControlsComponent
+		ControlsComponent,
+		TimelineComponent
 		// DialogComponent
 	],
 	imports: [

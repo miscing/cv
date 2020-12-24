@@ -1,0 +1,21 @@
+<h1 class="title avoid-page-end">Timeline:</h1>
+
+<div class="timeline">
+	<div *ngFor="let m of moments; let i=index" [class]="isLeft(i) ? 'left' : 'right'">
+		<mat-card *ngIf="m; else line">
+			<mat-card-header>
+				<mat-card-title>
+					{{Timespan(m)}}
+				</mat-card-title>
+			</mat-card-header>
+			<mat-card-content>
+				{{ m.desc }}
+			</mat-card-content>
+		</mat-card>
+	</div>
+</div>
+
+<ng-template #line>
+	<div class="lines-top"></div>
+	<div class="lines-bottom"></div>
+</ng-template>

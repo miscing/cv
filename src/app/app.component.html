@@ -2,6 +2,7 @@
 <div #cvdoc class="cvdoc">
 	<app-profile [profile]="(data | async).profile"></app-profile>
 	<app-about *ngIf="(data | async).about" [about]="(data | async).about"></app-about>
+	<app-timeline *ngIf="(data | async).timeline" [moments]="(data | async).timeline"></app-timeline>
 	<app-skills *ngIf="(data | async).skills" [skills]="(data | async).skills"></app-skills>
 </div>
 <app-controls></app-controls>

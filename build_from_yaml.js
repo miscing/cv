@@ -108,7 +108,10 @@ function generateTimeline(timeline) {
 function parseDate(date) {
     var dates = date.split('-');
     if (dates.length != 2) {
-        throw new SyntaxError("timeline dates must consist of two '-' seperated dates, a start and end");
+        throw new SyntaxError("timeline dates must consist of two '-' seperated dates, a start and end (which can be empty or present)");
+    }
+    if (dates[1] === "" || dates[1] === "present") {
+        dates.pop();
     }
     var parsedD = [];
     dates.forEach(function (d, i) {
@@ -119,7 +122,7 @@ function parseDate(date) {
                 break;
             case 3:
                 // ignores day
-                console.log("CV only allows month/year dates, ignoring day in " + date);
+                console.log("CV only allows month/year dates, dropping day in " + date);
                 parsedD[i] = new cv_1.SimpleDate(Number(dFields[1]), Number(dFields[2]));
                 break;
             default:
@@ -127,6 +130,9 @@ function parseDate(date) {
         }
     });
     try {
+        if (parsedD.length === 1) {
+            return new cv_1.Moment(parsedD[0]);
+        }
         return new cv_1.Moment(parsedD[0], parsedD[1]);
     }
     catch (e) {

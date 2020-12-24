@@ -78,6 +78,11 @@ var SkillOption = /** @class */ (function () {
 exports.SkillOption = SkillOption;
 var Moment = /** @class */ (function () {
     function Moment(start, end) {
+        if (!end) {
+            var curDate = new Date();
+            end = new SimpleDate(curDate.getMonth() + 1, curDate.getFullYear());
+            this.present = true;
+        }
         if (start.year === end.year) {
             if (start.month > end.month) {
                 throw SyntaxError("Moment start month(" + start.month + ") must precede end month(" + end.month + ")");
