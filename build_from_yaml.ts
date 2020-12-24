@@ -77,6 +77,10 @@ function parseDate(date :string) :Moment {
 	if (dates.length != 2) {
 		throw new SyntaxError("timeline dates must consist of two '-' seperated dates, a start and end");
 	}
+	if (dates[1] === "" || dates[1] === "present") {
+		let curDate = new Date();
+		dates[1] = String(curDate.getMonth()+1)+"/"+String(curDate.getFullYear())
+	}
 	let parsedD :SimpleDate[] = [];
 	dates.forEach( (d, i)=>  {
 		let dFields = d.split('/');
@@ -86,7 +90,7 @@ function parseDate(date :string) :Moment {
 				break;
 			case 3:
 				// ignores day
-				console.log("CV only allows month/year dates, ignoring day in "+date);
+				console.log("CV only allows month/year dates, dropping day in "+date);
 				parsedD[i] = new SimpleDate(Number(dFields[1]), Number(dFields[2]));
 				break;
 			default:
