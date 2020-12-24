@@ -28,7 +28,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
 import { MatBadgeModule } from '@angular/material/badge';
-import {MatCheckboxModule} from '@angular/material/checkbox';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { AppComponent } from './app.component';
 import { ProfileComponent } from './profile/profile.component';
@@ -38,7 +39,8 @@ import { AboutComponent } from './about/about.component';
 import { SelectComponent } from './select/select.component';
 import { ControlsComponent } from './controls/controls.component';
 import { TimelineComponent } from './timeline/timeline.component';
-// import { DialogComponent } from './dialog/dialog.component';
+import { DialogComponent } from './dialog/dialog.component';
+import { DlJsonComponent } from './dl-json/dl-json.component';
 
 @NgModule({
 	declarations: [
@@ -48,8 +50,9 @@ import { TimelineComponent } from './timeline/timeline.component';
 		AboutComponent,
 		SelectComponent,
 		ControlsComponent,
-		TimelineComponent
-		// DialogComponent
+		TimelineComponent,
+		DialogComponent,
+		DlJsonComponent
 	],
 	imports: [
 		BrowserModule,
@@ -60,6 +63,7 @@ import { TimelineComponent } from './timeline/timeline.component';
 		MatCardModule,
 		MatBadgeModule,
 		MatCheckboxModule,
+		MatDialogModule,
 		BrowserAnimationsModule
 	],
 	providers: [],

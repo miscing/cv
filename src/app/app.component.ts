@@ -19,7 +19,7 @@
 // permissions and limitations under the Licence.
 //
 
-import { AfterViewInit, Component } from '@angular/core';
+import { OnInit, AfterViewInit, Component } from '@angular/core';
 
 import { Renderer2 } from '@angular/core';
 
@@ -27,7 +27,7 @@ import { Observable } from 'rxjs';
 
 import rawData from '../../cv.json';
 import { Cv } from './cv';
-import { CvMaker } from './cv-maker';
+import { CvMakerService } from './cv-maker.service';
 
 const a4Height = 297; //in millimeters
 
@@ -36,15 +36,16 @@ const a4Height = 297; //in millimeters
 	templateUrl: './app.component.html',
 	styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements AfterViewInit {
+export class AppComponent implements OnInit, AfterViewInit {
 	data :Observable<Cv>;
-	maker :CvMaker;
 
-	constructor(private renderer :Renderer2) {
+	constructor(private renderer :Renderer2, public maker :CvMakerService) {
+	}
+
+	ngOnInit() :void {
 		// second argument is optional, true to use mock data
-		this.maker = new CvMaker(rawData, true); //initiliaze
 		// this.maker = new CvMaker(rawData); //initiliaze
-
+		this.maker.Initialize(rawData, true); // with mock data
 		this.data = this.maker.Output();
 	}
 

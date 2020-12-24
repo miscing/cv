@@ -1,23 +1,4 @@
-//
-// Copyright 2020 Alexander Saastamoinen
-//
-//  Licensed under the EUPL, Version 1.2 or – as soon they
-// will be approved by the European Commission - subsequent
-// versions of the EUPL (the "Licence");
-//  You may not use this work except in compliance with the
-// Licence.
-//  You may obtain a copy of the Licence at:
-//
-//  https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12
-//
-//  Unless required by applicable law or agreed to in
-// writing, software distributed under the Licence is
-// distributed on an "AS IS" basis,
-//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
-// express or implied.
-//  See the Licence for the specific language governing
-// permissions and limitations under the Licence.
-//
+import { Injectable } from '@angular/core';
 
 import { Octokit } from "@octokit/rest"
 
@@ -29,13 +10,18 @@ import { CvMask } from './cv-mask';
 import mockdata from './cv_data_dump.json';
 import { saveAs } from 'file-saver';
 
-export class CvMaker {
+@Injectable({
+	providedIn: 'root'
+})
+export class CvMakerService {
+
+	constructor() { }
 	cv :Cv;
 	sub$ :BehaviorSubject<Cv>;
 	cache: Map<string, Repo>; //maps repo name to information (not url due to difficult characters in urls)
 	maskCache: Map<string, any[][]>; //maps repo name to information (not url due to difficult characters in urls)
 
-	constructor(data :Cv, mock? :boolean, store? :boolean) {
+	Initialize(data :Cv, mock? :boolean, store? :boolean) {
 		this.cv = data;
 		this.maskCache = new Map();
 		this.sub$ = new BehaviorSubject<Cv>(data);
@@ -102,7 +88,7 @@ export class CvMaker {
 					break;
 			}
 		} catch (e) {
-				// TODO: better solution would be to make sure parent masks are evaluated last, or prevent child masks from being evaluated
+			// TODO: better solution would be to make sure parent masks are evaluated last, or prevent child masks from being evaluated
 			const re = /Cannot read property '\w*' of undefined/;
 			if (re.test(e.message)) {
 				// probably caused by a parent mask, ignore as a easy solution

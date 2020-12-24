@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import {MatDialog} from '@angular/material/dialog';
+
+import {DlJsonComponent} from '../dl-json/dl-json.component';
 
 @Component({
 	selector: 'app-controls',
@@ -7,7 +10,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ControlsComponent implements OnInit {
 
-	constructor() { }
+	constructor(public dialog :MatDialog) { }
 
 	ngOnInit(): void {
 	}
@@ -16,4 +19,7 @@ export class ControlsComponent implements OnInit {
 		window.print();
 	}
 
+	showJson() :void {
+		this.dialog.open(DlJsonComponent);
+	}
 }
