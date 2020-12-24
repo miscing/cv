@@ -42,6 +42,17 @@ about:
 | language   | a language and number     | Language proficiency: Limited working proficiency, working proficiency and native, 1-3 respectively (3 is native).|
 | custom     | string                    | A string containing a free form text describing you, all items that are strings will be interpreted as this.      |
 
+#### Timeline:
+Create a timeline of work experience and formal education. You can omit the end date (or use 'present') to make it the end date: 'Present'. Accepts date but final result has an accuracy of month/year so it will be omitted.
+```yaml
+timeline:
+  - 12/2020-: "Trying to survive"
+  - 01/2001-12/2020: "Living la vida loca"
+```
+
+| Keyword    | Input syntax                             | Explanation                                                                                                       |
+|------------|------------------------------------------|-------------------------------------------------------------------------------------------------------------------|
+| custom     | month/year-month/year: "free-form text"  | give starting date and ending date of a life experience. Empty ending date will show up as 'Present'              |
 
 #### Skills:
 Default behavior is to create the skill with links to all github repositories that contain the skill name as a github "Topic". If the skill has children, they are assumed to be topic names to match with (multiple topics to match with can be assigned like this, skill name is ignored in this case), with the exception of reserved keywords below.
