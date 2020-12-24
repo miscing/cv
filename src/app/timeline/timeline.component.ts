@@ -1,4 +1,4 @@
-import { Input, Component, OnInit } from '@angular/core';
+import { OnChanges, Input, Component  } from '@angular/core';
 
 import { Moment, SimpleDate } from '../cv';
 
@@ -7,14 +7,15 @@ import { Moment, SimpleDate } from '../cv';
 	templateUrl: './timeline.component.html',
 	styleUrls: ['./timeline.component.scss']
 })
-export class TimelineComponent implements OnInit {
+export class TimelineComponent implements OnChanges {
 	@Input() moments :Moment[];
-	// gridStyles :StyleValue;
+	entries :Moment[]
 
 	constructor() { }
 
-	ngOnInit(): void {
-		this.moments.sort(compareMoments);
+	ngOnChanges(): void {
+		this.entries = this.moments.slice();
+		this.entries.sort(compareMoments);
 		this.addBlankGrids(); //this hack allows auto filling grid
 	}
 
@@ -30,12 +31,14 @@ export class TimelineComponent implements OnInit {
 	}
 
 	addBlankGrids() :void {
-		for(let i=this.moments.length-1;i>=0;i--) {
+		for(let i=this.entries.length-1;i>=0;i--) {
 			if (i%2 !== 0) {
-				this.moments.splice(i, 0, null, null);
+				this.entries.splice(i, 0, null, null);
 			}
 		}
-		this.moments.splice(this.moments.length, 0, null); // add the line of final box
+		if (this.entries.length%2 !== 0) {
+			this.entries.splice(this.entries.length, 0, null); // add the line of final box
+		}
 	}
 
 	isLeft(i :number) :boolean {
@@ -51,6 +54,9 @@ function everyOtherGrouper(i :number) :number {
 }
 
 function compareMoments(a :Moment, b :Moment) :number {
+	if (!a || !b) {
+		return 0;
+	}
 	if (a.start.year < b.start.year) {
 		return -1;
 	} else if (a.start.year > b.start.year) {

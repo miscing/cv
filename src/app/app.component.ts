@@ -61,7 +61,7 @@ export class AppComponent implements AfterViewInit {
 			const botOffset = pxToMm(els[i].getBoundingClientRect().bottom + window.pageYOffset);
 			const normalizer = Math.floor(botOffset / a4Height) + 1
 			if( Math.abs(botOffset*normalizer - a4Height) <= distanceMM) {
-				console.log("Moving element: '"+els[i].innerHTML+"' to next pdf page, so it is not the last element of the page");
+				// console.log("Moving element: '"+els[i].innerHTML+"' to next pdf page, so it is not the last element of the page");
 				this.renderer.setStyle(els[i], "page-break-before", "always");
 			} else {
 				this.renderer.removeStyle(els[i], "page-break-before");

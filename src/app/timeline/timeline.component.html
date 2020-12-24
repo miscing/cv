@@ -1,7 +1,7 @@
 <h1 class="title avoid-page-end">Timeline:</h1>
 
 <div class="timeline">
-	<div *ngFor="let m of moments; let i=index" [class]="isLeft(i) ? 'left' : 'right'">
+	<div *ngFor="let m of entries; let i=index" [class]="isLeft(i) ? 'left' : 'right'" class="branch">
 		<mat-card *ngIf="m; else line">
 			<mat-card-header>
 				<mat-card-title>

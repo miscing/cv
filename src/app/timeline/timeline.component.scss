@@ -27,11 +27,13 @@ $branch-line: solid 1px;
 		border-top: $branch-line;
 	}
 
+	.branch {
+		display: flex;
+		flex-direction: column;
+	}
+
 	.left {
-		mat-card {
-			// margin: 0 0 20mm 20mm;
-			margin: 0 0 5% 5%;
-		}
+		justify-content: flex-start;
 		.lines-top {
 			border-right: $main-line;
 			height: 20%;
@@ -43,9 +45,7 @@ $branch-line: solid 1px;
 	}
 
 	.right {
-		mat-card {
-			margin: 5% 5% 0 0;
-		}
+		justify-content: flex-end;
 		.lines-top {
 			height: 80%;
 			border-left: $main-line;

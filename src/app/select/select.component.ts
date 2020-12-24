@@ -6,7 +6,8 @@ import { CvMask } from '../cv-mask';
 const tops :string[] = [
 	"profile",
 	"about",
-	"skills",
+	"timeline",
+	"skills"
 ]
 
 @Component({
