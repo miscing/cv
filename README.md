@@ -24,7 +24,7 @@ Some features like LinkedIn, Facebook, etc. logos are missing but simple to impl
 ## Yaml syntax
 
 ### Top level:
-Top level items are used to construct the profile. On top of the reserved keywords in the table below, all the following sections have their own keyword, keyword are same as section title.
+Top level items are used to construct the profile. On top of the reserved keywords in the table below, all the following sections have their own keyword, keywords are same as section title.
 
 | Keyword    | Input syntax              | Explanation                                                                                                       |
 |------------|---------------------------|-------------------------------------------------------------------------------------------------------------------|
