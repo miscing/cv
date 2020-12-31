@@ -201,7 +201,6 @@ function getProfilePic() :Promise<string> {
 
 function genProfile(parsed :any) :Profile {
 	let profile = new Profile;
-
 	Object.getOwnPropertyNames(parsed).forEach( (field :any) => {
 		switch (field) {
 			case "name":

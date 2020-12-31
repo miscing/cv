@@ -4,7 +4,7 @@
 	<mat-card>
 		<mat-card-header>
 			<mat-card-title>{{ capitalize(skill.name) }}</mat-card-title>
-			<h2 *ngIf="skill.level" matBadge="{{skill.level}}" matBadgeSize="large" matBadgeOverlap="false">Proficiency</h2>
+			<h2 *ngIf="skill.level" matBadgeColor="accent" matBadge="{{skill.level}}" matBadgeSize="large" matBadgeOverlap="false">Proficiency</h2>
 		</mat-card-header>
 		<mat-card-content *ngIf="skill.hasOwnProperty('text')">
 			<p class="skill-desc">{{ skill.text }}</p>

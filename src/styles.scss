@@ -23,17 +23,31 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
-
-// custom font
 @import '~@angular/material/theming';
 @include mat-core();
-@import url('https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap');
 
+// custom font
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap');
 $custom-typography: mat-typography-config(
 $font-family: 'EB Garamond, serif',
 );
 @include angular-material-typography($custom-typography);
+
+// custom theme
+// @import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+//  Available color palettes: https://material.io/design/color/
+$app-primary: mat-palette($mat-teal, 700 );
+$app-accent: mat-palette($mat-blue-gray, 100);
+$app-warn: mat-palette($mat-red, A400);
+$app-theme: mat-light-theme((
+	color: (
+	primary: $app-primary,
+	accent: $app-accent,
+	warn: $app-warn,
+	)
+));
+@include angular-material-theme($app-theme);
+
 
 // protects elements from breaking in printing
 .protected {
