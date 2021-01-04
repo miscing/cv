@@ -1,6 +1,6 @@
 <h1 class="avoid-page-end">About me:</h1>
-<div *ngFor="let text of about.text; last as last" class="texts">
-	<p class="protected about-text">
+<div *ngFor="let text of about.text; last as last" class="protected texts">
+	<p class="about-text">
 	{{ text }}
 	</p>
 	<mat-divider *ngIf="about.text.length > 1 && !last"></mat-divider>
