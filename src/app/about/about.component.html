@@ -1,5 +1,10 @@
 <h1 class="avoid-page-end">About me:</h1>
-<p *ngFor="let text of about.text" class="protected about-text">{{ text }}</p>
+<div *ngFor="let text of about.text; last as last" class="texts">
+	<p class="protected about-text">
+	{{ text }}
+	</p>
+	<mat-divider *ngIf="about.text.length > 1 && !last"></mat-divider>
+</div>
 <mat-card class="protected">
 	<div class="extra-info">
 		<div *ngIf="about?.langs" id="languages">

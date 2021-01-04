@@ -1,8 +1,20 @@
-.about-text {
-	padding: 0 4mm;
-	white-space: pre-wrap;
-	line-height: 1.8;
-	font-size: 1.2em;
+.texts {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	$about-text-margin: 0 0 10mm 0;
+	.about-text {
+		padding: 0 4mm;
+		margin: $about-text-margin;
+		white-space: pre-wrap;
+		line-height: 1.8;
+		font-size: 1.2em;
+	}
+
+	mat-divider {
+		margin: $about-text-margin;
+		width: 80%;
+	}
 }
 
 mat-card {

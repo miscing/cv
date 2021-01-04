@@ -31,6 +31,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
+import {MatDividerModule} from '@angular/material/divider';
 
 import { AppComponent } from './app.component';
 import { ProfileComponent } from './profile/profile.component';
@@ -66,6 +67,7 @@ import { DlJsonComponent } from './dl-json/dl-json.component';
 		MatBadgeModule,
 		MatCheckboxModule,
 		MatDialogModule,
+		MatDividerModule,
 		BrowserAnimationsModule
 	],
 	providers: [],
