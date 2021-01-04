@@ -113,7 +113,6 @@ class TopLevel extends CvField {
 		if(this.children == null) {
 			return false;
 		}
-		// return this.children.filter(c => c.selected).length > 0 && !this.selected;
 		return this.children.filter(c => c.selected).length > 0 && !this.selected;
 	}
 

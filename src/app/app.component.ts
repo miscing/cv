@@ -25,7 +25,6 @@ import { Renderer2 } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import rawData from '../../cv.json';
 import { Cv } from './cv';
 import { CvMakerService } from './cv-maker.service';
 
@@ -44,7 +43,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
 	ngOnInit() :void {
 		// second argument is optional, true to use mock data
-		this.maker.Initialize(rawData); //initiliaze
+		this.maker.Initialize(); //initiliaze
 		// this.maker.Initialize(rawData, true); // with mock data
 		this.data = this.maker.Output();
 	}

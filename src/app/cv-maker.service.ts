@@ -7,6 +7,7 @@ import { Observable, BehaviorSubject } from "rxjs"
 import { Cv } from './cv';
 import { CvMask } from './cv-mask';
 import { DialogComponent } from './dialog/dialog.component';
+import rawData from '../../cv.json';
 
 import mockdata from './cv_data_dump.json';
 import { saveAs } from 'file-saver';
@@ -16,16 +17,17 @@ import { saveAs } from 'file-saver';
 })
 export class CvMakerService {
 
-	constructor(private dialog :MatDialog) { }
+	constructor(private dialog :MatDialog) {
+		this.cv = rawData;
+		this.sub$ = new BehaviorSubject<Cv>(rawData);
+	}
 	cv :Cv;
 	sub$ :BehaviorSubject<Cv>;
 	cache: Map<string, Repo>; //maps repo name to information (not url due to difficult characters in urls)
 	maskCache: Map<string, any[][]>; //maps repo name to information (not url due to difficult characters in urls)
 
-	Initialize(data :Cv, mock? :boolean, token? :string, store? :boolean) {
-		this.cv = data;
+	Initialize( mock? :boolean, token? :string, store? :boolean) {
 		this.maskCache = new Map();
-		this.sub$ = new BehaviorSubject<Cv>(data);
 		if (mock) {
 			console.log("using mock data");
 			this.fromMock();
@@ -45,9 +47,9 @@ export class CvMakerService {
 					console.error("api rate limit reached, use token, mock data or wait 1 hour");
 					this.dialog.open(DialogComponent).afterClosed().subscribe( res => {
 						if (res.mock) {
-							this.Initialize(data, true);
+							this.Initialize(true);
 						} else if (res.token) {
-							this.Initialize(data, false, res.token);
+							this.Initialize(false, res.token);
 						} else {
 							throw new Error("API limit reached and dialog gave invalid answer");
 						}
