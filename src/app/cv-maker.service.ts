@@ -4,7 +4,7 @@ import {MatDialog} from '@angular/material/dialog';
 import { Octokit } from "@octokit/rest"
 import { Observable, BehaviorSubject } from "rxjs"
 
-import { Cv } from './cv';
+import { Cv, Link } from './cv';
 import { CvMask } from './cv-mask';
 import { DialogComponent } from './dialog/dialog.component';
 import rawData from '../../cv.json';
@@ -16,32 +16,30 @@ import { saveAs } from 'file-saver';
 	providedIn: 'root'
 })
 export class CvMakerService {
+	cv :Cv;
+	sub$ :BehaviorSubject<Cv>;
+	repos: Map<string, Repo>; //maps repo name to information (not url due to difficult characters in urls)
+	masks: Map<string, any[][]>;
+	userInfo :Link[];
 
 	constructor(private dialog :MatDialog) {
 		this.cv = rawData;
-		this.sub$ = new BehaviorSubject<Cv>(rawData);
+		this.sub$ = new BehaviorSubject<Cv>(this.cv);
+		this.masks = new Map();
 	}
-	cv :Cv;
-	sub$ :BehaviorSubject<Cv>;
-	cache: Map<string, Repo>; //maps repo name to information (not url due to difficult characters in urls)
-	maskCache: Map<string, any[][]>; //maps repo name to information (not url due to difficult characters in urls)
 
 	Initialize( mock? :boolean, token? :string, store? :boolean) {
-		this.maskCache = new Map();
 		if (mock) {
 			console.log("using mock data");
 			this.fromMock();
-			this.matchGitToSkills();
-			this.removeDuplicates();
+			this.generate();
 		} else {
-			// get repos in github got parsing
-			getUserRepos(this.getLinkUsernameByName("github"), token).then( (repos) => {
-				this.cache = repos;
+			// get repos in github
+			this.getData(token).then( () => {
 				if (store) {
-					this.storeCache() // save all downloaded information as file
+					this.storeCache() // make browser download json dump of all data
 				}
-				this.matchGitToSkills();
-				this.removeDuplicates();
+				this.generate();
 			}).catch( error => {
 				if (error.message.includes('API rate limit exceeded')) {
 					console.error("api rate limit reached, use token, mock data or wait 1 hour");
@@ -61,6 +59,13 @@ export class CvMakerService {
 		}
 	}
 
+	generate() :void {
+		this.matchGitToSkills();
+		this.removeDuplicates();
+		this.addUserInfo();
+		this.applyMasks();
+	}
+
 	Output() :Observable<Cv> {
 		return this.sub$;
 	}
@@ -68,13 +73,13 @@ export class CvMakerService {
 	Mask(mask :CvMask) {
 		let key = mask.mask.slice(0, mask.mask.length-1).join();
 		if (mask.add) {
-			if (this.maskCache.has(key)) {
-				this.maskCache.get(key).push(mask.mask);
+			if (this.masks.has(key)) {
+				this.masks.get(key).push(mask.mask);
 			} else {
-				this.maskCache.set(key, [mask.mask]);
+				this.masks.set(key, [mask.mask]);
 			}
 		} else {
-			this.maskCache.set(key, this.maskCache.get(key).filter( fmask => fmask.join() !== mask.mask.join()));
+			this.masks.set(key, this.masks.get(key).filter( fmask => fmask.join() !== mask.mask.join()));
 		}
 		this.applyMasks();
 	}
@@ -82,7 +87,7 @@ export class CvMakerService {
 	applyMasks() :void {
 		// TODO: ASYNC this? What will happen if multiple delete get called in async?
 		let newCv = JSON.parse(JSON.stringify(this.cv)); //What a disgusting hack. Jesus
-		for(const entry of this.maskCache) {
+		for(const entry of this.masks) {
 			entry[1].sort( (a :any[], b :any[]) => b[b.length-1] -a[a.length-1] );
 			entry[1].forEach( mask => this.applyMask(mask, newCv));
 		}
@@ -117,11 +122,10 @@ export class CvMakerService {
 		}
 	}
 
-
 	storeCache() {
 		// used to generate mock data, makes browser download cache as a json file
 		let payload = [];
-		this.cache.forEach( (v) => {
+		this.repos.forEach( (v) => {
 			payload.push(v);
 		});
 		var file = new File([JSON.stringify(payload)], "cv_data_dump.json", {type: "text/plain;charset=utf-8"});
@@ -179,7 +183,7 @@ export class CvMakerService {
 	getReposByFileNameRegex(regex :string) :string[] {
 		let result :string[] = [];
 		let re = new RegExp(regex);
-		this.cache.forEach( (v) => {
+		this.repos.forEach( (v) => {
 			let file = v.files.data.find( (ele :any) => {
 				return re.test(ele.name);
 			});
@@ -193,7 +197,7 @@ export class CvMakerService {
 
 	getReposByFileName(filename :string) :string[] {
 		let result :string[] = [];
-		this.cache.forEach( (v) => {
+		this.repos.forEach( (v) => {
 			let file = v.files.data.find( (ele :any) => { return ele.name === filename });
 			if (file != undefined) {
 				result.push(file.html_url);
@@ -204,7 +208,7 @@ export class CvMakerService {
 
 	getReposByTopic(topic :string) :string[] {
 		let result :string[] = [];
-		this.cache.forEach( (v) => {
+		this.repos.forEach( (v) => {
 			if (v.topics.data.names.some( (ele :string) => { return ele === topic })) {
 				result.push(v.info.html_url);
 			}
@@ -213,9 +217,9 @@ export class CvMakerService {
 	}
 
 	fromMock() {
-		this.cache = new Map();
+		this.repos = new Map();
 		mockdata.forEach( repo => {
-			this.cache.set(repo.info.full_name, repo);
+			this.repos.set(repo.info.full_name, repo);
 		});
 	}
 
@@ -232,22 +236,48 @@ export class CvMakerService {
 		}
 		return username;
 	}
-}
 
-class Repo { // holds github data dumps
-	info? :any;
-	files? :any;
-	topics? :any;
-}
+	getData(token? :string) :Promise<null> {
+		return new Promise( (resolve, reject) => {
+			if (token) {
+				var github = new Octokit({auth:token});
+			} else {
+				var github = new Octokit();
+			}
+			let username = this.getLinkUsernameByName("github");
+			let promises = [];
+			promises.push(
+				getGithubRepos(github, username).then( repos => { this.repos = repos}).catch((e) => { reject(e) }),
+				getGithubProfileInfo(github, username).then( info => { this.userInfo = info}).catch((e) => { reject(e) })
+				);
+			Promise.all(promises).then( () => {
+				resolve();
+			});
+		});
+	}
 
-function getUserRepos(username :string, token? :string) :Promise<Map<string, Repo>>{
-	return new Promise( (resolve, reject) => {
-		if (token) {
-			var github = new Octokit({auth:token});
-		} else {
-			var github = new Octokit();
+	addUserInfo() :void {
+		if (this.cv.profile.links.every( (l :Link) => l.name !== "email")) {
+			this.cv.profile.links.push(this.userInfo.find( l => l.name === "email"));
 		}
-		let payload :Map<string, Repo> = new Map(); //maps repository url to list of file
+	}
+}
+
+function getGithubProfileInfo(github :any, username :string) :Promise<Link[]>{
+	return new Promise( (resolve, reject) => {
+		github.users.getByUsername({username}).then( (resp :any) => {
+			let payload = [];
+			if (resp.data.email) {
+				payload.push({name:"email",url: "mailto: "+resp.data.email ,text:resp.data.email});
+			}
+			resolve(payload);
+		}).catch( (e :Error)=> reject(e));
+	});
+}
+
+function getGithubRepos(github :any, username :string) :Promise<Map<string, Repo>>{
+	return new Promise( (resolve, reject) => {
+		let payload :Map<string, Repo> = new Map();
 		github.repos.listForUser({
 			username: username,
 			type: "owner"
@@ -262,21 +292,27 @@ function getUserRepos(username :string, token? :string) :Promise<Map<string, Rep
 						owner: username,
 						path: "",
 						repo: project.name
-					}).then( (input) => {
+					}).then( (input :any) => {
 						payload.get(project.full_name).files = input;
-					}).catch((e) => { reject(e) }),
+					}).catch((e :Error) => { reject(e) }),
 					github.repos.getAllTopics({
 						owner: username,
 						repo: project.name
-					}).then( (input) => {
+					}).then( (input :any) => {
 						payload.get(project.full_name).topics = input;
-					}).catch((e) => { reject(e) })
-				)
+					}).catch((e :Error) => { reject(e) })
+				);
 			});
 			// resolve on all promises completing
 			Promise.all(promiseArr).then( () => {
 				resolve(payload);
 			}).catch((e) => { reject(e) });
-		}).catch((e) => { reject(e) });
+		}).catch((e :Error) => { reject(e) });
 	});
+}
+
+class Repo { // holds github data dumps
+	info? :any;
+	files? :any;
+	topics? :any;
 }
