@@ -22,9 +22,8 @@
 :host {
 	display: flex;
 	justify-content: space-between;
-	align-items: center;
 	width: 100%;
-	margin: 4mm 4mm;
+	margin: 8mm;
 }
 
 
@@ -40,7 +39,7 @@ a {
 
 .profile {
 	display: flex;
-	align-items: center;
+	margin: 4mm;
 	img {
 		height: 25mm;
 		width: auto;
@@ -53,21 +52,31 @@ a {
 }
 
 .external {
-	@include column;
+	display: flex;
+	justify-content: space-between;
+	padding: 0 10mm 0 0;
 	.links {
-		margin: 2mm;
-		display: flex;
-		flex-flow: row nowrap;
-		align-items: center;
-		h3 {
-			margin: auto;
+		@include column;
+		button {
+			height: 10mm;
 		}
-		h2 {
-			margin: auto;
+		.link-key {
+			width: 30mm;
+			img {
+				margin: 0 auto;
+				max-height: 8mm;
+			}
+			h2 {
+				margin: auto auto;
+			}
 		}
-		img {
-			margin: 0 5mm;
-			max-height: 8mm;
+		.link-value {
+			padding: 0 0 0 4mm;
+			width: 50mm;
+			h3 {
+				margin: auto 0;
+				text-align: left;
+			}
 		}
 	}
 }

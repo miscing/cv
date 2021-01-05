@@ -27,7 +27,8 @@ import { Profile, Link } from '../cv';
 const known :knownProvider[] = [
 	{ name : "gitlab", asset : "gitlab_logo.png"},
 	{ name : "github", asset : "github_logo.png"},
-	{ name : "matrix", asset : "matrix_logo.png"}
+	{ name : "matrix", asset : "matrix_logo.png"},
+	{ name : "email", asset : "email.png"}
 ]
 
 
