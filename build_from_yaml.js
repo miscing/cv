@@ -278,6 +278,13 @@ function genProfile(parsed) {
                 matrixlink.text = parsed[field];
                 profile.links.push(matrixlink);
                 break;
+            case "email":
+                var emaillink = new cv_1.Link;
+                emaillink.name = "email";
+                emaillink.url = "mailto: " + parsed[field];
+                emaillink.text = parsed[field];
+                profile.links.push(emaillink);
+                break;
             default:
                 break;
         }

@@ -232,6 +232,13 @@ function genProfile(parsed :any) :Profile {
 				matrixlink.text = parsed[field];
 				profile.links.push(matrixlink);
 				break;
+			case "email":
+				let emaillink = new Link;
+				emaillink.name = "email";
+				emaillink.url = "mailto: "+parsed[field];
+				emaillink.text = parsed[field];
+				profile.links.push(emaillink);
+				break;
 			default:
 				break;
 		}
