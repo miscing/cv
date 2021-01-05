@@ -58,7 +58,7 @@ function getKnownAsset(name :string) :string {
 			asset = item.asset;
 		}
 	});
-	if (asset != ""){
+	if (asset) {
 		return "assets/logos/"+asset;
 	}
 	return "";
@@ -73,9 +73,7 @@ export class ProfileComponent implements OnChanges {
 	@Input() profile :Profile;
 	links :external[];
 
-	constructor() {
-		this.links = new Array();
-	}
+	constructor() {}
 
 	ngOnChanges() :void {
 		let links = [];
