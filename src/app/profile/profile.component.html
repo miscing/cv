@@ -5,21 +5,16 @@
 		<h1>{{ profile.surname }}</h1>
 	</div>
 </div>
+
 <div *ngIf="profile?.links" class="external">
-	<div class="links">
-		<button class="link-key" *ngFor="let link of links" mat-button>
-			<a target="_blank" rel="noopener noreferrer" href="{{link.link.href}}" class="links">
+	<button *ngFor="let link of links" mat-button>
+		<a target="_blank" rel="noopener noreferrer" href="{{link.link.href}}" class="links">
+			<div class="link-key">
 				<img *ngIf="link.img; else text" src="{{link.img}}">
-				<ng-template #text><h2>{{ link.name }}</h2></ng-template>
-			</a>
-		</button>
-	</div>
-	<div class="links">
-		<button class="link-value" *ngFor="let link of links" mat-button>
-			<a target="_blank" rel="noopener noreferrer" href="{{link.link.href}}" class="links">
-				<h3 *ngIf="link.altLink; else full">{{ link.altLink }}</h3>
-				<ng-template #full><h3>{{ link.link.hostname + link.link.pathname }}</h3></ng-template>
-			</a>
-		</button>
-	</div>
+				<ng-template #text><h2 class="link-key">{{ link.name }}</h2></ng-template>
+			</div>
+			<h3 class="link-value" *ngIf="link.altLink; else full">{{ link.altLink }}</h3>
+			<ng-template #full><h3 class="link-value">{{ link.link.hostname + link.link.pathname }}</h3></ng-template>
+		</a>
+	</button>
 </div>

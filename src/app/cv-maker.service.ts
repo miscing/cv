@@ -28,7 +28,7 @@ export class CvMakerService {
 		this.masks = new Map();
 	}
 
-	Initialize( mock? :boolean, token? :string, store? :boolean) {
+	Initialize(mock? :boolean, token? :string, store? :boolean) {
 		if (mock) {
 			console.log("using mock data");
 			this.fromMock();
