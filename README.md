@@ -14,6 +14,7 @@ A personal cv generator. Generates a cv based on github repository topics, so yo
    1. (Under development) Use GUI in website and copy generated JSON to `cv.json`.
    2. Configure using YAML in cv.yml file, then run pipeline.
 3. (Optional) Store settings by copying generated JSON to cv.json and deleting cv.yml.
+4. Skills are generated based on repository topics, so make sure your Github repos have relevant topics (more specifically make sure the skill name is in in the relevant repos topics).
 
 ## Example:
 Here is my own CV, be nice (But feedback is highly encouraged, whether about content or underlying code)!
