@@ -22,8 +22,7 @@
 :host {
 	display: flex;
 	justify-content: space-between;
-	width: 100%;
-	margin: 5mm 12mm;
+	margin: 5mm 6mm;
 }
 
 
@@ -52,7 +51,6 @@ a {
 
 .external {
 	@include column;
-	margin: 0 10mm;
 	.links {
 		display: flex;
 		margin: 2mm 0;
