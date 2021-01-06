@@ -75,7 +75,7 @@ skills:
     - text: "I use git primarily from commandline. Gitlab for development(for its issue's and cicd) and mirror to github my public/open repos. I have some experience with the features of all three, including self-hosting pure-git and gitlab(very limited). I also use both gitlab-python api and github octokit for automating many of my git operations."
     - octokit
   - networking:
-    - level: 2
+    - level: 3
     - text: "I know the basics of networking and firewalls. This consists of an understanding (and a fair amount of practical experience) of routing (ip rule, route, netns), iptables/nftables and a very basic understanding of networking layers. I am also extremely familiar with troubleshooting with nmap, traceroute and wireshark/tshark."
   - data-science:
     - level: 1

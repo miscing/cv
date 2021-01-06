@@ -27,4 +27,13 @@
 .cvdoc {
 	width: 210mm; // A4 width
 	padding: 0 1cm;
+	.reference {
+		display: flex;
+		justify-content: center;
+		a {
+			color: darkslategrey;
+			text-decoration: none;
+			font-family: roboto;
+		}
+	}
 }

@@ -1,6 +1,6 @@
 # Cv
 
-A personal cv generator. Generates a cv based on github repository topics, so your cv will always reflect your current code.
+A personal cv generator. Generates a cv based on github repository topics, so your cv will always reflect your current code. If you decide to use this CV maker please LEAVE THE LINK TO THIS REPOSITORY. [Uses githubs octokit javascript client.](https://github.com/octokit/rest.js)
 
 ## Cool features:
  - Select the parts you want to keep, then print as PDF. Keep all your CV versions in one place, customize for each job application.
@@ -92,5 +92,6 @@ skills:
 
 
 ## Other Information:
+If you decide to use this CV maker please LEAVE THE LINK TO THIS REPOSITORY.
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.1.7.
