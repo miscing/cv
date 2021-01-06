@@ -44,8 +44,8 @@ export class AppComponent implements OnInit, AfterViewInit {
 	ngOnInit() :void {
 		// second argument is optional, true to use mock data
 		this.maker.Initialize(); //initiliaze
-		// this.maker.Initialize(true); // with mock data
-		// this.maker.Initialize(false, true); // download github data as file
+		// this.maker.Initialize({mock: true}); // with mock data
+		// this.maker.Initialize({store:true}); // download github data as file
 		this.data = this.maker.Output();
 	}
 

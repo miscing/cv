@@ -12,6 +12,12 @@ import rawData from '../../cv.json';
 import mockdata from './cv_data_dump.json';
 import { saveAs } from 'file-saver';
 
+class InitOpt {
+	mock? :boolean;
+	token? :string;
+	store? :boolean;
+}
+
 @Injectable({
 	providedIn: 'root'
 })
@@ -28,15 +34,15 @@ export class CvMakerService {
 		this.masks = new Map();
 	}
 
-	Initialize(mock? :boolean, token? :string, store? :boolean) {
-		if (mock) {
+	Initialize(opt? :InitOpt) {
+		if (opt?.mock) {
 			console.log("using mock data");
 			this.fromMock();
 			this.generate();
 		} else {
 			// get repos in github
-			this.getData(token).then( () => {
-				if (store) {
+			this.getData(opt?.token).then( () => {
+				if (opt?.store) {
 					this.storeCache() // make browser download json dump of all data
 				}
 				this.generate();
@@ -45,9 +51,9 @@ export class CvMakerService {
 					console.error("api rate limit reached, use token, mock data or wait 1 hour");
 					this.dialog.open(DialogComponent).afterClosed().subscribe( res => {
 						if (res.mock) {
-							this.Initialize(true);
+							this.Initialize({mock:true});
 						} else if (res.token) {
-							this.Initialize(false, res.token);
+							this.Initialize({token: res.token});
 						} else {
 							throw new Error("API limit reached and dialog gave invalid answer");
 						}
