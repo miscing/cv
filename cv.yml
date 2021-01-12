@@ -70,6 +70,11 @@ skills:
     - file:
       - ".gitlab-ci.yml"
       - "main.yml"
+  - testing:
+    - text: "Testing reduces work when implementing new features and maintaining code. I do my best to create tests as often as possible."
+    - rfile:
+      - "test_\\w+\\.py"
+      - "\\w+_test\\.go"
   - git:
     - level: 3
     - text: "I use git primarily from commandline. Gitlab for development(for its issue's and cicd) and mirror to github my public/open repos. I have some experience with the features of all three, including self-hosting pure-git and gitlab(very limited). I also use both gitlab-python api and github octokit for automating many of my git operations."
