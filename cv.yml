@@ -46,7 +46,7 @@ skills:
     - javascript
     - typescript
   - python:
-    - level: 2
+    - level: 3
   - c:
     - level: 1
   - sql:
