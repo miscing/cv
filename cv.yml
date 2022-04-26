@@ -5,8 +5,7 @@ matrix: "@miscing:matrix.org"
 email: "miscing-public@pm.me"
 
 about:
-  - "A passionate coder and computer enthusiast, I started my adult career studying for a Bachelor Programme in International Business at Aalto university. After my university years I found my love for computers and eventually, coding. Since then I have spent the majority of my time coding or tweaking Linux systems, I particularly enjoy learning new computer skills and consider myself adept at quickly picking up programming languages, libraries and frameworks. While my strengths lie in backend, I have also built websites (which I have sold, made and delivered to corporate customers) and dabbled in data analysis such as discrete Fourier transform and machine learning. My years of business studies and running a single-person company (I imported and sold industrial parts in Finland) have also given me a solid understanding of finance, sales and customer service. Additionally they have made me a very social person who enjoys working with others and isn't afraid of public speaking. Before all this I spent my formative years in Spain, before moving to Finland at the age of 8. This has given me a multicultural outlook on life as well as a native speaker dominance of Finnish, Spanish and English. Of these, by far my strongest language is English, having been in English-speaking environments since kindergarten. In my free time I like to read, climb, scuba-dive (not so often in Finland) or go camping. Nevertheless, my true leisure time love would have to be good food.\n\n\tIf you are looking for a motivated and social coder who isn't afraid of learning new skills, here I am."
-  - "A passionate coder and computer enthusiast, I started my adult career studying for a Bachelor Programme in International Business at Aalto university. After my university years I found my love for computers and eventually, coding. I particularly enjoy learning new computer skills and consider myself adept at quickly picking up programming languages, libraries and frameworks. In the frontend side of things I have sold, made and delivered multiple websites with both both server side and client side functionality, which I self-host with home-made servers/api inside containers. One example is the generator that made this CV! My years of business studies and running a single-person company (I imported and sold industrial parts in Finland, then moved to selling IT products such as websites) have also given me a solid understanding of finance, sales and customer service. Additionally they have made me a very social person who enjoys working with others and isn't afraid of public speaking. Before all this I spent my formative years in Spain, before moving to Finland at the age of 8. This has given me a multicultural outlook on life as well as a native speaker dominance of Finnish, Spanish and English. Of these, by far my strongest language is English, having been in English-speaking environments since kindergarten. In my free time I like to read, climb, scuba-dive (not so often in Finland) or go camping. Nevertheless, my true leisure time love would have to be good food.\n\n\tIf you are looking for a motivated and social coder who isn't afraid of learning new skills, here I am."
+  - "A passionate coder and computer enthusiast, I started with a Bachelor Programme in International Business at Aalto university. After my university years I found my love for computers and eventually coding. Since then I have spent the majority of my time coding or tweaking Linux systems, I particularly enjoy learning new computer skills and consider myself adept at quickly picking up new programming languages, libraries and frameworks. While my strengths lie in backend, I have also built websites and dabbled in data analysis. At my last job I worked my way from junior backend coder to DevOps, my most ambitious finalized project was the full containerization of our app, rebuilding of the CICD from scratch and ultimately build automated staging/testing environments. I have also refactored parts of the backend code and helped out with some smaller frontend react jobs. In my free time I mostly work on my own projects using angular, golang and linux/containers (Run on my own homelab :) )\n\n\tIf you are looking for a motivated and social coder who isn't afraid of learning new skills, here I am."
   - languages:
     - english: 3
     - spanish: 2
@@ -15,7 +14,8 @@ about:
   - company: "Oniservus"
 
 timeline:
-  - 11/2020-: "Oniservus: website, hosting and IT consultant company."
+  - 03/2021-: "Developer at LocalBitcoins Oy"
+  - 11/2020-03/2021: "Oniservus: website, hosting and IT consultant company."
   - 07/2017-02/2019: "IceRabbit, one person company specialized in import and sale of retreading equipment."
   - 01/2018-03/2018: "Student at Open University program that lead to Aalto university IT bachelor's degree. Cut short by a serious climbing injury involving my spine."
   - 07/2014-07/2017: "Avalon Rubber, sales assistant."
@@ -29,17 +29,19 @@ timeline:
 
 skills:
   - backend:
-    - level: 4
-    - text: "I run my applications on go or node.js servers, inside a container on my own hardware and/or cloud space. I have extensive experience in backend setup, both linux and more general networking/firewalls/containerization/virtualization.\n\nA short description of my homelab setup: \nHardware:\tHP ProLiant ML350p, 2 Xeon E5, 64Gb ram\nOperating system:\tCentOS 8\nCentOS is a headless server acting purely as a hypervisor, ontop of which I run multiple VM's, usually cloned from a base thin lvm image. One production VM (CentOS) is exposed to internet, others are for development (Fedora) and a single gitlab runner (CoreOS). Firewall is configured with nftables and Firewalld, access to development VM's via wireguard or lan and ssh. All development VM's are run on separate nat networks, production VM is run on a routed network. You can see some details in the helper scripts located in the kvm-scripts repository. All software in production is run on podman."
+    - level: 3
+    - text: "Probably better at backend than frontend. Worked mostly with golang and python/django. Build CICD bots, http servers, reverse proxy's, rest api's. All the usual stuff. Not as experienced with database parts."
   - frontend:
     - level: 3
-    - text: "I have sold, made and delivered multiple websites for customers, custom build from scratch using Angular. Most of my experience is with Angular framework, but I am excited to learn new frameworks or use pure javascript. I am particularly proud of the code that generates this CV, check it out!"
+    - text: "I have sold, made and delivered multiple websites for customers, custom build from scratch using Angular. Most of my experience is with Angular framework, but I am always excited to learn new frameworks and libraries. I am particularly proud of the code that generates this CV (mostly cause I made it in a couple of days), check it out! Since then I've made more extensive and complicated projects with angular with extensive e2e tests, unfortunately they're not publicly available."
     - url:
       - "https://white-lynx.fi"
       - "https://alakoski.fi"
   - golang:
+    - text: "My goto language for building anything, unless there's a good reason to use something else."
     - level: 4
   - bash:
+    - text: "I've used it alot, but its complexity, readibility and maintainability have made me regret it often. Lot of bash in CICD pipelines though, with all the escaping that involves."
     - level: 3
   - typescript/javascript:
     - level: 3
@@ -51,37 +53,32 @@ skills:
     - level: 1
   - sql:
     - level: 2
-    - text: "I have used mariadb in the past as a database, lately usage is limited to linking mariadb official container to other solutions such as matomo, wordpress and mattermost using podman pods. While I am not currently proficient with mysql, I feel confident in my ability to work with it as well as design and implement a database."
+    - text: "I can read, write and use mysql (and tried most of the popular variants) decently, although I would need to learn much more before getting involved with complex production databases."
   - linux:
     - level: 4
-    - text: "I have run Linux computers for over 10 years. Started from Mint/Ubuntu then installed Arch from scratch. Since then I have obsessively improved my knowledge and skills with Linux systems, currently running CentOS on my home lab and Fedora for development servers and laptop. I have fairly extensive knowledge of internals, ranging from ssh/gpg to systemd and kernel modules."
+    - text: "Extensive experience with debian and rpm based distro's, both in cloud and own hardware."
   - virtualization:
-    - text: "I use kvm/libvirt via virsh to operate my homelab containing a production vm, multiple development vm's and a cicd runner."
+    - text: "Used kvm with ignition+coreos to set up automated testing environments. I also use kvm/libvirt via virsh to operate my homelab, which contains dev environments, cicd runners and production vm's."
     - level: 3
-  - docker/podman:
+  - containers:
     - level: 4
-    - text: "I use both docker and podman extensively. I have also automated procedures using docker api, and more recently buildah. Many of my projects include container images available in the corresponding gitlab repositories container registry. My self-hosted production code all reside in a container on top of podman. I also have some, albeit very limited, experience with kubernetes."
+    - text: "I containerized the application at LocalBitcoins, which ultimately led me to build the CICD from scratch off that. Nowadays I use containers for... well... everything. Played around quite a lot with the internals also."
     - file:
       - "Dockerfile"
     - docker
     - podman
   - cicd:
-    - text: "Primarily use gitlab cicd with a self-hosted runner, but have also used github cicd for its pages."
+    - text: "Built a CICD setup from scratch with on demand automated staging/testing environments using drone cicd, containers and golang. Managed to half the pipeline run time and increase overall throughput using considerably weaker hardware. Ultimately the set up became autoscaling which required tailoring the drone upstream product, so throughput is even higher now. The testing environment allowed 'promoting' any branch to the env providing a full version of the app based off that branch. Used kvm for virtualiazing each instance and containers to set up the app in the instance."
     - file:
       - ".gitlab-ci.yml"
       - "main.yml"
-  - testing:
-    - text: "Testing reduces work when implementing new features and maintaining code. I do my best to create tests as often as possible."
-    - rfile:
-      - "test_\\w+\\.py"
-      - "\\w+_test\\.go"
   - git:
     - level: 3
-    - text: "I use git primarily from commandline. Gitlab for development(for its issue's and cicd) and mirror to github my public/open repos. I have some experience with the features of all three, including self-hosting pure-git and gitlab(very limited). I also use both gitlab-python api and github octokit for automating many of my git operations."
+    - text: "Pretty nifty with git, although it's so large and awesome there's always more to learn."
     - octokit
   - networking:
     - level: 3
-    - text: "I know the basics of networking and firewalls. This consists of an understanding (and a fair amount of practical experience) of routing (ip rule, route, netns), iptables/nftables and a very basic understanding of networking layers. I am also extremely familiar with troubleshooting with nmap, traceroute and wireshark/tshark."
+    - text: "Built networks with nftables and ip suite. Got fairly good knowledge with the common tools (nmap, tshark, firewalld, etc)."
   - data-science:
     - level: 1
     - text: "Done online courses on signal processing(EPFL DSP course) and machine learning (Andrew Ng), although I only know the very bare basics and have limited experience. However, I am eager to learn more should the opportunity arise."
