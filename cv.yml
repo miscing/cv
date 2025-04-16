@@ -2,7 +2,7 @@ name: Alexander Saastamoinen
 github: miscing
 gitlab: miscing
 matrix: "@miscing:matrix.org"
-email: "miscing-public@pm.me"
+email: "miscing@silly.place"
 
 about:
   - " A passionate coder and computer enthusiast, I started with a Bachelor Programme in International Business at Aalto university. After my university years I found my love for computers and eventually coding. Since then I have spent the majority of my time coding or tweaking Linux systems, I particularly enjoy learning new computer skills and consider myself adept at quickly picking up new programming languages, libraries and frameworks. While my strengths lie in backend, I have also built websites and dabbled in data analysis. At my last job I worked my way from junior backend coder to DevOps, my most ambitious finalized project was the full containerization of our app, rebuilding of the CICD from scratch and ultimately build automated staging/testing environments. I have also refactored parts of the backend code and helped out with some smaller frontend react jobs. In my free time I mostly work on my own projects using angular, golang and linux/containers (Run on my own homelab :) )\n\n\tIf you are looking for a motivated and social coder who isn't afraid of learning new skills, here I am."
@@ -14,7 +14,8 @@ about:
   - company: "Oniservus"
 
 timeline:
-  - 03/2021-: "Developer at LocalBitcoins Oy\n\nStarted as backend coder, after rebuilding the CICD platform from scratch moved to DevOps. Other note worthy jobs include building the testing/staging environment and an extensive refactor of a section of the backend code base."
+  - 09/2022-09/2024: "Backend developer and devops for Hiq Finland (Consultant work)."
+  - 03/2021-09/2022: "Developer at LocalBitcoins Oy\n\nStarted as backend coder, after rebuilding the CICD platform from scratch moved to DevOps. Other note worthy jobs include building the testing/staging environment and an extensive refactor of a section of the backend code base."
   - 11/2019-03/2021: "Oniservus: website, hosting and IT consultant company. In all projects both backend and frontend, as well as deployment and cicd, was made inhouse. Backend servers and data handlers build with go and frontend with Angular\n\nProjects:\n\t- WhiteLynx Oy landing website.\n\t- Alakoski Oy landing website."
   - 07/2017-02/2019: "IceRabbit, Import and sale of retreading equipment."
   - 01/2018-03/2018: "Student at Open University program that lead to Aalto university IT bachelor's degree. Cut short by a serious climbing injury."
@@ -32,7 +33,7 @@ skills:
     - level: 4
     - text: "Probably better at backend than frontend. Worked mostly with golang and python/django. Build CICD bots, http servers, reverse proxy's, rest api's. All the usual stuff. Not as experienced with database parts."
   - frontend:
-    - level: 3
+    - level: 2
     - text: "I have sold, made and delivered multiple websites for customers, custom build from scratch using Angular. Most of my experience is with Angular framework, but I am always excited to learn new frameworks and libraries. I am particularly proud of the code that generates this CV (mostly cause I made it in a couple of days), check it out! Since then I've made more extensive and complicated projects with angular with extensive e2e tests, unfortunately they're not publicly available (yet)."
     - url:
       - "https://white-lynx.fi"
@@ -42,18 +43,21 @@ skills:
     - level: 4
   - bash:
     - text: "I've used it alot, but its complexity, readibility and maintainability have made me regret it often. Lot of bash in CICD pipelines though, with all the escaping that involves."
-    - level: 3
+    - level: 4
   - typescript/javascript:
     - level: 3
     - javascript
     - typescript
   - python:
     - level: 3
+  - lua:
+    - text: "My favorite interpreted programming language."
+    - level: 3
   - c:
     - level: 1
   - sql:
     - level: 2
-    - text: "I can read, write and use mysql (and tried most of the popular variants) decently, although I would need to learn much more before getting involved with complex production databases."
+    - text: "I can read, write and use mysql (and tried most of the popular variants) decently."
   - linux:
     - level: 4
     - text: "Extensive experience with debian and rpm based distro's, both in cloud and own hardware."
@@ -61,8 +65,8 @@ skills:
     - text: "Used kvm with ignition+coreos to set up automated testing environments. I also use kvm/libvirt via virsh to operate my homelab, which contains dev environments, cicd runners and production vm's."
     - level: 3
   - containers:
-    - level: 4
-    - text: "I've containerized monolith/legacy applications. Nowadays I use containers for... well... everything. Played around quite a lot with the internals also."
+    - level: 5
+    - text: "Used a lot of my free time playing with containers and their tooling, from building personal developing environments to custom CNI plugins."
     - file:
       - "Dockerfile"
     - docker
@@ -77,13 +81,9 @@ skills:
     - rfile:
       - "test_\\w+\\.py"
       - "\\w+_test\\.go"
-  - git:
-    - level: 3
-    - text: "Pretty nifty with git, although it's so large and awesome there's always more to learn."
-    - octokit
   - networking:
     - level: 3
-    - text: "Built networks with nftables and ip suite. Got fairly good knowledge with the common tools (nmap, tshark, firewalld, etc)."
+    - text: "Got fairly good knowledge for building, modifying or mapping networks using the common tools: nftables, iptables, nmap, tshark, firewalld, etcd."
   - data-science:
     - level: 1
-    - text: "Done online courses on signal processing(EPFL DSP course) and machine learning (Andrew Ng), although I only know the very bare basics and have limited experience. However, I am eager to learn more should the opportunity arise."
+    - text: "Done online courses on signal processing (EPFL DSP course) and machine learning (Andrew Ng). I am interested in data, but have little experiences."
