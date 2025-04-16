@@ -1,6 +1,6 @@
 # Cv
 
-A personal cv generator. Generates a cv based on github repository topics, so your cv will always reflect your current code. If you decide to use this CV maker please LEAVE THE LINK TO THIS REPOSITORY. [Uses githubs octokit javascript client.](https://github.com/octokit/rest.js)
+A personal cv generator. Generates a cv based on github repository topics, so your cv will always reflect your current code. [Uses githubs octokit javascript client.](https://github.com/octokit/rest.js)
 
 ## Cool features:
  - Select the parts you want to keep, then print as PDF. Keep all your CV versions in one place, customize for each job application.
@@ -10,9 +10,7 @@ A personal cv generator. Generates a cv based on github repository topics, so yo
 
 ## To use:
 1. Fork or otherwise copy this repository. (you may want to delete/rename `cv.json` and/or `cv.yml`)
-2. Configure with one of the two methods:
-   1. (Under development) Use GUI in website and copy generated JSON to `cv.json`.
-   2. Configure using YAML in cv.yml file, then run pipeline.
+2. Configure using YAML in cv.yml file, then run pipeline.
 3. (Optional) Store settings by copying generated JSON to cv.json and deleting cv.yml.
 4. Skills are generated based on repository topics, so make sure your Github repos have relevant topics (more specifically make sure the skill name is in in the relevant repos topics).
 
