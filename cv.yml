@@ -31,12 +31,12 @@ timeline:
 skills:
   - backend:
     - level: 4
-    - text: "Probably better at backend than frontend. Worked mostly with golang and python/django. Build CICD bots, http servers, reverse proxy's, rest api's. All the usual stuff. Not as experienced with database parts."
+    - text: "Probably better at backend than frontend. Worked mostly with golang and python/django. Build CICD bots, http servers, reverse proxy's, rest api's. All the usual stuff."
   - frontend:
     - level: 2
     - text: "I have sold, made and delivered multiple websites for customers, custom build from scratch using Angular. Most of my experience is with Angular framework, but I am always excited to learn new frameworks and libraries. I am particularly proud of the code that generates this CV (mostly cause I made it in a couple of days), check it out! Since then I've made more extensive and complicated projects with angular with extensive e2e tests, unfortunately they're not publicly available (yet)."
     - url:
-      - "https://white-lynx.fi"
+      # - "https://white-lynx.fi"
       - "https://alakoski.fi"
   - golang:
     - text: "My goto language for building anything, unless there's a good reason to use something else."
@@ -57,7 +57,7 @@ skills:
     - level: 1
   - sql:
     - level: 2
-    - text: "I can read, write and use mysql (and tried most of the popular variants) decently."
+    - text: "I can read, write and use common sql variants (postgresql, mysql) decently."
   - linux:
     - level: 4
     - text: "Extensive experience with debian and rpm based distro's, both in cloud and own hardware."
